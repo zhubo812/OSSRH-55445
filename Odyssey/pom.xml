@@ -30,11 +30,11 @@
     </build>
     <packaging>jar</packaging>
   
-  <url>https://github.com/zhubo812/Segmentation</url>
+  <url>https://github.com/zhubo812/OSSRH-55445</url>
   <scm>
-  	<url>https://github.com/zhubo812/Segmentation</url>
-  	<connection>scm:git:git://github.com:zhubo812/Segmentation.git</connection>
-  	<developerConnection>scm:git:ssh://github.com:zhubo812/Segmentation.git</developerConnection>
+  	<url>https://github.com/zhubo812/OSSRH-55445</url>
+  	<connection>scm:git:git://github.com:zhubo812/OSSRH-55445.git</connection>
+  	<developerConnection>scm:git:ssh://github.com:zhubo812/OSSRH-55445.git</developerConnection>
   </scm>
   
    <licenses>
