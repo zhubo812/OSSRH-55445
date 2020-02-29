@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>Odyssey</artifactId>
 	<groupId>com.github.zhubo812 </groupId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>Segmentation</name>
 
 	<build>
