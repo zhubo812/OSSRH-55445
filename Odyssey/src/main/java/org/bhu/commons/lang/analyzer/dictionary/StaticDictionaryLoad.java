@@ -60,7 +60,7 @@ public class StaticDictionaryLoad {
 	 */
 	public static String userLibrary = null;
 
-	public static String ambiguityLibrary = "data/ambiguity.dat";
+	public static String ambiguityLibrary = "resources/ambiguity.dat";
 	
 //	private static final String RESOURCE = "/org/bhu/commons/lang/analyzer/resources/";
 	private static final String RESOURCE = "resources/";
@@ -78,7 +78,7 @@ public class StaticDictionaryLoad {
 		try {
 			Properties props = new Properties();
 			props.load(new FileInputStream("conf/library.properties"));
-			userLibrary = "data";
+			userLibrary = "resources";
 			ambiguityLibrary = String.format("%s/ambiguity.dat",userLibrary);
 			if (props.containsKey("isSkipUserDefine"))
 				isSkipUserDefine = Boolean.valueOf(props.getProperty("isSkipUserDefine"));
