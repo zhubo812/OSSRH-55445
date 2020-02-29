@@ -4,10 +4,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bhu.commons.lang.analyzer.bean.Nature;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.bhu.commons.lang.analyzer.enamex.EasternAsianNameHelper;
 import org.bhu.commons.lang.analyzer.enamex.TranscriptionNameHelper;
