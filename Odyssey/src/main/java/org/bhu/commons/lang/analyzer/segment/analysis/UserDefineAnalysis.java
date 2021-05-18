@@ -88,7 +88,7 @@ public class UserDefineAnalysis extends Analysis{
 	};
 
 	public static void initUsrLib(){
-		String dir = "data/";
+		String dir = "resources/";
 		List<String> filelist = FileUtil.getAllFiles(dir);
 		for(String path : filelist){
 			if(!path.endsWith(".dic"))continue;
