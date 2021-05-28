@@ -179,7 +179,7 @@ public class ToAnalysis extends Analysis {
 
 
 	public static String getWordsLine(String src) {
-		return getTermNameLine(parserFilter(src));
+		return getTermNameLine(parse(src));
 	}
 
 
@@ -191,7 +191,7 @@ public class ToAnalysis extends Analysis {
 
 
 	public static String getWordNatureLine(String src) {
-		return getTermNameNatureLine(parserFilter(src));
+		return getTermNameNatureLine(parse(src));
 	}
 
 
