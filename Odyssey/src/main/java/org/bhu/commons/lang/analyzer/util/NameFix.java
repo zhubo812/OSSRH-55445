@@ -13,9 +13,9 @@ public class NameFix {
 		Term next = null;
 		for (int i = 0; i < terms.length - 1; i++) {
 			term = terms[i];
-			if (term != null && term.termNatures() == TermNatures.NR && term.getName().length() == 2) {
+			if (term != null && term.getNatures() == TermNatures.NR && term.getName().length() == 2) {
 				next = terms[i + 2];
-				if (next.termNatures().personAttr.split > 0) {
+				if (next.getNatures().personAttr.split > 0) {
 					term.setName(term.getName() + next.getName().charAt(0));
 					terms[i + 2] = null;
 					terms[i + 3] = new Term(next.getName().substring(1), next.getOffe(), TermNatures.NW);

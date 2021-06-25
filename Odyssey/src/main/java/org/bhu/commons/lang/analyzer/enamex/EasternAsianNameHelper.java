@@ -24,10 +24,10 @@ public class EasternAsianNameHelper {
 		Term term = null;
 		for (int i = 0; i < terms.length; i++) {
 			term = terms[i];
-			if (term == null || !term.termNatures().personAttr.flag) {
+			if (term == null || !term.getNatures().personAttr.flag) {
 				continue;
 			}
-			if (term.termNatures().personAttr.isSurname) {
+			if (term.getNatures().personAttr.isSurname) {
 //				try {
 					getSurname(terms, i);
 //				} catch (Exception e) {
@@ -68,7 +68,7 @@ public class EasternAsianNameHelper {
 				tuNameProp = getValue(surname, null, temp.getName());
 				boolean tosurname=false;
 				if(temp.to()!=null){
-				tosurname = temp.to().termNatures().personAttr.isSurname;
+				tosurname = temp.to().getNatures().personAttr.isSurname;
 				}
 				if (tolen == 1 && !tosurname) {
 					String tempto = temp.to().getName();

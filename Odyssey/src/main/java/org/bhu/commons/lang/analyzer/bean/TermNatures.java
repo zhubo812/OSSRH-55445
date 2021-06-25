@@ -16,6 +16,8 @@ public class TermNatures {
 
 	public static final TermNatures NR = new TermNatures(TermNature.NR);
 	
+	public static final TermNatures NZ = new TermNatures(TermNature.NZ);
+	
 	public static final TermNatures NRY = new TermNatures(TermNature.NRY);
 
 	public static final TermNatures EN = new TermNatures(TermNature.EN);
@@ -74,6 +76,8 @@ public class TermNatures {
 	 * 词的id
 	 */
 	public int id = -2;
+	
+	
 
 	/**
 	 * 构造方法.一个词对应这种玩意
@@ -188,6 +192,10 @@ public class TermNatures {
 			personAttr.isSurname = true;
 		}
 		this.personAttr = personAttr;
+	}
+	
+	public int size() {
+		return this.termNatures.length;
 	}
 
 }

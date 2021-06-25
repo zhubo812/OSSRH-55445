@@ -26,7 +26,7 @@ public abstract class Model {
 		CRF, EMM
 	};
 
-	protected org.ansj.app.crf.pojo.Template template = null;
+	protected org.bhu.commons.lang.analyzer.crf.proj.Template template = null;
 //	protected Template template1 = null;
 	protected double[][] status = null;
 
@@ -131,7 +131,7 @@ public abstract class Model {
 
 			};
 
-			model.template = (org.ansj.app.crf.pojo.Template) ois.readObject();
+			model.template = (org.bhu.commons.lang.analyzer.crf.proj.Template) ois.readObject();
 //			model.template = (Template)ois.readObject();
 //			model.template1 = (Template)model.template;
 			model.makeSide(model.template.left, model.template.right);

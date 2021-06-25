@@ -7,6 +7,7 @@ import org.bhu.commons.lang.analyzer.bean.Entity;
 import org.bhu.commons.lang.analyzer.enamex.EntityHelper;
 
 public class TimeHelper extends EntityHelper{
+	private Pattern patterns = null;
 
 	private static final String regStr = 
 			"(((上|这|本|下)+(周|星期)([一二三四五六天日]|[1-6])?)(周中|早|晚|前|后|中午)|"
@@ -16,18 +17,18 @@ public class TimeHelper extends EntityHelper{
 			+ "(今|去|前)(年)?(年底)|"
 			+ "((早些|某个|晚间|前些|这(个)?)+时候))|"
 			+ "(((19|20)?[\\d]{2}年)?((([一二三四五六七八九十]{1,2})|([0-9]{1,2}))月(底|初)?)(([一二三四五六七八九十]+|[0-9]{1,2})(日|号))?(前|后)?)|"
-			+ "(!第([一二三四五六七八九十]+|[\\d]{1,2})(日|号)(前|后|左右)?)|" 
+			+ "([一二三四五六七八九十]+|[\\d]{1,2})(日)(前|后|左右)?|" 
 			+ "((前|昨|今|明|后)(天|日)?(|早|晚)(晨|上|间)?)|"
 			+ "(((([二十]{1,2})?[一三四五六七八九]+)|[0-9]){1,2}(时|点)((([一二三四五六七八九十]+)|[0-9]{1,2})分)?([0-9]{1,2}秒)?)|"
 			+ "((19|20)?[\\d]{2}年)";
 //			+ "([〇零一二三四五六七八九十百千万]+(年))";
 
-	static {
+	public TimeHelper() {
 		patterns = Pattern.compile(regStr);
 	}
 
-	public static List<Entity> getTimex(String src){
-		return getEntity(src);
+	public List<Entity> getTimex(String src){
+		return getEntity(src, patterns);
 	}
 
 }

@@ -10,7 +10,7 @@ import org.bhu.commons.lang.analyzer.library.NatureLibrary;
  */
 public class Nature {
 	// 词性的名称
-	public final String natureStr;
+	public String natureStr;
 	// 词性对照表的位置
 	public final int index;
 	// 词性的下标值

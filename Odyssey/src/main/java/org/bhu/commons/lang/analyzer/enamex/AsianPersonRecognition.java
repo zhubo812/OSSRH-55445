@@ -51,14 +51,14 @@ public class AsianPersonRecognition {
 		int beginFreq = 10;
 		for (int i = 0; i < terms.length; i++) {
 			term = terms[i];
-			if (term == null || !term.termNatures().personAttr.flag) {
+			if (term == null || !term.getNatures().personAttr.flag) {
 				continue;
 			}
 			term.score(0);
 			term.selfScore(0);
 			int freq = 0;
 			for (int j = 2; j > -1; j--) {
-				freq = term.termNatures().personAttr.getFreq(j, 0);
+				freq = term.getNatures().personAttr.getFreq(j, 0);
 				if ((freq > 10) || (term.getName().length() == 2 && freq > 10)) {
 					tempTerm = nameFind(i, beginFreq, j);
 					if (tempTerm != null) {
@@ -77,7 +77,7 @@ public class AsianPersonRecognition {
 					}
 				}
 			}
-			beginFreq = term.termNatures().personAttr.begin + 1;
+			beginFreq = term.getNatures().personAttr.begin + 1;
 		}
 		return termList;
 	}
@@ -102,7 +102,7 @@ public class AsianPersonRecognition {
 		int i = offe;
 		for (; i < terms.length; i++) {
 			// 走到结尾处识别出来一个名字.
-			if (terms[i] == null || !terms[i].termNatures().personAttr.flag) {
+			if (terms[i] == null || !terms[i].getNatures().personAttr.flag) {
 				if(sb.length()>0){
 					break;
 				}else{
@@ -110,7 +110,7 @@ public class AsianPersonRecognition {
 				}
 			}
 			term = terms[i];
-			pna = term.termNatures().personAttr;
+			pna = term.getNatures().personAttr;
 			// 在这个长度的这个位置的词频,如果没有可能就干掉,跳出循环
 			if ((freq = pna.getFreq(size, index)) == 0) {
 				return null;
@@ -120,7 +120,7 @@ public class AsianPersonRecognition {
 				undefinite++;
 			}
 			sb.append(term.getName());
-			allFreq += Math.log(term.termNatures().allFreq + 1);
+			allFreq += Math.log(term.getNatures().allFreq + 1);
 			allFreq += -Math.log((freq));
 			index++;
 
@@ -144,7 +144,7 @@ public class AsianPersonRecognition {
 				if (twoWordFreq > 3) {
 					return null;
 				}
-				endFreq = terms[i].termNatures().personAttr.end + 1;
+				endFreq = terms[i].getNatures().personAttr.end + 1;
 				flag = false;
 			}
 		}

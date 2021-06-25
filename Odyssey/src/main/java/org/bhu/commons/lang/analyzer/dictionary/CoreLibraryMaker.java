@@ -13,7 +13,7 @@ import org.bhu.commons.lang.analyzer.util.IOUtil;
 import org.bhu.commons.lang.dat.DATMaker;
 import org.bhu.commons.lang.dat.Item;
 
-public class CoreLibraryMakerTest {
+public class CoreLibraryMaker {
 
 	private static final String punctuations = "!\"#&()*+,-:;<=>?@[\\]^_`{|}~¤§¨°·×÷ˉ–—―‖‘’“”………‰′″※←↑→↓∈∏∑∕√∝∞∥∧∩∪∮∴∵∶∽≈≠≤≥⊙⊥⌒─━│┃┌┏┐┑┒┓└┗┘┛├┟┣┤┥┪┫┬┰┴┼▇█■□▲△◆◇◎●★☆♂、。〃〇〈〉《》「」『』【】〓〔〕〖〗〞！，：？～";
 	
@@ -21,7 +21,7 @@ public class CoreLibraryMakerTest {
 		makeDic();
 		DATMaker datM = new DATMaker();
 
-		datM.maker("train_file/library.txt", AnalyzerItem.class);
+		datM.maker("data/library.txt", AnalyzerItem.class);
 		char[] puncs = punctuations.toCharArray();
 
 		Item[] dat = datM.getDAT();
@@ -62,10 +62,10 @@ public class CoreLibraryMakerTest {
 		
 		//5=> Number
 		for (int i = '0'; i <= '9'; i++) {
-			insertToArray(dat, (char) i, (byte) 5, "{nb=1}");
+			insertToArray(dat, (char) i, (byte) 5, "{m=1}");
 		}
 		for (int i = '０'; i <= '９'; i++) {
-			insertToArray(dat, (char) i, (byte) 5, "{nb=1}");
+			insertToArray(dat, (char) i, (byte) 5, "{m=1}");
 		}
 		
 		//6=> Russian Letter
@@ -94,7 +94,7 @@ public class CoreLibraryMakerTest {
 		}
 
 		
-		datM.saveText("train_file/core.dct");
+		datM.saveText("data/core.dct");
 
 	}
 	
@@ -116,7 +116,7 @@ public class CoreLibraryMakerTest {
 	 */
 	public static void makeDic() throws NumberFormatException, IOException {
 //		BufferedReader br = IOUtil.getReader("train_file/core.ini", "utf-8");//Jackie revise
-		String path = "resources/core.zip";
+		String path = "data/core.zip";
 		BufferedReader br = DicReader.getZipFileBufferedReader(getZipFileStream(path));
 		String temp = null;
 
@@ -149,7 +149,7 @@ public class CoreLibraryMakerTest {
 			}
 		}
 
-		IOUtil.writeMap(dic, "train_file/library.txt", IOUtil.UTF8);
+		IOUtil.writeMap(dic, "data/library.txt", IOUtil.UTF8);
 	}
 	
 	private static InputStream getZipFileStream(String path) {

@@ -1,6 +1,7 @@
 package org.bhu.test;
 
 import org.bhu.commons.lang.analyzer.util.TokenizeUtils;
+import org.junit.Test;
 
 public class ToAnalysisTest {
 
@@ -74,7 +75,7 @@ public class ToAnalysisTest {
 			};
 			TokenizeUtils tokenizer = new TokenizeUtils();
 			tokenizer.initUsrDic();
-			System.out.println(tokenizer.getWordNatureLine("a1维生素b6啊啊啊"));
+			System.out.println(tokenizer.getWordNatureLine("5月16号出版的13日《人民日报》"));
 			long length = 0L;
 			long start = System.currentTimeMillis();
 			for (String s : inPut) {
@@ -88,5 +89,12 @@ public class ToAnalysisTest {
 			System.out.println(String.format("time elapsed:%d, rate:%fkb/s", elapsed,
 		            (length * 1.0) / 1024.0f / (elapsed * 1.0 / 1000.0f)));
 		}
+	
+	@Test
+	public void singleTester() {
+		TokenizeUtils tokenizer = new TokenizeUtils();
+		tokenizer.initUsrDic();
+		System.out.println(tokenizer.getWordNatureLine("工作者工作了常用词汇《爸爸回来了》dgsd爸爸回来了"));
+	}
 	
 }

@@ -50,7 +50,7 @@ public class AnalyzerItem extends Item {
 
 		if (status > 1) {
 			name = split[1];
-			termNatures = new TermNatures(TermNature.setNatureStrToArray(split[5]), index);
+			termNatures = new TermNatures(TermNature.setNatureStrToArray(split[5]), index);//split[5]标记词性内容的位置
 		}else{
 			termNatures = new TermNatures(TermNature.NULL); 
 		}

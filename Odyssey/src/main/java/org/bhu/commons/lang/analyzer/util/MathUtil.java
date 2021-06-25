@@ -24,7 +24,7 @@ public class MathUtil {
 	 * @return 分数
 	 */
 	public static double compuScore(Term from, Term to) {
-		double frequency = from.termNatures().allFreq + 1;
+		double frequency = from.getNatures().allFreq + 1;
 
 		if (frequency < 0) {
 			double score = from.score() + MAX_FREQUENCE;
@@ -50,7 +50,7 @@ public class MathUtil {
 	 */
 	public static double compuScoreFreq(Term from, Term term) {
 		// TODO Auto-generated method stub
-		return from.termNatures().allFreq + term.termNatures().allFreq;
+		return from.getNatures().allFreq + term.getNatures().allFreq;
 	}
 
 	/**

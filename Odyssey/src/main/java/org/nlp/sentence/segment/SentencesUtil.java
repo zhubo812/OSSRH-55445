@@ -52,6 +52,8 @@ public class SentencesUtil {
 			case '?':
 			case '？':
 			case '、':
+			case '，':
+			case ',':
 			case ' ':
 			case '\n':
 			case '\r':

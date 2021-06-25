@@ -27,7 +27,7 @@ public class WapitiCRFModel extends Model {
 		// read config
 		String content = IOUtil.getContent(IOUtil.getReader(templatePath, IOUtil.UTF8));
 
-		this.template = org.ansj.app.crf.pojo.Template.parse(content);
+		this.template = org.bhu.commons.lang.analyzer.crf.proj.Template.parse(content);
 //		this.template = Template.parse(content);
 
 		myGrad = new HashMap<String, Feature>();

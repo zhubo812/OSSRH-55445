@@ -8,14 +8,14 @@ import java.util.regex.Pattern;
 import org.bhu.commons.lang.analyzer.bean.Entity;
 
 public class EntityHelper {
-	protected static Pattern patterns = null;
-	protected static Matcher match;
+//	protected static Pattern patterns = null;
+//	protected static Matcher match;
 	
-	protected static List<Entity> getEntity(String src) {
+	protected List<Entity> getEntity(String src , Pattern patterns) {
 		int startline = -1, endline = -1;
 		List<Entity> entitylist = new ArrayList<Entity>();
 		try {
-			match = patterns.matcher(src);
+			Matcher match = patterns.matcher(src);
 			while (match.find()) {
 				startline = match.start();
 				endline = match.end();

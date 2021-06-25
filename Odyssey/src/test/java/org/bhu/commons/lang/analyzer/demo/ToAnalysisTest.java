@@ -72,7 +72,7 @@ public class ToAnalysisTest {
 			};
 			TokenizeUtils tokenizer = new TokenizeUtils();
 			tokenizer.initUsrDic();
-//			System.out.println(tokenizer.getWordNatureLine("a1维生素b6啊啊啊"));
+			System.out.println(tokenizer.getWordNatureLine("维生素的b6啊a1啊啊"));
 
 			long length = 0L;
 			long start = System.currentTimeMillis();

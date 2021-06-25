@@ -51,7 +51,7 @@ public class CRFModel extends Model {
 			sb.append(temp + "\n");
 		}
 
-		this.template = org.ansj.app.crf.pojo.Template.parse(sb.toString());
+		this.template = org.bhu.commons.lang.analyzer.crf.proj.Template.parse(sb.toString());
 //		this.template = Template.parse(sb.toString());
 
 		this.template.tagNum = tagNum;

@@ -59,15 +59,15 @@ public class Graph {
 //			return;
 //		}
 		// 是否有数字
-		if (!hasNum && term.termNatures().numAttr.numFreq > 0) {
+		if (!hasNum && term.getNatures().numAttr.numFreq > 0) {
 			hasNum = true;
 		}
 		// 是否有人名
-		if (!hasPerson && term.termNatures().personAttr.flag) {
+		if (!hasPerson && term.getNatures().personAttr.flag) {
 			hasPerson = true;
 		}
 		// 是否有时间表达式
-		if(!hasTime && term.termNatures().timeAttr.flag){
+		if(!hasTime && term.getNatures().timeAttr.flag){
 			hasTime = true;
 		}
 		

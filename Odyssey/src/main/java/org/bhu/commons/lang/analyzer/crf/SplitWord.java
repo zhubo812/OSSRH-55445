@@ -147,7 +147,7 @@ public class SplitWord {
 	private void computeTagScore(List<Element> elements, int index) {
 		double[] tagScore = new double[model.template.tagNum];
 
-		org.ansj.app.crf.pojo.Template t = model.template;
+		org.bhu.commons.lang.analyzer.crf.proj.Template t = model.template;
 //		Template t = model.template;
 		char[] chars = null;
 		for (int i = 0; i < t.ft.length; i++) {

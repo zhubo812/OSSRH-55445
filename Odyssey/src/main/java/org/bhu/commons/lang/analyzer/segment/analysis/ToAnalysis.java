@@ -95,7 +95,7 @@ public class ToAnalysis extends Analysis {
 	}
 
 	private void printNatures(Term term){
-		TermNature[] natures = term.termNatures().termNatures;
+		TermNature[] natures = term.getNatures().termNatures;
 		for(TermNature nature : natures){
 			System.out.print(nature.nature.natureStr+"\t");
 			
@@ -168,7 +168,7 @@ public class ToAnalysis extends Analysis {
 		StringBuilder builder = new StringBuilder();
 		for(Term term : terms){
 			if(term.getName().trim().length()==0)continue;
-			builder.append(term.getName()).append("/").append(term.getNatureStr()).append(" ");
+			builder.append(term.toString()).append(" ");
 		}
 		return builder.toString();
 	}

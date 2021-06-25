@@ -79,7 +79,7 @@ public class DoubleArrayTrie {
 //			}
 			item = cla.newInstance();
 			item.initValue(temp.split("\t"));
-			obj.dat[item.index] = item;
+			obj.dat[item.index] = item;//存储一个词条
 		}
 		return obj;
 	}

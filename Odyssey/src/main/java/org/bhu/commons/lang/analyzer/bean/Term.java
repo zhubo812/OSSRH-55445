@@ -29,6 +29,8 @@ public class Term implements Comparable<Term> {
 	private Nature nature = Nature.NULL;
 
 	private List<Term> subTerm = null;
+	
+//	public Term()
 
 	public Term(String name, int offe, AnalyzerItem item) {
 		super();
@@ -175,7 +177,7 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return
 	 */
-	public TermNatures termNatures() {
+	public TermNatures getNatures() {
 		return termNatures;
 	}
 
@@ -206,15 +208,6 @@ public class Term implements Comparable<Term> {
 	public String getNatureStr() {
 		return nature.natureStr;
 	}
-	
-//	public boolean containsNature(String nature){
-//		for(TermNature termnature : this.termNatures.termNatures){
-//			if(termnature.nature.natureStr.equals(nature)){
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 	@Override
 	public String toString() {
@@ -222,6 +215,15 @@ public class Term implements Comparable<Term> {
 			return name;
 		}
 		return this.getRealName() + "/" + nature.natureStr;
+	}
+	
+	public void checkNature(String natureStr) {
+		if(getNatures().size()==1) {
+			return;
+		}
+		if(!natureStr.equals(nature.natureStr)) {
+			setNature(new Nature(natureStr));
+		}
 	}
 
 	/**

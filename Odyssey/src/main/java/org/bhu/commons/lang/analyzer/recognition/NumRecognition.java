@@ -29,7 +29,7 @@ public class NumRecognition {
 				// 如果是.前后都为数字进行特殊处理
 				to = terms[i].to();
 				from = terms[i].from();
-				if (from.termNatures().numAttr.flag && to.termNatures().numAttr.flag) {
+				if (from.getNatures().numAttr.flag && to.getNatures().numAttr.flag) {
 					from.setName(from.getName() + "." + to.getName());
 					TermUtil.termLink(from, to.to());
 					terms[to.getOffe()] = null;
@@ -37,13 +37,13 @@ public class NumRecognition {
 					i = from.getOffe() - 1;
 				}
 				continue;
-			} else if (!terms[i].termNatures().numAttr.flag) {
+			} else if (!terms[i].getNatures().numAttr.flag) {
 				continue;
 			}
 
 			temp = terms[i];
 			// 将所有的数字合并
-			while ((temp = temp.to()).termNatures().numAttr.flag && !temp.getName().startsWith(DI)) {
+			while ((temp = temp.to()).getNatures().numAttr.flag && !temp.getName().startsWith(DI)) {
 				terms[i].setName(terms[i].getName() + temp.getName());
 			}
 			//判断结尾是军队
@@ -53,7 +53,7 @@ public class NumRecognition {
 				temp = temp.to();
 			}
 			// 如果是数字结尾
-			if (StaticDictionaryLoad.isQuantifierRecognition && temp.termNatures().numAttr.numEndFreq > 0) {
+			if (StaticDictionaryLoad.isQuantifierRecognition && temp.getNatures().numAttr.numEndFreq > 0) {
 				tempName = temp.getName();
 				terms[i].setName(terms[i].getName() + tempName);
 				int len = terms[i].getName().length();
@@ -63,11 +63,11 @@ public class NumRecognition {
 				else{
 					terms[i].setNature(Nature.MQ);
 				}
-				terms[i].termNatures().personAttr.flag= false;
+				terms[i].getNatures().personAttr.flag= false;
 				temp = temp.to();
 			}
 			
-			if(StaticDictionaryLoad.isTimeRecognition && temp.termNatures().timeAttr.timeEndFreq >0&&temp.getName().length()==1){
+			if(StaticDictionaryLoad.isTimeRecognition && temp.getNatures().timeAttr.timeEndFreq >0&&temp.getName().length()==1){
 				terms[i].setName(terms[i].getName() + temp.getName());
 				temp = temp.to();
 				terms[i].setNature(Nature.T);

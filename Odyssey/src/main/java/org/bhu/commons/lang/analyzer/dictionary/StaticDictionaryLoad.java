@@ -186,21 +186,24 @@ public class StaticDictionaryLoad {
 	 * 
 	 * @return
 	 */
-	public static BufferedReader getNatureMapReader() {
-		return DicReader.getReader(getStream("nature.map"));
-	}
+//	public static BufferedReader getNatureMapReader() {
+//		return DicReader.getReader(getStream("nature.map"));
+//	}
 
 	/**
 	 * 词性关联表
 	 * 
 	 * @return
 	 */
-	public static BufferedReader getNatureTableReader() {
-		return DicReader.getReader(getStream("nature.table"));
+	public static BufferedReader getNatureMatrixReader() {
+//		return DicReader.getReader(getStream("nature.table"));
+		return DicReader.getReader(getStream("matrix.txt"));
 	}
 	
-	public static BufferedReader getNatureRelationReader() {
-		return DicReader.getReader(getStream("nature.model"));
+	//替换为词性初始概率
+	public static BufferedReader getNatureInitReader() {
+//		return DicReader.getReader(getStream("nature.model"));
+		return DicReader.getReader(getStream("init.txt"));
 	}
 
 	/**

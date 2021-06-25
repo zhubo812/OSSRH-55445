@@ -18,6 +18,7 @@ import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
 import org.bhu.commons.lang.analyzer.util.AnalyzerReader;
 import org.bhu.commons.lang.analyzer.util.Graph;
 import org.bhu.commons.lang.analyzer.util.NQHelper;
+import org.bhu.commons.lang.analyzer.util.NZHelper;
 import org.bhu.commons.lang.analyzer.util.StringUtil;
 import org.bhu.commons.lang.analyzer.util.TimeHelper;
 import org.bhu.commons.lang.analyzer.util.WordAlert;
@@ -45,6 +46,9 @@ public abstract class Analysis {
 	protected Forest[] forests = null;
 
 	private Forest ambiguityForest = UserDefineLibrary.ambiguityForest;
+	TimeHelper timeHelper = new TimeHelper();
+	NZHelper nzHelper = new NZHelper();
+	NQHelper nqHelper = new NQHelper();
 
 	/**
 	 * 文档读取流
@@ -103,14 +107,15 @@ public abstract class Analysis {
 		temp = WordAlert.ToDBC(temp);
 		Graph gp = new Graph(temp.trim());
 		int startOffe = 0;
-		List<Entity> timex = TimeHelper.getTimex(temp);
-		List<Entity> nqx = NQHelper.getNumQ(temp);
+		List<Entity> timex = timeHelper.getTimex(temp);
+		List<Entity> nqx = nqHelper.getNumQ(temp);
+		List<Entity> nzx = nzHelper.getNZStr(temp);
 		if (this.ambiguityForest != null) {
 			GetWord gw = new GetWord(this.ambiguityForest, gp.chars);
 			String[] params = null;
 			while ((gw.getFrontWords()) != null) {
 				if (gw.offe > startOffe) {
-					analysis(gp, startOffe, gw.offe,timex, nqx);
+					analysis(gp, startOffe, gw.offe,timex, nqx, nzx);
 				}
 				params = gw.getParams();
 				startOffe = gw.offe;
@@ -121,7 +126,7 @@ public abstract class Analysis {
 			}
 		}
 		if (startOffe < gp.chars.length - 1) {
-			analysis(gp, startOffe, gp.chars.length,timex, nqx);
+			analysis(gp, startOffe, gp.chars.length,timex, nqx, nzx);
 		}
 		List<Term> result = this.getResult(gp);
 
@@ -131,7 +136,7 @@ public abstract class Analysis {
 
 
 
-	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> timex, List<Entity> nqx) {
+	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> timex, List<Entity> nqx, List<Entity> nzx) {
 		int start = 0;
 		int end = 0;
 		char[] chars = gp.chars;
@@ -152,13 +157,24 @@ public abstract class Analysis {
 			}
 		}
 		
+		if(nqx!= null && nzx.size()>0){
+			
+			for(Entity tx : nzx){
+				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), TermNatures.NZ));
+			}
+		}
+		
 		for (int i = startOffe; i < endOffe; i++) {
+			if(gp.terms[i] != null) {
+				i= i+gp.terms[i].getName().length()-1;
+				continue;
+			}
 			int status = status(chars[i]);
 			switch (status) {
 			case 0:
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
 				break;
-			case 3:
+			case 3://表示是词语，并且到此结束
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.W));
 				break;
 			case 4:
@@ -171,7 +187,7 @@ public abstract class Analysis {
 				gp.addTerm(new Term(str, start, TermNatures.EN));
 				i--;
 				break;
-			case 5:
+			case 5://数字串
 				start = i;
 				end = 1;
 				if(start==i&&chars[i]=='.'){

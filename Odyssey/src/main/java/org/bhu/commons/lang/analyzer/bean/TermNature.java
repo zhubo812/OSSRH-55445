@@ -21,6 +21,7 @@ public class TermNature {
 	public static final TermNature NR = new TermNature("nr", 1);
 	public static final TermNature NRY = new TermNature("nry", 1);
 	public static final TermNature NT = new TermNature("nt", 1);
+	public static final TermNature NZ = new TermNature("nz", 1);
 	public static final TermNature NW = new TermNature("nw", 1);
 	public static final TermNature W = new TermNature("w", 1);
 	public static final TermNature T = new TermNature("t", 1);
