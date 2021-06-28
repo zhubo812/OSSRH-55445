@@ -181,19 +181,16 @@ public class TermNatures {
 			timeNatureAttr.flag = true;
 			this.timeAttr = timeNatureAttr;
 		}
-		if (asianNameNatureAttr != null) {
-			asianNameNatureAttr.isSurname = true;
-			this.personAttr = asianNameNatureAttr;
-		}
+//		if (asianNameNatureAttr != null) {
+//			asianNameNatureAttr.isSurname = true;
+//			this.personAttr = asianNameNatureAttr;
+//		}
 	}
 
+
 	public void setPersonNatureAttr(PersonNatureAttr personAttr) {
-		if(this.personAttr.isSurname){
-			personAttr.isSurname = true;
-		}
 		this.personAttr = personAttr;
 	}
-	
 	public int size() {
 		return this.termNatures.length;
 	}

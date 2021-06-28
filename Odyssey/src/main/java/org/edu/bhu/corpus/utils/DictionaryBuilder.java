@@ -1,4 +1,4 @@
-package cn.edu.bhu.corpus.utils;
+package org.edu.bhu.corpus.utils;
 
 /**
  * 

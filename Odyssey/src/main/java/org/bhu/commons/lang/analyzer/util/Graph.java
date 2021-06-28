@@ -63,7 +63,7 @@ public class Graph {
 			hasNum = true;
 		}
 		// 是否有人名
-		if (!hasPerson && term.getNatures().personAttr.flag) {
+		if (!hasPerson && term.getNatures().personAttr.isActive()) {
 			hasPerson = true;
 		}
 		// 是否有时间表达式

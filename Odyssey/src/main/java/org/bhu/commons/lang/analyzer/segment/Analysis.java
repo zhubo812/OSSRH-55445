@@ -1,6 +1,5 @@
 package org.bhu.commons.lang.analyzer.segment;
 
-import static org.bhu.commons.lang.analyzer.library.DATDictionary.IN_SYSTEM;
 import static org.bhu.commons.lang.analyzer.library.DATDictionary.status;
 
 import java.io.IOException;
@@ -8,11 +7,13 @@ import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
 import org.bhu.commons.lang.analyzer.bean.Entity;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
+import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
 import org.bhu.commons.lang.analyzer.util.AnalyzerReader;
@@ -169,8 +170,8 @@ public abstract class Analysis {
 				i= i+gp.terms[i].getName().length()-1;
 				continue;
 			}
-			int status = status(chars[i]);
-			switch (status) {
+//			int status = status(chars[i]);
+			switch (status(chars[i])) {
 			case 0:
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
 				break;
@@ -225,35 +226,78 @@ public abstract class Analysis {
 				break;
 
 			default:
+//				start = i;
+//				end = i;
+//				c = chars[start];
+//				while (IN_SYSTEM[c] > 0) {
+//					end++;
+//					if (++i >= endOffe)
+//						break;
+//					c = chars[i];
+//				}
+//
+//				if (start == end) {
+//					gp.addTerm(new Term(String.valueOf(c), i, TermNatures.NULL));
+//					continue;
+//				}
+//
+//				gwi.setChars(chars, start, end);
+//				while ((str = gwi.allWords()) != null) {
+//					gp.addTerm(new Term(str, gwi.offe, gwi.getItem()));
+//				}
+//
+//				/**
+//				 * 如果未分出词.以未知字符加入到gp中
+//				 */
+//				if (IN_SYSTEM[c] > 0 || status(c) > 3) {
+//					i -= 1;
+//				} else {
+//					gp.addTerm(new Term(String.valueOf(c), i, TermNatures.NULL));
+//				}
+//				
+//
+//				break;
+				
 				start = i;
 				end = i;
-				c = chars[start];
-				while (IN_SYSTEM[c] > 0) {
-					end++;
-					if (++i >= endOffe)
-						break;
-					c = chars[i];
-				}
 
-				if (start == end) {
-					gp.addTerm(new Term(String.valueOf(c), i, TermNatures.NULL));
-					continue;
+				int status = 0;
+				do {
+					end = ++i;
+					if (i >= endOffe) {
+						break;
+					}
+					status = status(chars[i]);
+				} while (status < 4);
+
+				if (status > 3) {
+					i--;
 				}
 
 				gwi.setChars(chars, start, end);
+				int max = start;
 				while ((str = gwi.allWords()) != null) {
-					gp.addTerm(new Term(str, gwi.offe, gwi.getItem()));
+					Term term = new Term(str, gwi.offe, gwi.getItem());
+					int len = term.getOffe() - max;
+					if (len > 0) {
+						for (; max < term.getOffe(); ) {
+							gp.addTerm(new Term(String.valueOf(chars[max]), max, TermNatures.NULL));
+							max++;
+						}
+					}
+					gp.addTerm(term);
+					max = term.toValue();
 				}
 
-				/**
-				 * 如果未分出词.以未知字符加入到gp中
-				 */
-				if (IN_SYSTEM[c] > 0 || status(c) > 3) {
-					i -= 1;
-				} else {
-					gp.addTerm(new Term(String.valueOf(c), i, TermNatures.NULL));
+				int len = end - max;
+				if (len > 0) {
+					for (; max < end; ) {
+						String temp = String.valueOf(chars[max]);
+						AnalyzerItem item = DATDictionary.getItem(temp);
+						gp.addTerm(new Term(temp, max, item.termNatures));
+						max++;
+					}
 				}
-				
 
 				break;
 			}

@@ -63,7 +63,7 @@ public class NumRecognition {
 				else{
 					terms[i].setNature(Nature.MQ);
 				}
-				terms[i].getNatures().personAttr.flag= false;
+				terms[i].getNatures().personAttr.setIsActive(false);
 				temp = temp.to();
 			}
 			

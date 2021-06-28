@@ -94,7 +94,7 @@ public class ToAnalysisTest {
 	public void singleTester() {
 		TokenizeUtils tokenizer = new TokenizeUtils();
 		tokenizer.initUsrDic();
-		System.out.println(tokenizer.getWordNatureLine("工作者工作了常用词汇《爸爸回来了》dgsd爸爸回来了"));
+		System.out.println(tokenizer.getWordNatureLine("我们是排坛公主诸韵颖，我的拦网可以让朱婷之流找不到北，我的发球可以个个追周苏红之流的胸，之到她崩溃，我的传球更是化腐朽为神奇，任何不到位的球，在我手上都会到位 "));
 	}
 	
 }

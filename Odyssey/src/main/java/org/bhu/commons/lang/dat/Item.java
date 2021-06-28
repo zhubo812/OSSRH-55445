@@ -40,6 +40,11 @@ public abstract class Item implements Serializable {
 	 * @return
 	 */
 	public abstract String toText();
+	
+	
+	public byte getStatus() {
+        return status;
+    }
 
 	@Override
 	public String toString() {

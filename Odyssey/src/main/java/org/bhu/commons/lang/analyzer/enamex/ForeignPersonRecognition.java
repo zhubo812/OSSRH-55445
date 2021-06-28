@@ -12,6 +12,7 @@ import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.util.StringUtil;
 import org.bhu.commons.lang.analyzer.util.TermUtil;
+import org.edu.bhu.corpus.utils.Predefine;
 
 /**
  * 外国人名识别
@@ -19,6 +20,9 @@ import org.bhu.commons.lang.analyzer.util.TermUtil;
  * @author Jackie
  */
 public class ForeignPersonRecognition {
+	
+	private char[] nameArray = Predefine.foreignNameChar.toCharArray();
+	private int[][] matrix = new int[410][8];
 
 	private static final LinkedList<NameChar> PRLIST = new LinkedList<NameChar>();
 
@@ -55,6 +59,25 @@ public class ForeignPersonRecognition {
 
 	public ForeignPersonRecognition(Term[] terms) {
 		this.terms = terms;
+		loadMatrix();
+	}
+	
+	public ForeignPersonRecognition() {
+		loadMatrix();
+	}
+	
+	private void loadMatrix() {
+		String[] lines = Predefine.foreignNameMatrix.split("|");
+		for(int i =0; i< lines.length;i++) {
+			String[] items = lines[i].split(" ");
+			for(int j =0; j< items.length;j++) {
+				matrix[i][j]= Integer.parseInt(items[j]);
+			}
+		}
+	}
+	
+	public void recognition(String line) {
+		
 	}
 
 	public void recognition() {

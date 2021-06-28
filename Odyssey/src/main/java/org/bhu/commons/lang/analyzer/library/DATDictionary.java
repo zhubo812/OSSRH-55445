@@ -6,12 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
 import org.bhu.commons.lang.analyzer.bean.EasternAsianName;
 import org.bhu.commons.lang.analyzer.bean.PersonNatureAttr;
+import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
@@ -25,6 +28,16 @@ public class DATDictionary {
 	 * 所有在词典中出现的词,并且承担简繁体转换的任务.
 	 */
 	public static final char[] IN_SYSTEM = new char[65536];
+	
+	/**
+	 * 人名补充
+	 */
+	private static final Map<String, PersonNatureAttr> PERSONMAP = new HashMap<>();
+
+	/**
+	 * 外国人名补充
+	 */
+	private static final Set<String> FOREIGNSET = new HashSet<>();
 
 	/**
 	 * 核心词典
@@ -143,6 +156,42 @@ public class DATDictionary {
 			}
 			analyzerItem.termNatures.setPersonNatureAttr(entry.getValue());
 		}
+	}
+	
+	/**
+	 * 取得人名补充
+	 *
+	 * @param term
+	 * @return
+	 */
+	public static boolean foreign(Term term) {
+		String name = term.getName();
+
+		boolean contains = FOREIGNSET.contains(name);
+		if (contains) {
+			return contains;
+		}
+
+		if (!term.getNatureStr().startsWith("nr")) {
+			return false;
+		}
+
+		for (int i = 0; i < name.length(); i++) {
+			if (!FOREIGNSET.contains(String.valueOf(name.charAt(i)))) {
+				return false;
+			}
+		}
+		return true ;
+	}
+	
+	/**
+	 * 取得人名补充
+	 *
+	 * @param name
+	 * @return
+	 */
+	public static PersonNatureAttr person(String name) {
+		return PERSONMAP.get(name);
 	}
 
 	public static int status(char c) {

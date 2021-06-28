@@ -16,7 +16,7 @@ package org.bhu.commons.lang.analyzer.library;
  *
  * @author hankcs
  */
-public class Viterbi
+public class Viterbi4Natures
 {
     /**
      * 求解HMM模型，所有概率请提前取对数

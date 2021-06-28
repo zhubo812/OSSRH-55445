@@ -1,21 +1,13 @@
 package org.bhu.commons.lang.analyzer.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.bhu.commons.lang.analyzer.bean.Nature;
-import org.bhu.commons.lang.analyzer.bean.NatureScore;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.library.NatureLibrary;
-import org.bhu.commons.lang.analyzer.library.Viterbi;
-
-import cn.edu.bhu.corpus.utils.Predefine;
+import org.edu.bhu.corpus.utils.Predefine;
 
 public class NatureHelper {
 
