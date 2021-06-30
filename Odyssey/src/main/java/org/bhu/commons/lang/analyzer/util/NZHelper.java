@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
+import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.enamex.EntityHelper;
 
 public class NZHelper extends EntityHelper {
@@ -17,6 +18,6 @@ public class NZHelper extends EntityHelper {
 	}
 	
 	public List<Entity> getNZStr(String src){
-		return getEntity(src, patterns);
+		return getEntity(src, patterns, TermNatures.NZ);
 	}
 }

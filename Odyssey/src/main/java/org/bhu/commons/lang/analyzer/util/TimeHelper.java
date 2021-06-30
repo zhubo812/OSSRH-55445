@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
+import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.enamex.EntityHelper;
 
 public class TimeHelper extends EntityHelper{
@@ -28,7 +29,7 @@ public class TimeHelper extends EntityHelper{
 	}
 
 	public List<Entity> getTimex(String src){
-		return getEntity(src, patterns);
+		return getEntity(src, patterns, TermNatures.T);
 	}
 
 }

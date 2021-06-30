@@ -5,6 +5,13 @@ public class Entity {
 	String expression;
 	int startIndx;
 	int endIndex;
+	TermNatures termNatures;
+	public TermNatures getTermNatures() {
+		return termNatures;
+	}
+	public void setTermNatures(TermNatures termNatures) {
+		this.termNatures = termNatures;
+	}
 	public String getExpression() {
 		return expression;
 	}
@@ -28,6 +35,14 @@ public class Entity {
 		this.expression = expression;
 		this.startIndx = startIndx;
 		this.endIndex = endIndex;
+	}
+	
+	public Entity(String expression, int startIndx, int endIndex, TermNatures termNatures) {
+		super();
+		this.expression = expression;
+		this.startIndx = startIndx;
+		this.endIndex = endIndex;
+		this.termNatures = termNatures;
 	}
 	public Entity() {
 		super();

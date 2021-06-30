@@ -4,6 +4,7 @@ import static org.bhu.commons.lang.analyzer.library.DATDictionary.status;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
+import org.bhu.commons.lang.analyzer.enamex.ForeignPersonRecognition;
 import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
@@ -50,6 +52,7 @@ public abstract class Analysis {
 	TimeHelper timeHelper = new TimeHelper();
 	NZHelper nzHelper = new NZHelper();
 	NQHelper nqHelper = new NQHelper();
+	ForeignPersonRecognition fpr = new ForeignPersonRecognition();
 
 	/**
 	 * 文档读取流
@@ -108,15 +111,16 @@ public abstract class Analysis {
 		temp = WordAlert.ToDBC(temp);
 		Graph gp = new Graph(temp.trim());
 		int startOffe = 0;
-		List<Entity> timex = timeHelper.getTimex(temp);
-		List<Entity> nqx = nqHelper.getNumQ(temp);
-		List<Entity> nzx = nzHelper.getNZStr(temp);
+		
+		List<Entity> nerlist = getNER(temp);
+		
+		
 		if (this.ambiguityForest != null) {
 			GetWord gw = new GetWord(this.ambiguityForest, gp.chars);
 			String[] params = null;
 			while ((gw.getFrontWords()) != null) {
 				if (gw.offe > startOffe) {
-					analysis(gp, startOffe, gw.offe,timex, nqx, nzx);
+					analysis(gp, startOffe, gw.offe,nerlist);
 				}
 				params = gw.getParams();
 				startOffe = gw.offe;
@@ -127,7 +131,7 @@ public abstract class Analysis {
 			}
 		}
 		if (startOffe < gp.chars.length - 1) {
-			analysis(gp, startOffe, gp.chars.length,timex, nqx, nzx);
+			analysis(gp, startOffe, gp.chars.length,nerlist);
 		}
 		List<Term> result = this.getResult(gp);
 
@@ -136,32 +140,19 @@ public abstract class Analysis {
 	}
 
 
+	
 
-	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> timex, List<Entity> nqx, List<Entity> nzx) {
+	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {
 		int start = 0;
 		int end = 0;
 		char[] chars = gp.chars;
-		char c = 0;
+		
 		String str = null;
-		if(timex!= null && timex.size()>0){
+		if(nerList!= null && nerList.size()>0){
 			
-			for(Entity tx : timex){
-				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), TermNatures.T));
+			for(Entity tx : nerList){
+				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures()));
 //				indexList.removeAll( CollectionUtil.getIndexList(tx.getStartIndx(), tx.getEndIndex()));
-			}
-		}
-		
-		if(nqx!= null && nqx.size()>0){
-			
-			for(Entity tx : nqx){
-				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), TermNatures.MQ));
-			}
-		}
-		
-		if(nqx!= null && nzx.size()>0){
-			
-			for(Entity tx : nzx){
-				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), TermNatures.NZ));
 			}
 		}
 		
@@ -226,37 +217,6 @@ public abstract class Analysis {
 				break;
 
 			default:
-//				start = i;
-//				end = i;
-//				c = chars[start];
-//				while (IN_SYSTEM[c] > 0) {
-//					end++;
-//					if (++i >= endOffe)
-//						break;
-//					c = chars[i];
-//				}
-//
-//				if (start == end) {
-//					gp.addTerm(new Term(String.valueOf(c), i, TermNatures.NULL));
-//					continue;
-//				}
-//
-//				gwi.setChars(chars, start, end);
-//				while ((str = gwi.allWords()) != null) {
-//					gp.addTerm(new Term(str, gwi.offe, gwi.getItem()));
-//				}
-//
-//				/**
-//				 * 如果未分出词.以未知字符加入到gp中
-//				 */
-//				if (IN_SYSTEM[c] > 0 || status(c) > 3) {
-//					i -= 1;
-//				} else {
-//					gp.addTerm(new Term(String.valueOf(c), i, TermNatures.NULL));
-//				}
-//				
-//
-//				break;
 				
 				start = i;
 				end = i;
@@ -304,6 +264,16 @@ public abstract class Analysis {
 		}
 		
 		
+	}
+	
+	private List<Entity> getNER(String temp){
+		List<Entity> list = new ArrayList<Entity>();
+		list.addAll(timeHelper.getTimex(temp));
+		list.addAll(nqHelper.getNumQ(temp));
+		list.addAll(nzHelper.getNZStr(temp));
+		list.addAll(fpr.recognition(temp));
+		
+		return list;
 	}
 
 	/**
