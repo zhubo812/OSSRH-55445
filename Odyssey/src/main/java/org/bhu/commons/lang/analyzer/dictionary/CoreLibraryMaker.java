@@ -21,7 +21,7 @@ public class CoreLibraryMaker {
 		makeDic();
 		DATMaker datM = new DATMaker();
 
-		datM.maker("data/library.txt", AnalyzerItem.class);
+		datM.maker("resources/library.txt", AnalyzerItem.class);
 		char[] puncs = punctuations.toCharArray();
 
 		Item[] dat = datM.getDAT();
@@ -94,7 +94,7 @@ public class CoreLibraryMaker {
 		}
 
 		
-		datM.saveText("data/core.dct");
+		datM.saveText("resources/core.dct");
 
 	}
 	
@@ -116,7 +116,7 @@ public class CoreLibraryMaker {
 	 */
 	public static void makeDic() throws NumberFormatException, IOException {
 //		BufferedReader br = IOUtil.getReader("train_file/core.ini", "utf-8");//Jackie revise
-		String path = "data/core.zip";
+		String path = "resources/core.zip";
 		BufferedReader br = DicReader.getZipFileBufferedReader(getZipFileStream(path));
 		String temp = null;
 
@@ -149,7 +149,7 @@ public class CoreLibraryMaker {
 			}
 		}
 
-		IOUtil.writeMap(dic, "data/library.txt", IOUtil.UTF8);
+		IOUtil.writeMap(dic, "resources/library.txt", IOUtil.UTF8);
 	}
 	
 	private static InputStream getZipFileStream(String path) {

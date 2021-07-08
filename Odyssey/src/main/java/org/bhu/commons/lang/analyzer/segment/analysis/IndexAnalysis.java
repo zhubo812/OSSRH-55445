@@ -42,12 +42,12 @@ public class IndexAnalysis extends Analysis {
 				// 姓名识别
 				if (graph.hasPerson && StaticDictionaryLoad.isNameRecognition) {
 					// 亚洲人名识别
-					new AsianPersonRecognition(graph.terms).recognition();
+//					new AsianPersonRecognition(graph.terms).recognition();
 //					graph.walkPathByScore();
 //					NameFix.nameAmbiguity(graph.terms);
 					// 外国人名识别
-					new ForeignPersonRecognition(graph.terms).recognition();
-					graph.walkPathByScore();
+//					new ForeignPersonRecognition(graph.terms).recognition();
+//					graph.walkPathByScore();
 				}
 
 				// 用户自定义词典的识别

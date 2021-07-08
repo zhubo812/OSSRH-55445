@@ -21,7 +21,7 @@ public class CoreLibraryMakerTest {
 		makeDic();
 		DATMaker datM = new DATMaker();
 
-		datM.maker("train_file/library.txt", AnalyzerItem.class);
+		datM.maker("resources/library.txt", AnalyzerItem.class);
 		char[] puncs = punctuations.toCharArray();
 
 		Item[] dat = datM.getDAT();
@@ -94,7 +94,7 @@ public class CoreLibraryMakerTest {
 		}
 
 		
-		datM.saveText("train_file/core.dct");
+		datM.saveText("resources/core.dct");
 
 	}
 	
@@ -149,7 +149,7 @@ public class CoreLibraryMakerTest {
 			}
 		}
 
-		IOUtil.writeMap(dic, "train_file/library.txt", IOUtil.UTF8);
+		IOUtil.writeMap(dic, "resources/library.txt", IOUtil.UTF8);
 	}
 	
 	private static InputStream getZipFileStream(String path) {

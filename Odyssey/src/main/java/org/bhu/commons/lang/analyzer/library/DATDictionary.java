@@ -66,8 +66,8 @@ public class DATDictionary {
 			/**
 			 * 人名识别必备的
 			 */
-			personNameFull(dat);//人名识别资源，asian_name.data可删除
-			EasternAsianName.loadNameMap();
+//			personNameFull(dat);//人名识别资源，asian_name.data可删除
+//			EasternAsianName.loadNameMap();
 			/**
 			 * 记录词典中的词语，并且清除部分数据
 			 */
@@ -98,8 +98,6 @@ public class DATDictionary {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

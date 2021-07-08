@@ -14,6 +14,7 @@ import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
+import org.bhu.commons.lang.analyzer.enamex.ChinesePersonName;
 import org.bhu.commons.lang.analyzer.enamex.ForeignPersonRecognition;
 import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
@@ -53,6 +54,7 @@ public abstract class Analysis {
 	NZHelper nzHelper = new NZHelper();
 	NQHelper nqHelper = new NQHelper();
 	ForeignPersonRecognition fpr = new ForeignPersonRecognition();
+	ChinesePersonName cpn = new ChinesePersonName();
 
 	/**
 	 * 文档读取流
@@ -272,6 +274,7 @@ public abstract class Analysis {
 		list.addAll(nqHelper.getNumQ(temp));
 		list.addAll(nzHelper.getNZStr(temp));
 		list.addAll(fpr.recognition(temp));
+		list.addAll(cpn.recognition(temp));
 		
 		return list;
 	}

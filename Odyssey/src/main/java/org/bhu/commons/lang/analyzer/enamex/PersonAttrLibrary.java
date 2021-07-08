@@ -27,27 +27,27 @@ public class PersonAttrLibrary {
 			return pnMap;
 		}
 		init1();
-		init2();
+//		init2();
 		return pnMap;
 	}
 
 	// name_freq
-	private void init2() throws NumberFormatException, IOException {
-		Map<String, int[][]> personFreqMap = StaticDictionaryLoad.getPersonFreqMap();
-		Set<Entry<String, int[][]>> entrySet = personFreqMap.entrySet();
-		PersonNatureAttr pna = null;
-		for (Entry<String, int[][]> entry : entrySet) {
-			pna = pnMap.get(entry.getKey());
-			if (pna == null) {
-				pna = new PersonNatureAttr();
-				pna.setlocFreq(entry.getValue());
-				pnMap.put(entry.getKey(), pna);
-			} else {
-				pna.setlocFreq(entry.getValue());
-			}
-
-		}
-	}
+//	private void init2() throws NumberFormatException, IOException {
+//		Map<String, int[][]> personFreqMap = StaticDictionaryLoad.getPersonFreqMap();
+//		Set<Entry<String, int[][]>> entrySet = personFreqMap.entrySet();
+//		PersonNatureAttr pna = null;
+//		for (Entry<String, int[][]> entry : entrySet) {
+//			pna = pnMap.get(entry.getKey());
+//			if (pna == null) {
+//				pna = new PersonNatureAttr();
+//				pna.setlocFreq(entry.getValue());
+//				pnMap.put(entry.getKey(), pna);
+//			} else {
+//				pna.setlocFreq(entry.getValue());
+//			}
+//
+//		}
+//	}
 
 	// person.dic
 	private void init1() throws NumberFormatException, IOException {

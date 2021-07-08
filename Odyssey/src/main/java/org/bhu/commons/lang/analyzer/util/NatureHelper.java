@@ -17,7 +17,7 @@ public class NatureHelper {
 	private static Term[] terms = null;
 	private static double[][] trans_p = NatureLibrary.getTRANS_P();
 
-	public static List<Term> modifyNatures(List<Term> list){
+	public static List<Term> fixer(List<Term> list){
 		int[] obs = new int[list.size()+2];
 		for(int i=0;i<list.size()+2;i++){
 			obs[i]=i;
@@ -120,5 +120,48 @@ public class NatureHelper {
 		return nature_path;
 	}
 	
+	public static int getPathNum(List<Term> list) {
+		int num = 1;
+		for(int i =0; i< list.size();i++) {
+			Term term = list.get(i);
+			num*=term.getNatures().size();
+		}
+		return num;
+	}
 	
+	public static List<Term> naturefixer(List<Term> list){
+		int num = getPathNum(list);
+		List<List<Term>> templist = null;
+		if(num > 600) {
+			List<Term> result = new ArrayList<Term>();
+			templist = Utility.fixedGrouping(list, 3);
+			for(int i =0; i< templist.size();i++) {
+				result.addAll(fixer(templist.get(i)));
+			}
+		}
+		else {
+			return fixer(list);
+		}
+		return null;
+	}
+	
+	public static <T> List<List<T>> fixedGrouping(List<T> source, int n) {
+
+	    if (null == source || source.size() == 0 || n <= 0)
+	        return null;
+	    List<List<T>> result = new ArrayList<List<T>>();
+	    int remainder = source.size() % n;
+	    int size = (source.size() / n);
+	    for (int i = 0; i < size; i++) {
+	        List<T> subset = null;
+	        subset = source.subList(i * n, (i + 1) * n);
+	        result.add(subset);
+	    }
+	    if (remainder > 0) {
+	        List<T> subset = null;
+	        subset = source.subList(size * n, size * n + remainder);
+	        result.add(subset);
+	    }
+	    return result;
+	}
 }

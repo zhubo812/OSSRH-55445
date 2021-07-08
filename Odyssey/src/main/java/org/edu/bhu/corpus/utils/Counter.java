@@ -109,6 +109,10 @@ public class Counter<T> implements Serializable {
 		}
 		return sb.toString();
 	}
+	
+	public boolean contains(T t) {
+		return this.hm.containsKey(t);
+	}
 
 	/**
 	 * 批量增加

@@ -217,6 +217,16 @@ public class StaticDictionaryLoad {
 	}
 	
 	/**
+	 * 读取姓名单字的词频矩阵
+	 * 
+	 * @return
+	 */
+	public static BufferedReader getPersonMatrixReader() {
+//		System.out.println("loading person/name_freq.dic");
+		return DicReader.getReader(getStream("chinesenameMatrix.txt"));
+	}
+	
+	/**
 	 * 字母词词典
 	 * 
 	 * @return
@@ -231,31 +241,31 @@ public class StaticDictionaryLoad {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, int[][]> getPersonFreqMap() {
-		InputStream inputStream = null;
-		ObjectInputStream objectInputStream = null;
-		Map<String, int[][]> map = new HashMap<String, int[][]>(0);
-		try {
-			inputStream = getStream("asian_name.data");
-			objectInputStream = new ObjectInputStream(inputStream);
-			map = (Map<String, int[][]>) objectInputStream.readObject();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (objectInputStream != null)
-					objectInputStream.close();
-				if (inputStream != null)
-					inputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return map;
-	}
+//	public static Map<String, int[][]> getPersonFreqMap() {
+//		InputStream inputStream = null;
+//		ObjectInputStream objectInputStream = null;
+//		Map<String, int[][]> map = new HashMap<String, int[][]>(0);
+//		try {
+//			inputStream = getStream("asian_name.data");
+//			objectInputStream = new ObjectInputStream(inputStream);
+//			map = (Map<String, int[][]>) objectInputStream.readObject();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if (objectInputStream != null)
+//					objectInputStream.close();
+//				if (inputStream != null)
+//					inputStream.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return map;
+//	}
 
 	/**
 	 * 词与词之间的关联表数据

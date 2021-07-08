@@ -87,7 +87,7 @@ public class ToAnalysis extends Analysis {
 					}
 				}
 				setRealName(graph, result);
-				NatureHelper.modifyNatures(result);
+				NatureHelper.naturefixer(result);
 				return result;
 			}
 		};
