@@ -115,7 +115,6 @@ public class CoreLibraryMakerTest {
 	 * @throws IOException
 	 */
 	public static void makeDic() throws NumberFormatException, IOException {
-//		BufferedReader br = IOUtil.getReader("train_file/core.ini", "utf-8");//Jackie revise
 		String path = "resources/core.zip";
 		BufferedReader br = DicReader.getZipFileBufferedReader(getZipFileStream(path));
 		String temp = null;

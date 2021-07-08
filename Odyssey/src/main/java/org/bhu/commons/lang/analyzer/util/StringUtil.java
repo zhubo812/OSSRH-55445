@@ -180,4 +180,22 @@ public class StringUtil {
 		}
 		return true;
 	}
+	
+	public static String getWord(String token) {
+		int index = token.lastIndexOf("/");
+		String word= token;
+		if(index>-1) {
+			word= token.substring(0,index);
+		}
+		return word;
+	}
+	
+	public static String getNature(String token) {
+		int index = token.lastIndexOf("/");
+		String nature= token;
+		if(index>-1) {
+			nature= token.substring(index+1);
+		}
+		return nature;
+	}
 }
