@@ -6,11 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -168,9 +166,9 @@ public class StaticDictionaryLoad {
 	 * 
 	 * @return
 	 */
-	public static BufferedReader getNumberReader() {
-		return DicReader.getZipFileBufferedReader(getZipFileStream("numberLibrary.bin"));
-	}
+//	public static BufferedReader getNumberReader() {
+//		return DicReader.getZipFileBufferedReader(getZipFileStream("numberLibrary.bin"));
+//	}
 
 	/**
 	 * 英文词典
@@ -181,14 +179,7 @@ public class StaticDictionaryLoad {
 		return DicReader.getZipFileBufferedReader(getZipFileStream("englishLibrary.bin"));
 	}
 
-	/**
-	 * 词性表
-	 * 
-	 * @return
-	 */
-//	public static BufferedReader getNatureMapReader() {
-//		return DicReader.getReader(getStream("nature.map"));
-//	}
+
 
 	/**
 	 * 词性关联表
@@ -235,38 +226,7 @@ public class StaticDictionaryLoad {
 		return DicReader.getZipFileBufferedReader(getZipFileStream("aphword.bin"));
 	}
 
-	/**
-	 * 名字词性对象反序列化
-	 * 可以停用
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-//	public static Map<String, int[][]> getPersonFreqMap() {
-//		InputStream inputStream = null;
-//		ObjectInputStream objectInputStream = null;
-//		Map<String, int[][]> map = new HashMap<String, int[][]>(0);
-//		try {
-//			inputStream = getStream("asian_name.data");
-//			objectInputStream = new ObjectInputStream(inputStream);
-//			map = (Map<String, int[][]>) objectInputStream.readObject();
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (objectInputStream != null)
-//					objectInputStream.close();
-//				if (inputStream != null)
-//					inputStream.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return map;
-//	}
-
+	
 	/**
 	 * 词与词之间的关联表数据
 	 * 
