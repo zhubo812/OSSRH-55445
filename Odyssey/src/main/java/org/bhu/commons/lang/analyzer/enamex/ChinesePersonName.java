@@ -8,6 +8,7 @@ import org.bhu.commons.lang.analyzer.bean.Entity;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.util.FileReader;
 import org.bhu.commons.lang.analyzer.util.FileWriter;
+import org.bhu.commons.lang.analyzer.util.MatrixUtil;
 import org.edu.bhu.corpus.utils.Counter;
 import org.edu.bhu.corpus.utils.Predefine;
 
@@ -73,68 +74,14 @@ public class ChinesePersonName {
 		return entitylist;
 	}
 
-	// public int B = -1;//0 姓氏
-	// public int C = -1;//1 双名的首字
-	// public int D = -1;//2 双名的末字
-	// public int E = -1;//3 单名
-
+	/***
+	 * 创建中文人名矩阵
+	 */
 	public void getNameMatrix() {
-		String path = "E:\\BaiduNetdiskDownload\\2\\ChineseNames_120W.txt";
-		FileReader reader = new FileReader(path, "utf-8");
-		Counter<String> Bmap = new Counter<String>();
-		Counter<String> Cmap = new Counter<String>();
-		Counter<String> Dmap = new Counter<String>();
-		Counter<String> Emap = new Counter<String>();
-		String line;
-		List<Character> list = new ArrayList<Character>();
-		while ((line = reader.readLine()) != null) {
-			if (line.startsWith("阿")) {
-				continue;
-			}
-			char[] ch = line.toCharArray();
-			for (char c : ch) {
-				if (!list.contains(c)) {
-					list.add(c);
-				}
-			}
-			int len = line.length();
-			if (len == 2) {
-				Bmap.add(line.substring(0, 1));
-				Emap.add(line.substring(1));
-			} else if (len == 3) {
-				Bmap.add(line.substring(0, 1));
-				Cmap.add(line.substring(1, 2));
-				Dmap.add(line.substring(2));
-			}
-		}
-		FileWriter writer = new FileWriter("E:\\BaiduNetdiskDownload\\2\\chinesenameMatrix.txt");
-		StringBuilder sb = null;
-		for (char c : list) {
-			sb = new StringBuilder();
-			sb.append(c).append("\t");
-			if (Bmap.contains(String.valueOf(c))) {
-				sb.append(Bmap.get(String.valueOf(c))).append("\t");
-			} else {
-				sb.append(0).append("\t");
-			}
-			if (Cmap.contains(String.valueOf(c))) {
-				sb.append(Cmap.get(String.valueOf(c))).append("\t");
-			} else {
-				sb.append(0).append("\t");
-			}
-			if (Dmap.contains(String.valueOf(c))) {
-				sb.append(Dmap.get(String.valueOf(c))).append("\t");
-			} else {
-				sb.append(0).append("\t");
-			}
-			if (Emap.contains(String.valueOf(c))) {
-				sb.append(Emap.get(String.valueOf(c))).append("\t");
-			} else {
-				sb.append(0).append("\t");
-			}
-			writer.writeLine(sb.toString().trim());
-		}
-		writer.close();
+		String inPath = "E:/BaiduNetdiskDownload/2/ChineseNames_120W.txt";
+		String outPath = "E:/BaiduNetdiskDownload/2/nameMatrix.txt";
+		MatrixUtil mu = new MatrixUtil();
+		mu.file2Matirx(inPath, outPath);
 	}
 
 }
