@@ -3,9 +3,6 @@ package org.bhu.commons.lang.analyzer.enamex;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.bhu.commons.lang.analyzer.bean.PersonNatureAttr;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;

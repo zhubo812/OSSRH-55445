@@ -14,7 +14,7 @@ public class NatureHelper {
 	private static HashMap<String, Integer> NATURE_INDEX = NatureLibrary.getNATURE_INDEX();
 	private static HashMap<String, Double> NATURE_INDEX_DETAIL = NatureLibrary.getNATURE_INDEX_DETAIL();
 	private static int[] INIT_NATURE_F = NatureLibrary.getINIT_NATURE_F();
-	private static Term[] terms = null;
+//	private static Term[] terms = null;
 	private static double[][] trans_p = NatureLibrary.getTRANS_P();
 
 	public static List<Term> fixer(List<Term> list){

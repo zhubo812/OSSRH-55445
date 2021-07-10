@@ -7,15 +7,12 @@ import java.util.List;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
-import org.bhu.commons.lang.analyzer.enamex.AsianPersonRecognition;
-import org.bhu.commons.lang.analyzer.enamex.ForeignPersonRecognition;
 import org.bhu.commons.lang.analyzer.recognition.NumRecognition;
 import org.bhu.commons.lang.analyzer.recognition.UserDefineRecognition;
 import org.bhu.commons.lang.analyzer.segment.Analysis;
 import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
 import org.bhu.commons.lang.analyzer.util.AnalyzerReader;
 import org.bhu.commons.lang.analyzer.util.Graph;
-import org.bhu.commons.lang.analyzer.util.NameFix;
 import org.bhu.commons.lang.trie.domain.Forest;
 
 /**

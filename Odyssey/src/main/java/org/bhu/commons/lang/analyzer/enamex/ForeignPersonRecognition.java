@@ -1,20 +1,12 @@
 package org.bhu.commons.lang.analyzer.enamex;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
-import org.bhu.commons.lang.analyzer.bean.Nature;
-import org.bhu.commons.lang.analyzer.bean.NewWord;
-import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.util.FileReader;
-import org.bhu.commons.lang.analyzer.util.StringUtil;
-import org.bhu.commons.lang.analyzer.util.TermUtil;
 import org.edu.bhu.corpus.utils.Predefine;
 
 /**

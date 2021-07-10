@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Term;
-import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
-import org.bhu.commons.lang.analyzer.enamex.EasternAsianNameHelper;
-import org.bhu.commons.lang.analyzer.enamex.TranscriptionNameHelper;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.recognition.NumRecognition;
 import org.bhu.commons.lang.analyzer.recognition.UserDefineRecognition;
@@ -56,11 +53,11 @@ public class ToAnalysis extends Analysis {
 				// 姓名识别
 				if (graph.hasPerson && StaticDictionaryLoad.isNameRecognition) {
 					// 亚洲人名识别
-					EasternAsianNameHelper.recognition(graph.terms);
+//					EasternAsianNameHelper.recognition(graph.terms);
 
 					// 外国人名识别
 //					new ForeignPersonRecognition(graph.terms).recognition();
-					TranscriptionNameHelper.recognition(graph.terms);
+//					TranscriptionNameHelper.recognition(graph.terms);
 //					graph.walkPathByScore();
 				}
 
@@ -94,14 +91,14 @@ public class ToAnalysis extends Analysis {
 		return merger.merger();
 	}
 
-	private void printNatures(Term term){
-		TermNature[] natures = term.getNatures().termNatures;
-		for(TermNature nature : natures){
-			System.out.print(nature.nature.natureStr+"\t");
-			
-		}
-		System.out.println();
-	}
+//	private void printNatures(Term term){
+//		TermNature[] natures = term.getNatures().termNatures;
+//		for(TermNature nature : natures){
+//			System.out.print(nature.nature.natureStr+"\t");
+//			
+//		}
+//		System.out.println();
+//	}
 
 	/**
 	 * 用户自己定义的词典

@@ -1,7 +1,6 @@
 package org.bhu.commons.lang.analyzer.util;
 
 import org.bhu.commons.lang.analyzer.bean.Term;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 
 public class NameFix {
 	/**

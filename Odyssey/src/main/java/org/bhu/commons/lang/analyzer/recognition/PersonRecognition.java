@@ -10,12 +10,14 @@ import org.bhu.commons.lang.analyzer.bean.PersonNatureAttr;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.library.DATDictionary;
-import org.bhu.commons.lang.analyzer.library.Viterbi4Natures;
 import org.bhu.commons.lang.analyzer.util.Graph;
 import org.bhu.commons.lang.analyzer.util.TermUtil;
 import org.edu.bhhu.ner.recognition.TermArrRecognition;
-import org.edu.bhu.commons.lang.viterbi.*;
 //import org.w3c.dom.Node;
+import org.edu.bhu.commons.lang.viterbi.Node;
+import org.edu.bhu.commons.lang.viterbi.Score;
+import org.edu.bhu.commons.lang.viterbi.Values;
+import org.edu.bhu.commons.lang.viterbi.Viterbi;
 
 /**
  * 人名识别工具类

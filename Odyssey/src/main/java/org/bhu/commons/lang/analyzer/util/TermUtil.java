@@ -8,7 +8,6 @@ import org.bhu.commons.lang.analyzer.bean.Nature;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.enamex.CompanyAttrLibrary;
-import org.bhu.commons.lang.analyzer.enamex.ForeignPersonRecognition;
 import org.bhu.commons.lang.analyzer.library.NatureLibrary;
 
 

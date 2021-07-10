@@ -3,22 +3,16 @@ package org.bhu.commons.lang.analyzer.library;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
-import org.bhu.commons.lang.analyzer.bean.EasternAsianName;
 import org.bhu.commons.lang.analyzer.bean.PersonNatureAttr;
 import org.bhu.commons.lang.analyzer.bean.Term;
-import org.bhu.commons.lang.analyzer.bean.TermNature;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
-import org.bhu.commons.lang.analyzer.enamex.PersonAttrLibrary;
 import org.bhu.commons.lang.dat.DoubleArrayTrie;
 import org.bhu.commons.lang.dat.Item;
 
@@ -120,42 +114,6 @@ public class DATDictionary {
 		return input;
 	}
 
-	private static void personNameFull(DoubleArrayTrie dat) throws NumberFormatException, IOException {
-		HashMap<String, PersonNatureAttr> personMap = new PersonAttrLibrary().getPersonMap();
-
-		AnalyzerItem analyzerItem = null;
-		// 人名词性补录
-		Set<Entry<String, PersonNatureAttr>> entrySet = personMap.entrySet();
-		char c = 0;
-		String temp = null;
-		for (Entry<String, PersonNatureAttr> entry : entrySet) {
-			temp = entry.getKey();
-			if (temp.length() == 1 && (analyzerItem = (AnalyzerItem) dat.getDAT()[temp.charAt(0)]) == null) {
-				analyzerItem = new AnalyzerItem();
-				analyzerItem.base = c;
-				analyzerItem.check = -1;
-				analyzerItem.status = 3;
-				analyzerItem.name = temp;
-				dat.getDAT()[temp.charAt(0)] = analyzerItem;
-			} else {
-				analyzerItem = dat.getItem(temp);
-			}
-
-			if (analyzerItem == null) {
-				continue;
-			}
-
-			if ((analyzerItem.termNatures) == null) {
-				if(temp.length()==1&&temp.charAt(0)<256){
-					analyzerItem.termNatures = TermNatures.NULL;
-				}else{
-					analyzerItem.termNatures = new TermNatures(TermNature.NR);
-				}
-			}
-			analyzerItem.termNatures.setPersonNatureAttr(entry.getValue());
-		}
-	}
-	
 	/**
 	 * 取得人名补充
 	 *
