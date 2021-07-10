@@ -273,8 +273,9 @@ public abstract class Analysis {
 		list.addAll(timeHelper.getTimex(temp));
 		list.addAll(nqHelper.getNumQ(temp));
 		list.addAll(nzHelper.getNZStr(temp));
-		list.addAll(fpr.recognition(temp));
 		list.addAll(cpn.recognition(temp));
+		list.addAll(fpr.recognition(temp));
+		
 		
 		return list;
 	}

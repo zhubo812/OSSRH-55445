@@ -14,11 +14,14 @@ public class MatrixUtil {
 	 * @param inPath
 	 * @param outPath
 	 */
+	
+	
 	public void file2Matirx(String inPath, String outPath) {
 		FileReader reader = new FileReader(inPath,"utf-8");
 		String line;
 		List<Character> snrlist = new ArrayList<Character>();
-		Counter<String> counter = new Counter<String>();
+		Counter<String> counter = new Counter<String>();//统计姓氏与名首字频次
+		Counter<String> ncounter = new Counter<String>();//统计名首字与尾字频次
 		HashMap<Character, Integer> idxMap = new HashMap<Character, Integer>();
 		HashMap<Integer, Character> ridxMap = new HashMap<Integer, Character>();
 		int indx = 0;
@@ -38,25 +41,42 @@ public class MatrixUtil {
 			for(int i =0; i< ch.length-1;i++) {
 				if(ch.length > 1) {
 					sline = String.valueOf(ch[i])+String.valueOf(ch[i+1]);
-					counter.add(sline);
+					if(i ==0) {
+						counter.add(sline);//记录姓氏与名首字频次
+					}else {
+						ncounter.add(sline);//记录名首字与尾字频次
+					}
 				}
 			}
 		}
 		System.out.println(idxMap.size());
-		int[][] matrix = new int[idxMap.size()][idxMap.size()];
+		int[][] matrix = new int[idxMap.size()][idxMap.size()];//记录姓氏与名首字频次的矩阵
+		int[][] nmatrix = new int[idxMap.size()][idxMap.size()];//记录名首字与尾字频次的矩阵
 		for(String item : counter.keySet()) {
 			int row = idxMap.get(item.charAt(0));
 			int col = idxMap.get(item.charAt(1));
 			matrix[row][col] = counter.get(item).intValue();
 		}
 		
+		for(String item : ncounter.keySet()) {
+			int row = idxMap.get(item.charAt(0));
+			int col = idxMap.get(item.charAt(1));
+			nmatrix[row][col] = ncounter.get(item).intValue();
+		}
+		
 		FileWriter writer = new FileWriter(outPath);
 		StringBuilder sb ;
 		for(int i =0; i< matrix.length;i++) {
 			sb = new StringBuilder();
-			sb.append(ridxMap.get(i)).append(" ");
+			sb.append(ridxMap.get(i)).append(" ");//矩阵每一行的第一个字
 			for(int j =0; j< matrix[i].length;j++) {
 				if(matrix[i][j]>0) {
+					sb.append(j).append(" ");
+				}
+			}
+			sb.append("\t");
+			for(int j =0; j< nmatrix[i].length;j++) {
+				if(nmatrix[i][j]>0) {
 					sb.append(j).append(" ");
 				}
 			}
@@ -74,7 +94,6 @@ public class MatrixUtil {
 		}
 		writer.close();
 	}
-	
 	/**
 	 * 向量求和
 	 * 

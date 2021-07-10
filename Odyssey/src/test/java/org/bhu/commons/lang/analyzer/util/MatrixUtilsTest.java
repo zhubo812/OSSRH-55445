@@ -11,4 +11,6 @@ public class MatrixUtilsTest {
 		MatrixUtil mu = new MatrixUtil();
 		mu.file2Matirx(inPath, outPath);
 	}
+	
+
 }
