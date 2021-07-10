@@ -57,7 +57,7 @@ public class DictionaryBuilder {
 				word = StringUtil.getWord(token);
 				nature = StringUtil.getNature(token).toLowerCase();
 				if (nature.equals("vn")) {
-					nature = "n";
+					nature = "n";//这里有问题
 				} else if (nature.equals("an")) {
 					nature = "n";
 				} else if (nature.equals("vd") || nature.equals("ad")) {
@@ -127,6 +127,48 @@ public class DictionaryBuilder {
 		}
 		writer.close();
 
+	}
+	
+	
+	public void corpus2DictionaryErrorFinder(String w, String tag) {
+
+		String path = "E:/BaiduNetdiskDownload/2/RenminRibao1998_BigWord_NatureTrans.txt";
+
+		String[] stoparray = { "nz", "nt", "m", "nr", "nx" };
+		List<String> stoplist = Arrays.asList(stoparray);
+
+		FileReader reader = new FileReader(path, "utf-8");
+		String line, sline;
+		String word, nature;
+
+		while ((line = reader.readLine()) != null) {
+			sline = line.trim();
+			if (sline.length() == 0) {
+				continue;
+			}
+			String[] items = sline.split("\t");
+
+			if (items.length < 2) {
+				System.out.println(line);
+				continue;
+			}
+			String[] tokens = items[1].trim().split(" ");
+			for (String token : tokens) {
+
+				word = StringUtil.getWord(token);
+				nature = StringUtil.getNature(token);
+				if(word.equals(w) && nature.equals(tag)) {
+					System.out.println(line);
+					break;
+				}
+				if (stoplist.contains(nature)) {
+					continue;
+				} 
+			}
+		}
+
+		reader.close();
+	
 	}
 	
 	/***

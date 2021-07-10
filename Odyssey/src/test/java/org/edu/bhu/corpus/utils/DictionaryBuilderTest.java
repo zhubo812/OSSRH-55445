@@ -8,6 +8,13 @@ import org.junit.Test;
 
 public class DictionaryBuilderTest {
 
+	@Test
+	public void corpus2DictionaryErrorFinderTester() {
+		DictionaryBuilder db = new DictionaryBuilder();
+		String word = "的";
+		String nature = "ng";
+		db.corpus2DictionaryErrorFinder(word, nature);
+	}
 	
 	@Test
 	public void buildDictionaryTester() {

@@ -13,7 +13,7 @@ public class ToAnalysisTest {
 		
 		long length = 0L;
 		long start = System.currentTimeMillis();
-		String line = "胡锦涛发表重要讲话 吴邦国主持 温家宝贾庆林李长春习近平李克强贺国强周永康出席";
+		String line = "委员会已多次提议将叙利亚富人和掌权者作为制裁对象，并建议自12月中旬起中止往返叙利亚的航班。";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);

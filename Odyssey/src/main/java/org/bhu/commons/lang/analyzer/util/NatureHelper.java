@@ -99,7 +99,7 @@ public class NatureHelper {
 				}else {
 				int index= Integer.parseInt(items[j]);
 				int next = Integer.parseInt(items[j+1]);
-				score *= trans_p[index][next];
+				score *= trans_p[index][next];//这里需要再乘以当前词的词性
 				}
 			}
 			if(score > path_score) {
@@ -113,10 +113,6 @@ public class NatureHelper {
 			nature_path.add(Integer.parseInt(items[i]));
 			
 		}
-//		for(int p : nature_path) {
-//			System.out.println(Predefine.natures[p]);
-//		}
-//		System.out.println(nature_path);
 		return nature_path;
 	}
 	
