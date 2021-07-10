@@ -15,7 +15,7 @@ public class ChinesePersonNameTest {
 	
 	@Test
 	public void regconitionTester() {
-		String line = "邓颖超生前杜绝建设超生,我们是排坛公主诸韵颖，我的拦网可以让朱婷之流找不到北，我的发球可以个个追周苏红之流的胸，之到她崩溃，我的传球更是化腐朽为神奇，任何不到位的球，在我手上都会到位";
+		String line = "现代吉普李斯张飞跑啊跑奥巴马养的一条狗叫";
 		ChinesePersonName cpn = new ChinesePersonName();
 		List<Entity> list = cpn.recognition(line);
 		

@@ -1,8 +1,10 @@
 package org.edu.bhu.corpus.utils;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
+import org.bhu.commons.lang.analyzer.util.FileReader;
 import org.bhu.commons.lang.analyzer.util.StringUtil;
 import org.junit.Test;
 
@@ -70,6 +72,34 @@ public class DictionaryBuilderTest {
 			} else {
 				key = word + "\t" + nature;
 				counter.add(key);
+			}
+		}
+	}
+	
+	@Test
+	public void usrdic2init() {
+		String usrdicPath = "E:/BaiduNetdiskDownload/2/usr.dic";
+		String initpath = "E:/BaiduNetdiskDownload/2/core.init";
+		FileReader reader = new FileReader(initpath,"utf-8");
+		String line, word, nature;
+		HashSet<String> set = new HashSet<String>();
+		while((line=reader.readLine())!=null) {
+			String[] items = line.trim().split("\t");
+			word = items[1];
+			nature = items[0];
+			if(!set.contains(word)) {
+				set.add(word);
+			}
+		}
+		
+		reader.close();
+		reader = new FileReader(usrdicPath,"utf-8");
+		while((line=reader.readLine())!=null) {
+			String[] items = line.trim().split("\t");
+			word = items[0];
+			nature = items[1];
+			if(!set.contains(word)) {
+				System.out.println(line);
 			}
 		}
 	}

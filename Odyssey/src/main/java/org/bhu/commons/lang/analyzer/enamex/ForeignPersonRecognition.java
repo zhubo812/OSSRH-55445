@@ -87,7 +87,7 @@ public class ForeignPersonRecognition {
 					do {
 						end = i++;
 						count++;
-						if (i >= ch.length|| end -start>=2) {
+						if (i >= ch.length) {
 							break;
 						}
 						flag = indxName.containsKey(ch[i]);

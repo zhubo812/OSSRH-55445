@@ -10,7 +10,7 @@ public class ForeignPersonRecognitionTest {
 	
 	@Test
 	public void regconitionTester() {
-		String line = "委员会已多次提议将叙利亚富人和掌权者作为制裁对象，并建议自12月中旬起中止往返叙利亚的航班。维生素abc";
+		String line = "没有张明何来平等李斯朱丽亚本报记者 桂杰 朱丽亚";
 		ForeignPersonRecognition fpn = new ForeignPersonRecognition();
 		List<Entity> list = fpn.recognition(line);
 		

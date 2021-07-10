@@ -61,7 +61,7 @@ public class ChinesePersonName {
 		
 		int start, end , count= 0;
 		
-		boolean flag = false;
+		boolean flag,checker = false;
 		for (int i = 0; i < ch.length - 1; i++) {
 			flag = false;
 		
@@ -75,12 +75,19 @@ public class ChinesePersonName {
 							break;
 						}
 						flag = indxName.containsKey(ch[i]);
-					} while (flag && matrixCheker(count,ch,i));
+						if(flag) {
+							checker =matrixCheker(count,ch,i);
+						}
+						
+					} while (flag && checker);
 					if(end > start) {
-
 						String substr = line.substring(start, end+1);
 						entitylist.add(new Entity(substr, start, end, TermNatures.NR));
 						i--;
+					}else {
+						if(flag && !checker) {
+							i--;
+						}
 					}
 				}
 		}
