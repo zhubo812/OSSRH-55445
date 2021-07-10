@@ -12,6 +12,7 @@ import org.bhu.commons.lang.analyzer.bean.Nature;
 import org.bhu.commons.lang.analyzer.bean.NewWord;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
+import org.bhu.commons.lang.analyzer.util.FileReader;
 import org.bhu.commons.lang.analyzer.util.StringUtil;
 import org.bhu.commons.lang.analyzer.util.TermUtil;
 import org.edu.bhu.corpus.utils.Predefine;
@@ -23,258 +24,98 @@ import org.edu.bhu.corpus.utils.Predefine;
  */
 public class ForeignPersonRecognition {
 	
-	private char[] nameArray = Predefine.foreignNameChar.toCharArray();
-	private HashMap<Character, Integer> nameMap = null;
-	private int[][] matrix = new int[410][8];
-
-	private static final LinkedList<NameChar> PRLIST = new LinkedList<NameChar>();
-
-	private static NameChar INNAME = null;
-
-	private static HashSet<Character> ISNOTFIRST = new HashSet<Character>();
-
-
-	private List<Term> tempList = new ArrayList<Term>();
-	private LinkedList<NameChar> prList = null;
-	private Term[] terms = null;
-
-	public ForeignPersonRecognition(Term[] terms) {
-		this.terms = terms;
-		loadMatrix();
-	}
 	
+
+	HashMap<Character, Integer> indxName = new HashMap<Character, Integer>();
+	List<String> snrlist = new ArrayList<String>();
+	int[][] matrix = new int[410][410];
+	int[][] nmatrix = new int[410][410];
+
+
+
 	public ForeignPersonRecognition() {
-		loadMatrix();
-		loadNameMap();
+		init();
 	}
 	
-	private void loadMatrix() {
-
-		String[] lines = Predefine.foreignNameMatrix;
-		for(int i =0; i< lines.length;i++) {
-			String[] items = lines[i].split(" ");
-			for(int j =0; j< items.length;j++) {
-				matrix[i][j]= Integer.parseInt(items[j]);
+	public void init() {
+		char[] firstchar = Predefine.foreignNameChar.toCharArray();
+		for (char c : firstchar) {
+			snrlist.add(String.valueOf(c));
+		}
+		FileReader reader = new FileReader("resources/fnameMatrix.txt", "utf-8");
+		List<String> lines = reader.read2List();
+		for (int i = 0; i < lines.size(); i++) {
+			if(lines.get(i).trim().length()==1) {
+				continue;
 			}
-		}
-	}
-	
-	private void loadNameMap() {
-		nameMap = new HashMap<Character, Integer>();
-		for(int i =0;i< nameArray.length;i++) {
-			nameMap.put(nameArray[i], i);
-		}
-	}
-	
-	public List<Entity> recognition(String line) {
-		
-		List<Entity> entitylist = new ArrayList<Entity>();
-		char[] ch = line.toCharArray();
-		int start=0;
-		int end =0;
-		for(int i =0; i< ch.length;i++) {
+			String[] els = lines.get(i).split("\t");//分割每一个字作为（姓氏与名首字）和作为（名首字与尾字）的数据
 
-			if(nameMap.containsKey(ch[i])) {
-				start =i;
-				do {
-					end = i++;
-					if (i >= ch.length) {
-						break;
-					}
-				} while (nameMap.containsKey(ch[i]));
-				if(end > start) {
-					for(int j = start; j<= end;j++) {
-						int row = nameMap.get(ch[j]);
-						int col = j- start+1;
-						if(matrix[row][col] == 0) {
-							end = i;
-							break;
-						}
-					}
-					String substr = line.substring(start, end+1);
-					entitylist.add(new Entity(substr, start, end, TermNatures.NR));
-//					System.out.println(substr);
+			String[] items = els[0].split(" ");//当前字作为姓氏与名首字数据
+			for (int j = 1; j < items.length; j++) {
+				int col = Integer.parseInt(items[j]);
+				matrix[i][col] = 1;
+			}
+			indxName.put(items[0].charAt(0), i);
+			//====================
+			if(els.length ==2) {
+				items = els[1].trim().split(" ");//当前字作为名首字数据与名尾字的数据
+				for (int j = 0; j < items.length; j++) {
+					int col = Integer.parseInt(items[j]);
+					nmatrix[i][col] = 1;
 				}
 			}
-			
-			
+		}
+
+	}
+
+	
+	
+	public List<Entity> recognition(String line) {
+
+		List<Entity> entitylist = new ArrayList<Entity>();
+		char[] ch = line.toCharArray();
+		
+		int start, end , count= 0;
+		
+		boolean flag = false;
+		for (int i = 0; i < ch.length - 1; i++) {
+			flag = false;
+		
+				if(snrlist.contains(String.valueOf(ch[i]))) {//ch[i]为姓氏
+					start =i;
+					count = 0;
+					do {
+						end = i++;
+						count++;
+						if (i >= ch.length|| end -start>=2) {
+							break;
+						}
+						flag = indxName.containsKey(ch[i]);
+					} while (flag && matrixCheker(count,ch,i));
+					if(end > start) {
+
+						String substr = line.substring(start, end+1);
+						entitylist.add(new Entity(substr, start, end, TermNatures.NR));
+						i--;
+					}
+				}
 		}
 
 		return entitylist;
 	}
-
-	public void recognition() {
-		String name = null;
-		Term term = null;
-		reset();
-		for (int i = 0; i < terms.length; i++) {
-			if (terms[i] == null) {
-				continue;
-			}
-
-			term = terms[i];
-			// 如果名字的开始是人名的前缀,或者后缀.那么忽略
-			if (tempList.size() == 0) {
-				if (term.getNatures().personAttr.end > 10) {
-					continue;
-				}
-
-				if ((terms[i].getName().length() == 1 && ISNOTFIRST.contains(terms[i].getName().charAt(0)))) {
-					continue;
-				}
-			}
-
-			name = term.getName();
-
-			if (term.getNatures() == TermNatures.NR || term.getNatures() == TermNatures.NW || name.length() == 1) {
-				boolean flag = validate(name);
-				if (flag) {
-					tempList.add(term);
-				}
-			} else if (tempList.size() == 1) {
-				reset();
-			} else if (tempList.size() > 1) {
-				TermUtil.insertTerm(terms, tempList, TermNatures.NR);
-				reset();
+	
+	private boolean matrixCheker(int count, char[] ch, int i) {
+		
+		if(count ==1) {
+			if(matrix[indxName.get(ch[i-1])][indxName.get(ch[i])]>0) {
+				return true;
 			}
 		}
-	}
-
-	private boolean validate(String name) {
-		boolean flag = false;
-		NameChar nameChar = null;
-		for (int j = 0; j < prList.size(); j++) {
-			nameChar = prList.get(j);
-			if (nameChar.contains(name)) {
-				flag = true;
-			} else {
-				prList.remove(j);
-				// 向后回退一位
-				j--;
+		if(count>1) {
+			if(nmatrix[indxName.get(ch[i-1])][indxName.get(ch[i])]>0) {
+				return true;
 			}
 		}
-		return flag;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void reset() {
-		// TODO Auto-generated method stub
-		tempList.clear();
-		prList = (LinkedList<NameChar>) PRLIST.clone();
-	}
-
-	public static boolean isFName(String name) {
-		for (int i = 0; i < name.length(); i++) {
-			if (!INNAME.contains(name.charAt(i))) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static class NameChar {
-		private char[] chars = null;
-
-		public NameChar(char[] chars) {
-			this.chars = chars;
-		}
-
-		public boolean contains(String name) {
-			return contains(name.charAt(0));
-		}
-
-		public boolean contains(char c) {
-			return Arrays.binarySearch(chars, c) > -1;
-		}
-	}
-
-	public List<NewWord> getNewWords() {
-		List<NewWord> all = new ArrayList<NewWord>();
-		String name = null;
-		Term term = null;
-		reset();
-		for (int i = 0; i < terms.length; i++) {
-			if (terms[i] == null) {
-				continue;
-			}
-
-			term = terms[i];
-			// 如果名字的开始是人名的前缀,或者后缀.那么忽略
-			if (tempList.size() == 0) {
-				if (term.getNatures().personAttr.end > 10) {
-					continue;
-				}
-
-				if ((terms[i].getName().length() == 1 && ISNOTFIRST.contains(terms[i].getName().charAt(0)))) {
-					continue;
-				}
-			}
-
-			name = term.getName();
-			if (term.getNatures() == TermNatures.NR || term.getNatures() == TermNatures.NW || name.length() == 1) {
-				boolean flag = validate(name);
-				if (flag) {
-					tempList.add(term);
-				}
-			} else if (tempList.size() == 1) {
-				reset();
-			} else if (tempList.size() > 1) {
-				StringBuilder sb = new StringBuilder();
-				for (Term temp : tempList) {
-					sb.append(temp.getName());
-				}
-				all.add(new NewWord(sb.toString(), Nature.NRF));
-				reset();
-			}
-		}
-		return all;
-	}
-
-	public List<Term> getNewTerms() {
-		LinkedList<Term> result = new LinkedList<Term>();
-		String name = null;
-		Term term = null;
-		reset();
-		for (int i = 0; i < terms.length; i++) {
-			if (terms[i] == null) {
-				continue;
-			}
-
-			term = terms[i];
-			// 如果名字的开始是人名的前缀,或者后缀.那么忽略
-			if (tempList.size() == 0) {
-				if (term.getNatures().personAttr.end > 10) {
-					continue;
-				}
-
-				if ((terms[i].getName().length() == 1 && ISNOTFIRST.contains(terms[i].getName().charAt(0)))) {
-					continue;
-				}
-			}
-
-			name = term.getName();
-
-			if (term.getNatures() == TermNatures.NR || term.getNatures() == TermNatures.NW || name.length() == 1) {
-				boolean flag = validate(name);
-				if (flag) {
-					tempList.add(term);
-				}
-			} else if (tempList.size() == 1) {
-				reset();
-			} else if (tempList.size() > 1) {
-				result.add(makeNewTerm());
-				reset();
-			}
-		}
-		return result;
-	}
-
-	public Term makeNewTerm() {
-		StringBuilder sb = new StringBuilder();
-		int offe = tempList.get(0).getOffe();
-		for (Term term : tempList) {
-			sb.append(term.getName());
-		}
-		return new Term(sb.toString(), offe, TermNatures.NR);
+		return false;
 	}
 }

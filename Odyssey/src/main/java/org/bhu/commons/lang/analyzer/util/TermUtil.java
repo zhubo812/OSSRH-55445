@@ -101,10 +101,10 @@ public class TermUtil {
 		}
 
 		// 是否是外国人名
-		if (ForeignPersonRecognition.isFName(name)) {
-			term.setNature(NatureLibrary.getNature("nr"));
-			return;
-		}
+//		if (ForeignPersonRecognition.isFName(name)) {
+//			term.setNature(NatureLibrary.getNature("nr"));
+//			return;
+//		}
 
 		List<Term> subTerm = term.getSubTerm();
 

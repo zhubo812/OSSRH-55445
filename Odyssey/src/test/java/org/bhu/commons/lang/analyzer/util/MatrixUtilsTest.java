@@ -12,5 +12,13 @@ public class MatrixUtilsTest {
 		mu.file2Matirx(inPath, outPath);
 	}
 	
+	@Test
+	public void fileForeign2MatirxTester() {
+		String inPath = "E:/BaiduNetdiskDownload/2/English_Cn48W.txt";
+		String outPath = "E:/BaiduNetdiskDownload/2/fNameMatrix.txt";
+		MatrixUtil mu = new MatrixUtil();
+		mu.file2Matirx(inPath, outPath);
+	}
+	
 
 }

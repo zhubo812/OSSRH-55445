@@ -67,8 +67,8 @@ public class LearnTool {
 	}
 
 	private void findForeignPerson(Graph graph) {
-		List<NewWord> newWords = new ForeignPersonRecognition(graph.terms).getNewWords();
-		addListToTerm(newWords);
+//		List<NewWord> newWords = new ForeignPersonRecognition(graph.terms).getNewWords();
+//		addListToTerm(newWords);
 	}
 
 	// 批量将新词加入到词典中
