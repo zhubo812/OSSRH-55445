@@ -1,11 +1,10 @@
-package org.bhu.commons.lang.analyzer.util;
+package org.bhu.commons.lang.analyzer.enamex;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
-import org.bhu.commons.lang.analyzer.enamex.EntityHelper;
 
 public class TimeHelper extends EntityHelper{
 	private Pattern patterns = null;

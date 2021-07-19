@@ -81,13 +81,14 @@ public class TermUtil {
 		return from;
 	}
 
-	private static final HashMap<String, int[]> companyMap = CompanyAttrLibrary.getCompanyMap();
+//	private static final HashMap<String, int[]> companyMap = CompanyAttrLibrary.getCompanyMap();
 
 	/**
 	 * 得到细颗粒度的分词，并且确定词性
 	 * 
 	 * @return 返回是null说明已经是最细颗粒度
 	 */
+	/*
 	public static void parseNature(Term term) {
 		if (!Nature.NW.equals(term.natrue())) {
 			return;
@@ -124,7 +125,7 @@ public class TermUtil {
 			return;
 		}
 	}
-
+*/
 	/**
 	 * 从from到to生成subterm
 	 * 

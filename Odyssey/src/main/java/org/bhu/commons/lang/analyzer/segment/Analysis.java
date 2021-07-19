@@ -16,15 +16,16 @@ import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.bhu.commons.lang.analyzer.enamex.ChinesePersonName;
 import org.bhu.commons.lang.analyzer.enamex.ForeignPersonRecognition;
+import org.bhu.commons.lang.analyzer.enamex.NQHelper;
+import org.bhu.commons.lang.analyzer.enamex.NZHelper;
+import org.bhu.commons.lang.analyzer.enamex.NumberHelper;
+import org.bhu.commons.lang.analyzer.enamex.TimeHelper;
 import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
 import org.bhu.commons.lang.analyzer.util.AnalyzerReader;
 import org.bhu.commons.lang.analyzer.util.Graph;
-import org.bhu.commons.lang.analyzer.util.NQHelper;
-import org.bhu.commons.lang.analyzer.util.NZHelper;
 import org.bhu.commons.lang.analyzer.util.StringUtil;
-import org.bhu.commons.lang.analyzer.util.TimeHelper;
 import org.bhu.commons.lang.analyzer.util.WordAlert;
 import org.bhu.commons.lang.trie.domain.Forest;
 import org.bhu.commons.lang.trie.domain.GetWord;
@@ -53,6 +54,7 @@ public abstract class Analysis {
 	TimeHelper timeHelper = new TimeHelper();
 	NZHelper nzHelper = new NZHelper();
 	NQHelper nqHelper = new NQHelper();
+	NumberHelper numHelper = new NumberHelper();
 	ForeignPersonRecognition fpr = new ForeignPersonRecognition();
 	ChinesePersonName cpn = new ChinesePersonName();
 
@@ -163,7 +165,7 @@ public abstract class Analysis {
 				i= i+gp.terms[i].getName().length()-1;
 				continue;
 			}
-//			int status = status(chars[i]);
+//			int st = status(chars[i]);
 			switch (status(chars[i])) {
 			case 0:
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
@@ -194,6 +196,7 @@ public abstract class Analysis {
 				str = WordAlert.alertNumber(chars, start, end);
 				if(gp.terms[start] == null){
 					gp.addTerm(new Term(str, start, TermNatures.M));
+					gp.hasNum = true;
 				}
 				i--;
 				break;
@@ -275,6 +278,7 @@ public abstract class Analysis {
 		list.addAll(nzHelper.getNZStr(temp));
 		list.addAll(cpn.recognition(temp));
 		list.addAll(fpr.recognition(temp));
+		list.addAll(numHelper.getNumber(temp));
 		
 		
 		return list;

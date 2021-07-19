@@ -13,7 +13,7 @@ public class ToAnalysisTest {
 		
 		long length = 0L;
 		long start = System.currentTimeMillis();
-		String line = "委员会已多次提议将叙利亚富人和掌权者作为制裁对象，并建议自12月中旬起中止往返叙利亚的航班。";
+		String line = "丰田这招实在高考验中国人民抵制日货的机会来了395";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);
