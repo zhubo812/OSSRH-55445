@@ -10,15 +10,16 @@ import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
 import org.bhu.commons.lang.analyzer.bean.Entity;
+import org.bhu.commons.lang.analyzer.bean.Lexicon;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
+import org.bhu.commons.lang.analyzer.dictionary.LexiconUtils;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
-import org.bhu.commons.lang.analyzer.enamex.ChinesePersonName;
-import org.bhu.commons.lang.analyzer.enamex.ForeignPersonRecognition;
 import org.bhu.commons.lang.analyzer.enamex.NQHelper;
 import org.bhu.commons.lang.analyzer.enamex.NZHelper;
 import org.bhu.commons.lang.analyzer.enamex.NumberHelper;
+import org.bhu.commons.lang.analyzer.enamex.PersonNameHelper;
 import org.bhu.commons.lang.analyzer.enamex.TimeHelper;
 import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
@@ -55,9 +56,10 @@ public abstract class Analysis {
 	NZHelper nzHelper = new NZHelper();
 	NQHelper nqHelper = new NQHelper();
 	NumberHelper numHelper = new NumberHelper();
-	ForeignPersonRecognition fpr = new ForeignPersonRecognition();
-	ChinesePersonName cpn = new ChinesePersonName();
-
+//	ForeignPersonRecognition fpr = new ForeignPersonRecognition();
+//	ChinesePersonName cpn = new ChinesePersonName();
+//	PersonNameHelper pnHelper = new PersonNameHelper();
+	LexiconUtils lu = new LexiconUtils();
 	/**
 	 * 文档读取流
 	 */
@@ -67,6 +69,7 @@ public abstract class Analysis {
 	};
 
 	private LinkedList<Term> terms = new LinkedList<Term>();
+
 	/**
 	 * while 循环调用.直到返回为null则分词结束
 	 * 
@@ -115,16 +118,15 @@ public abstract class Analysis {
 		temp = WordAlert.ToDBC(temp);
 		Graph gp = new Graph(temp.trim());
 		int startOffe = 0;
-		
+
 		List<Entity> nerlist = getNER(temp);
-		
-		
+
 		if (this.ambiguityForest != null) {
 			GetWord gw = new GetWord(this.ambiguityForest, gp.chars);
 			String[] params = null;
 			while ((gw.getFrontWords()) != null) {
 				if (gw.offe > startOffe) {
-					analysis(gp, startOffe, gw.offe,nerlist);
+					analysis2(gp, startOffe, gw.offe, nerlist);
 				}
 				params = gw.getParams();
 				startOffe = gw.offe;
@@ -135,7 +137,7 @@ public abstract class Analysis {
 			}
 		}
 		if (startOffe < gp.chars.length - 1) {
-			analysis(gp, startOffe, gp.chars.length,nerlist);
+			analysis2(gp, startOffe, gp.chars.length, nerlist);
 		}
 		List<Term> result = this.getResult(gp);
 
@@ -143,26 +145,118 @@ public abstract class Analysis {
 		this.addAll(result);
 	}
 
-
-	
-
-	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {
+	private void analysis2(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {
 		int start = 0;
 		int end = 0;
+
 		char[] chars = gp.chars;
-		
+
 		String str = null;
-		if(nerList!= null && nerList.size()>0){
-			
-			for(Entity tx : nerList){
+		if (nerList != null && nerList.size() > 0) {
+
+			for (Entity tx : nerList) {
 				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures()));
 //				indexList.removeAll( CollectionUtil.getIndexList(tx.getStartIndx(), tx.getEndIndex()));
 			}
 		}
 		
+		StringBuilder sb = new StringBuilder();
+		List<Integer> nextlist = new ArrayList<Integer>();
+		for (int i = 0; i < chars.length - 1; i++) {
+			sb.append(chars[i]);
+			if(String.valueOf(chars[i]).equals("邓")) {
+				System.out.println();
+			}
+			boolean keeper = true;
+			int k = 0;
+			start = i;
+			for (int j = i; j < chars.length - 1; j++) {
+				int m = j, n = m + 1;// m表示第一个字的位置，n表示第二个字符的位置
+
+				Lexicon lex = infos(k, chars[m], chars[n]);
+				if(lex == null) {
+					sb = new StringBuilder();
+					break;
+				}
+				nextlist = lex.getNextlist();
+				
+				if (lex != null && keeper) {
+					
+					switch (lex.getTermStatus()) {
+					case 0:// 无词性，有后接内容
+						sb.append(chars[n]);
+						k++;
+						if(n< chars.length - 1&& !nextlist.contains(charStatus(chars[n+1]))) {
+							keeper = false;
+						}
+						break;
+					case 1:
+						// 有词性，也有后接内容
+						sb.append(chars[n]);
+						str = sb.toString();
+						gp.addTerm(new Term(str, start, TermNatures.GR));// 词性转换
+						k++;
+						if(n< chars.length - 1&& !nextlist.contains(charStatus(chars[n+1]))) {
+							keeper = false;
+						}
+						System.out.println();
+						break;
+					case 2:// 有一(多)个词性，无后接内容
+						
+						sb.append(chars[n]);
+						str = sb.toString();
+						gp.addTerm(new Term(str, start, TermNatures.GR));// 词性转换
+						keeper = false;
+						str= "";
+						break;
+					}
+
+				}else {
+					sb = new StringBuilder();//存储一单字词
+					break;
+				}
+			}
+
+
+
+		}
+
+	}
+
+	private Lexicon infos(int k, char x, char y) {
+		int f = LexiconUtils.getStatus(x);
+		int s = LexiconUtils.getStatus(y);
+		System.out.println(k);
+		System.out.println(String.valueOf(x)+ f);
+		System.out.println(String.valueOf(y)+s);
+		if (f > -1 && s>-1) {
+			return lu.find(k, f, s);
+		}
+
+		return null;
+	}
+	
+	private int charStatus(char c) {
+		return LexiconUtils.getStatus(c);
+	}
+
+	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {
+		int start = 0;
+		int end = 0;
+		char[] chars = gp.chars;
+
+		String str = null;
+		if (nerList != null && nerList.size() > 0) {
+
+			for (Entity tx : nerList) {
+				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures()));
+//				indexList.removeAll( CollectionUtil.getIndexList(tx.getStartIndx(), tx.getEndIndex()));
+			}
+		}
+
 		for (int i = startOffe; i < endOffe; i++) {
-			if(gp.terms[i] != null) {
-				i= i+gp.terms[i].getName().length()-1;
+			if (gp.terms[i] != null) {
+				i = i + gp.terms[i].getName().length() - 1;
 				continue;
 			}
 //			int st = status(chars[i]);
@@ -170,7 +264,7 @@ public abstract class Analysis {
 			case 0:
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
 				break;
-			case 3://表示是词语，并且到此结束
+			case 3:// 表示是词语，并且到此结束
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.W));
 				break;
 			case 4:
@@ -183,10 +277,10 @@ public abstract class Analysis {
 				gp.addTerm(new Term(str, start, TermNatures.EN));
 				i--;
 				break;
-			case 5://数字串
+			case 5:// 数字串
 				start = i;
 				end = 1;
-				if(start==i&&chars[i]=='.'){
+				if (start == i && chars[i] == '.') {
 					gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.W));
 					break;
 				}
@@ -194,7 +288,7 @@ public abstract class Analysis {
 					end++;
 				}
 				str = WordAlert.alertNumber(chars, start, end);
-				if(gp.terms[start] == null){
+				if (gp.terms[start] == null) {
 					gp.addTerm(new Term(str, start, TermNatures.M));
 					gp.hasNum = true;
 				}
@@ -222,7 +316,7 @@ public abstract class Analysis {
 				break;
 
 			default:
-				
+
 				start = i;
 				end = i;
 
@@ -245,7 +339,7 @@ public abstract class Analysis {
 					Term term = new Term(str, gwi.offe, gwi.getItem());
 					int len = term.getOffe() - max;
 					if (len > 0) {
-						for (; max < term.getOffe(); ) {
+						for (; max < term.getOffe();) {
 							gp.addTerm(new Term(String.valueOf(chars[max]), max, TermNatures.NULL));
 							max++;
 						}
@@ -256,7 +350,7 @@ public abstract class Analysis {
 
 				int len = end - max;
 				if (len > 0) {
-					for (; max < end; ) {
+					for (; max < end;) {
 						String temp = String.valueOf(chars[max]);
 						AnalyzerItem item = DATDictionary.getItem(temp);
 						gp.addTerm(new Term(temp, max, item.termNatures));
@@ -267,20 +361,19 @@ public abstract class Analysis {
 				break;
 			}
 		}
-		
-		
+
 	}
-	
-	private List<Entity> getNER(String temp){
+
+	private List<Entity> getNER(String temp) {
 		List<Entity> list = new ArrayList<Entity>();
 		list.addAll(timeHelper.getTimex(temp));
 		list.addAll(nqHelper.getNumQ(temp));
 		list.addAll(nzHelper.getNZStr(temp));
-		list.addAll(cpn.recognition(temp));
-		list.addAll(fpr.recognition(temp));
+//		list.addAll(cpn.recognition(temp));
+//		list.addAll(fpr.recognition(temp));
+//		list.addAll(pnHelper.getPersonName(tsemp));
 		list.addAll(numHelper.getNumber(temp));
-		
-		
+
 		return list;
 	}
 
@@ -313,10 +406,11 @@ public abstract class Analysis {
 	public abstract class Merger {
 		public abstract List<Term> merger();
 	}
-	
-	private void addAll(List<Term> result){
-		for(Term term : result){
-			if(term.getName().trim().length()==0)continue;
+
+	private void addAll(List<Term> result) {
+		for (Term term : result) {
+			if (term.getName().trim().length() == 0)
+				continue;
 			terms.add(term);
 		}
 	}

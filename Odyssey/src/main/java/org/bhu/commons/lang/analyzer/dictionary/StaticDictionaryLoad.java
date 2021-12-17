@@ -103,7 +103,7 @@ public class StaticDictionaryLoad {
 	private static InputStream getZipFileStream(String name) {
 //		String path = StaticDictionaryLoad.class.getResource(String.format("%s%s", RESOURCE,name)).getPath();
 		String path = String.format("%s%s", RESOURCE,name);
-//		System.out.println(path);
+		System.out.println(path);
 		InputStream is = null;
 			try {
 				// 获得zip信息
@@ -158,6 +158,14 @@ public class StaticDictionaryLoad {
 	 */
 	public static BufferedReader getNewWordReader() {
 		return DicReader.getZipFileBufferedReader(getZipFileStream("neoword.bin"));
+	}
+	
+	public static BufferedReader getPersonNameReader() {
+		return DicReader.getZipFileBufferedReader(getZipFileStream("matrix.bin"));
+	}
+	
+	public static BufferedReader getWordMatrixReader() {
+		return DicReader.getZipFileBufferedReader(getZipFileStream("wordmatrix.zip"));
 	}
 
 

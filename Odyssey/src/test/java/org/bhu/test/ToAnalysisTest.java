@@ -13,7 +13,23 @@ public class ToAnalysisTest {
 		
 		long length = 0L;
 		long start = System.currentTimeMillis();
-		String line = "丰田这招实在高考验中国人民抵制日货的机会来了395";
+		String line = "罗纳尔多讨论邓小平理论安倍晋三阻碍俄罗斯向叙利亚出口武器。俄罗斯习近平张明的工资是1.5亿,王楠只有19岁，西门庆是美国人。";
+		System.out.println(tokenizer.getWordNatureLine(line));
+
+		long elapsed = (System.currentTimeMillis() - start);
+		System.out.println(String.format("time elapsed:%d, rate:%fkb/s", elapsed,
+	            (length * 1.0) / 1024.0f / (elapsed * 1.0 / 1000.0f)));
+	}
+	
+	@Test
+	public void singleSenTester2() {
+
+		TokenizeUtils tokenizer = new TokenizeUtils();
+		tokenizer.initUsrDic();
+		
+		long length = 0L;
+		long start = System.currentTimeMillis();
+		String line = "小平理论安倍晋三阻碍俄罗斯向叙利亚出口武器。俄罗斯习近平张明的工资是1.5亿,王楠只有19岁，西门庆是美国人。";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);
