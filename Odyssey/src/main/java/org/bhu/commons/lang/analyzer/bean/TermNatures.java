@@ -24,7 +24,7 @@ public class TermNatures {
 
 	public static final TermNatures RU = new TermNatures(TermNature.RU);
 
-	public static final TermNatures GR = new TermNatures(TermNature.GR);
+	public static final TermNatures GK = new TermNatures(TermNature.GK);
 
 	public static final TermNatures END = new TermNatures(TermNature.END,
 			50610, -1);
@@ -39,6 +39,8 @@ public class TermNatures {
 	public static final TermNatures T = new TermNatures(TermNature.T);
 
 	public static final TermNatures W = new TermNatures(TermNature.W);
+	
+	public static final TermNatures SN = new TermNatures(TermNature.SN);
 
 	public static final TermNatures NULL = new TermNatures(TermNature.NULL);;
 
@@ -50,17 +52,17 @@ public class TermNatures {
 	/***
 	 * 数字属性
 	 */
-	public NumNatureAttr numAttr = NumNatureAttr.NULL;
+//	public NumNatureAttr numAttr = NumNatureAttr.NULL;
 
 	/**
 	 * 人名词性
 	 */
-	public PersonNatureAttr personAttr = PersonNatureAttr.NULL;
+//	public PersonNatureAttr personAttr = PersonNatureAttr.NULL;
 
 	/**
-	 * 人名词性
+	 * 时间词性
 	 */
-	public TimeNatureAttr timeAttr = TimeNatureAttr.NULL;
+//	public TimeNatureAttr timeAttr = TimeNatureAttr.NULL;
 
 	/**
 	 * 默认词性
@@ -109,6 +111,26 @@ public class TermNatures {
 		}
 
 		serAttribute();
+	}
+	
+	public TermNatures(TermNature[] termNatures) {
+//		this.id = id;
+		this.termNatures = termNatures;
+		// find maxNature
+//		int maxFreq = -1;
+		TermNature termNature = null;
+//		for (int i = 0; i < termNatures.length; i++) {
+//			if (maxFreq < termNatures[i].frequency) {
+//				maxFreq = termNatures[i].frequency;
+//				termNature = termNatures[i];
+//			}
+//		}
+
+		if (termNatures != null && termNatures.length >0) {
+			this.nature =  termNatures[0].nature;
+		}
+
+//		serAttribute();
 	}
 
 	public TermNatures(TermNature termNature) {
@@ -168,19 +190,19 @@ public class TermNatures {
 				 break;
 			}
 		}
-		if (numNatureAttr != null) {
-			if (max == numNatureAttr.numFreq) {
-				numNatureAttr.flag = true;
-			}
-			this.numAttr = numNatureAttr;
-		}
-		if (timeNatureAttr != null) {
-			if (max == timeNatureAttr.timeFreq) {
-				timeNatureAttr.flag = true;
-			}
-			timeNatureAttr.flag = true;
-			this.timeAttr = timeNatureAttr;
-		}
+//		if (numNatureAttr != null) {
+//			if (max == numNatureAttr.numFreq) {
+//				numNatureAttr.flag = true;
+//			}
+//			this.numAttr = numNatureAttr;
+//		}
+//		if (timeNatureAttr != null) {
+//			if (max == timeNatureAttr.timeFreq) {
+//				timeNatureAttr.flag = true;
+//			}
+//			timeNatureAttr.flag = true;
+//			this.timeAttr = timeNatureAttr;
+//		}
 //		if (asianNameNatureAttr != null) {
 //			asianNameNatureAttr.isSurname = true;
 //			this.personAttr = asianNameNatureAttr;
@@ -188,9 +210,9 @@ public class TermNatures {
 	}
 
 
-	public void setPersonNatureAttr(PersonNatureAttr personAttr) {
-		this.personAttr = personAttr;
-	}
+//	public void setPersonNatureAttr(PersonNatureAttr personAttr) {
+//		this.personAttr = personAttr;
+//	}
 	public int size() {
 		return this.termNatures.length;
 	}

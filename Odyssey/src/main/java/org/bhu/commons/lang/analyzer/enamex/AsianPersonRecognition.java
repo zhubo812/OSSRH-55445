@@ -45,6 +45,7 @@ public class AsianPersonRecognition {
 	}
 
 	private List<Term> recogntion_() {
+		/*
 		Term term = null;
 		Term tempTerm = null;
 		List<Term> termList = new ArrayList<Term>();
@@ -80,6 +81,8 @@ public class AsianPersonRecognition {
 			beginFreq = term.getNatures().personAttr.begin + 1;
 		}
 		return termList;
+		*/
+		return null;
 	}
 
 	/**
@@ -91,6 +94,7 @@ public class AsianPersonRecognition {
 	 */
 
 	private Term nameFind(int offe, int beginFreq, int size) {
+		/*
 		StringBuilder sb = new StringBuilder();
 		int undefinite = 0;
 		skip = false;
@@ -169,6 +173,8 @@ public class AsianPersonRecognition {
 		term.selfScore(score);
 
 		return term;
+		*/
+		return null;
 
 	}
 

@@ -10,7 +10,7 @@ import org.bhu.commons.lang.analyzer.segment.analysis.ToAnalysis;
 public class TokenizeUtils implements Tokenizable{
 
 	public TokenizeUtils (){
-		FilterModifWord.initAphLexicon();
+//		FilterModifWord.initAphLexicon();
 	}
 	
 	public void initFilterSegMode(){

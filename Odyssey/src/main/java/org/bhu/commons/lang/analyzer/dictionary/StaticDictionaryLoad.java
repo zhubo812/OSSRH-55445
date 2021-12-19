@@ -168,6 +168,9 @@ public class StaticDictionaryLoad {
 		return DicReader.getZipFileBufferedReader(getZipFileStream("wordmatrix.zip"));
 	}
 
+	public static BufferedReader getUniwordReader() {
+		return DicReader.getZipFileBufferedReader(getZipFileStream("uniword.zip"));
+	}
 
 	/**
 	 * 数字词典

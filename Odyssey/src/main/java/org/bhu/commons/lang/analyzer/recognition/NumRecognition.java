@@ -17,6 +17,7 @@ public class NumRecognition {
 	private static final String DI = "第";
 	private static final String[] MilitaryUnits = {"班","排","连","营","团","旅","师","军"};
 	public static void recognition(Term[] terms) {
+		/*
 		int length = terms.length - 1;
 		Term from = null;
 		Term to = null;
@@ -82,7 +83,7 @@ public class NumRecognition {
 				}
 				i = temp.getOffe() - 1;
 			}
-		}
+		}*/
 
 	}
 

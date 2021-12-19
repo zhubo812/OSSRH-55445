@@ -6,7 +6,7 @@ public class LexiconUtilsTester {
 
 	@Test
 	public void getLengthTester() {
-		LexiconUtils lu = new LexiconUtils();
+		LexiconUtils lu = new LexiconUtils(1);
 		int len = lu.getLength();
 		System.out.println(len);
 	}
@@ -17,4 +17,6 @@ public class LexiconUtilsTester {
 		lu.builder();
 
 	}
+	
+
 }

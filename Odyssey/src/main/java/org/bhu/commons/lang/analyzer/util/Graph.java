@@ -59,17 +59,17 @@ public class Graph {
 //			return;
 //		}
 		// 是否有数字
-		if (!hasNum && term.getNatures().numAttr.numFreq > 0) {
-			hasNum = true;
-		}
-		// 是否有人名
-		if (!hasPerson && term.getNatures().personAttr.isActive()) {
-			hasPerson = true;
-		}
-		// 是否有时间表达式
-		if(!hasTime && term.getNatures().timeAttr.flag){
-			hasTime = true;
-		}
+//		if (!hasNum && term.getNatures().numAttr.numFreq > 0) {
+//			hasNum = true;
+//		}
+//		// 是否有人名
+//		if (!hasPerson && term.getNatures().personAttr.isActive()) {
+//			hasPerson = true;
+//		}
+//		// 是否有时间表达式
+//		if(!hasTime && term.getNatures().timeAttr.flag){
+//			hasTime = true;
+//		}
 		
 		// 将词放到图的位置
 		if (terms[term.getOffe()] == null) {

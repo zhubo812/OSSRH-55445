@@ -17,9 +17,10 @@ public class EasternAsianNameHelper {
 	}
 
 	public static void recognition(Term[] terms) {
-		recogntion_(terms);
+//		recogntion_(terms);
 	}
 
+	/*
 	private static void recogntion_(Term[] terms) {
 		Term term = null;
 		for (int i = 0; i < terms.length; i++) {
@@ -42,7 +43,8 @@ public class EasternAsianNameHelper {
 		}
 
 	}
-
+	*/
+/*
 	private static void getSurname(Term[] terms, int index) {
 		String surname = terms[index].getName();
 		int len = 0;
@@ -137,7 +139,7 @@ public class EasternAsianNameHelper {
 		//
 		// }
 	}
-
+*/
 	private static double getValue(String surname, String middleName, String tailName) {
 		double propsur = 0;
 		double propmid = 0;

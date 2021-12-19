@@ -27,7 +27,7 @@ public class TermUtil {
 	 */
 	public static Term makeNewTermNum(Term from, Term to, TermNatures termNatures) {
 		Term term = new Term(from.getName() + to.getName(), from.getOffe(), termNatures);
-		term.getNatures().numAttr = from.getNatures().numAttr;
+//		term.getNatures().numAttr = from.getNatures().numAttr;
 		TermUtil.termLink(term, to.to());
 		TermUtil.termLink(term.from(), term);
 		return term;

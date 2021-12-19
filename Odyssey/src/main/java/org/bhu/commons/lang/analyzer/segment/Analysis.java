@@ -10,10 +10,12 @@ import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
 import org.bhu.commons.lang.analyzer.bean.Entity;
+import org.bhu.commons.lang.analyzer.bean.Letters;
 import org.bhu.commons.lang.analyzer.bean.Lexicon;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
+import org.bhu.commons.lang.analyzer.bean.Uniword;
 import org.bhu.commons.lang.analyzer.dictionary.LexiconUtils;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.bhu.commons.lang.analyzer.enamex.NQHelper;
@@ -52,14 +54,15 @@ public abstract class Analysis {
 	protected Forest[] forests = null;
 
 	private Forest ambiguityForest = UserDefineLibrary.ambiguityForest;
-	TimeHelper timeHelper = new TimeHelper();
-	NZHelper nzHelper = new NZHelper();
-	NQHelper nqHelper = new NQHelper();
-	NumberHelper numHelper = new NumberHelper();
+	private static final TimeHelper timeHelper = new TimeHelper();
+	private static final NZHelper nzHelper = new NZHelper();
+	private static final NQHelper nqHelper = new NQHelper();
+	private static final NumberHelper numHelper = new NumberHelper();
 //	ForeignPersonRecognition fpr = new ForeignPersonRecognition();
 //	ChinesePersonName cpn = new ChinesePersonName();
 //	PersonNameHelper pnHelper = new PersonNameHelper();
-	LexiconUtils lu = new LexiconUtils();
+	private static final LexiconUtils lu = new LexiconUtils();
+	private static final Letters letters = new Letters();
 	/**
 	 * 文档读取流
 	 */
@@ -121,6 +124,7 @@ public abstract class Analysis {
 
 		List<Entity> nerlist = getNER(temp);
 
+		//用户词典优先切分
 		if (this.ambiguityForest != null) {
 			GetWord gw = new GetWord(this.ambiguityForest, gp.chars);
 			String[] params = null;
@@ -135,7 +139,7 @@ public abstract class Analysis {
 					startOffe += params[i].length();
 				}
 			}
-		}
+		}//用户词典切分完毕
 		if (startOffe < gp.chars.length - 1) {
 			analysis2(gp, startOffe, gp.chars.length, nerlist);
 		}
@@ -147,7 +151,6 @@ public abstract class Analysis {
 
 	private void analysis2(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {
 		int start = 0;
-		int end = 0;
 
 		char[] chars = gp.chars;
 
@@ -163,9 +166,58 @@ public abstract class Analysis {
 		StringBuilder sb = new StringBuilder();
 		List<Integer> nextlist = new ArrayList<Integer>();
 		for (int i = 0; i < chars.length - 1; i++) {
+			//添加单字词及词性
+			int letteridx =letters.status(chars[i]);
+			if(letteridx>-1) {
+				int s = i;
+				sb.append(chars[i]);
+				switch (letteridx) {
+				case 1:
+					while (++s < endOffe && letters.status(chars[s]) == 1) {
+						sb.append(chars[s]);
+					}
+					gp.addTerm(new Term(sb.toString(), i, TermNatures.EN));
+					sb = new StringBuilder();
+					break;
+				case 2:
+					while (++s < endOffe && letters.status(chars[s]) == 2) {
+						sb.append(chars[s]);
+					}
+					gp.addTerm(new Term(sb.toString(), i, TermNatures.M));
+					sb = new StringBuilder();
+					break;
+				case 3:
+					while (++s < endOffe && letters.status(chars[s]) == 3) {
+						sb.append(chars[s]);
+					}
+					gp.addTerm(new Term(sb.toString(), i, TermNatures.RU));
+					sb = new StringBuilder();
+					break;
+				case 4:
+					while (++s < endOffe && letters.status(chars[s]) == 4) {
+						sb.append(chars[s]);
+					}
+					gp.addTerm(new Term(sb.toString(), i, TermNatures.GK));
+					sb = new StringBuilder();
+					break;
+				case 5:
+					while (++s < endOffe && letters.status(chars[s]) == 5) {
+						sb.append(chars[s]);
+					}
+					gp.addTerm(new Term(sb.toString(), i, TermNatures.SN));
+					sb = new StringBuilder();
+					break;
+				}
+				
+			}
+			
+			
+			
 			sb.append(chars[i]);
-			if(String.valueOf(chars[i]).equals("邓")) {
-				System.out.println();
+			if(lu.uniword.containsKey(lu.getStatus(chars[i]))) {
+				gp.addTerm(new Term(String.valueOf(chars[i]), i, lu.uniword.get(lu.getStatus(chars[i])).getTermNatures()));
+			}else {
+				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
 			}
 			boolean keeper = true;
 			int k = 0;
@@ -194,18 +246,19 @@ public abstract class Analysis {
 						// 有词性，也有后接内容
 						sb.append(chars[n]);
 						str = sb.toString();
-						gp.addTerm(new Term(str, start, TermNatures.GR));// 词性转换
+						gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
 						k++;
 						if(n< chars.length - 1&& !nextlist.contains(charStatus(chars[n+1]))) {
 							keeper = false;
 						}
-						System.out.println();
+//						System.out.println();
 						break;
 					case 2:// 有一(多)个词性，无后接内容
 						
 						sb.append(chars[n]);
 						str = sb.toString();
-						gp.addTerm(new Term(str, start, TermNatures.GR));// 词性转换
+//						System.out.println(str);
+						gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
 						keeper = false;
 						str= "";
 						break;
@@ -226,9 +279,9 @@ public abstract class Analysis {
 	private Lexicon infos(int k, char x, char y) {
 		int f = LexiconUtils.getStatus(x);
 		int s = LexiconUtils.getStatus(y);
-		System.out.println(k);
-		System.out.println(String.valueOf(x)+ f);
-		System.out.println(String.valueOf(y)+s);
+//		System.out.println(k);
+//		System.out.println(String.valueOf(x)+ f);
+//		System.out.println(String.valueOf(y)+s);
 		if (f > -1 && s>-1) {
 			return lu.find(k, f, s);
 		}
@@ -311,7 +364,7 @@ public abstract class Analysis {
 					end++;
 				}
 				str = new String(chars, start, end);
-				gp.addTerm(new Term(str, start, TermNatures.GR));
+				gp.addTerm(new Term(str, start, TermNatures.GK));
 				i--;
 				break;
 

@@ -14,7 +14,9 @@ public class TermNature {
 	public static final TermNature M = new TermNature("m", 1);
 	public static final TermNature EN = new TermNature("en", 1);
 	public static final TermNature RU = new TermNature("ru", 1);
-	public static final TermNature GR = new TermNature("gr", 1);
+	public static final TermNature GK = new TermNature("gk", 1);
+	public static final TermNature NUM = new TermNature("num", 1);
+	public static final TermNature SN = new TermNature("sn", 1);
 	public static final TermNature BEGIN = new TermNature("始##始", 1);
 	public static final TermNature END = new TermNature("末##末", 1);
 	public static final TermNature USER_DEFINE = new TermNature("userDefine", 1);

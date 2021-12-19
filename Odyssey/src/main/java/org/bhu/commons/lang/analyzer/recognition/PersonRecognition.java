@@ -75,13 +75,13 @@ public class PersonRecognition implements TermArrRecognition {
 
     }
 
-    private PersonNode[][] nodes = null;
+//    private PersonNode[][] nodes = null;
 
     private int beginOff;
 
     @Override
     public void recognition(Graph graph) {
-
+    	/*
         Term[] terms = graph.terms;
 
         //0B 1C 2D 3E 4K 5L 6M 7X 8Y 9Z 10A
@@ -178,14 +178,12 @@ public class PersonRecognition implements TermArrRecognition {
 
 
         foreign(terms);
-
+*/
     }
 
-    /**
-     * 识别外国人名
-     *
-     * @param terms
-     */
+
+     //识别外国人名
+/*
     private void foreign(Term[] terms) {
         List<Term> list = new ArrayList<>();
 
@@ -234,12 +232,9 @@ public class PersonRecognition implements TermArrRecognition {
 
     }
 
-    /**
-     * 构建viterbi路径
-     *
-     * @param terms
-     * @return
-     */
+
+     //构建viterbi路径
+
     private Viterbi<PersonNode> getPersonNodeViterbi(Term[] terms) {
         Term first;
         PersonNatureAttr fPna;
@@ -414,13 +409,13 @@ public class PersonRecognition implements TermArrRecognition {
         }
     }
 
-    /**
-     * 把所有可能放入到图中
-     *
-     * @param name
-     * @param offe
-     * @param skip 是否跳过不再词典中的词语
-     */
+    
+//     * 把所有可能放入到图中
+//     *
+//     * @param name
+//     * @param offe
+//     * @param skip 是否跳过不再词典中的词语
+//     
     private void setAllNode(String name, int offe, boolean skip) {
     	AnalyzerItem item = DATDictionary.getItem(String.valueOf(name));
         if (skip && item == AnalyzerItem.NULL || item.getStatus() < 2) {
@@ -480,12 +475,9 @@ public class PersonRecognition implements TermArrRecognition {
     }
 
 
-    /**
-     * 获得一个term的personnature
-     *
-     * @param term
-     * @return
-     */
+
+    //获得一个term的personnature
+
     private PersonNatureAttr getPersonNature(Term term) {
 
         if (term.getNatures().personAttr != PersonNatureAttr.NULL) {
@@ -523,5 +515,5 @@ public class PersonRecognition implements TermArrRecognition {
             return name + "," + tag + "," + score;
         }
     }
-
+*/
 }

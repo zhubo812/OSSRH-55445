@@ -54,6 +54,7 @@ public class Term implements Comparable<Term> {
 			this.nature = termNatures.nature;
 		}
 	}
+	
 
 	public Term(String name, int offe, String natureStr, int natureFreq) {
 		super();
