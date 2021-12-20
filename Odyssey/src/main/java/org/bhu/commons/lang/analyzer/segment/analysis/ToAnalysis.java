@@ -51,7 +51,7 @@ public class ToAnalysis extends Analysis {
 				//识别时间
 
 				// 姓名识别
-				if (graph.hasPerson && StaticDictionaryLoad.isNameRecognition) {
+//				if (graph.hasPerson && StaticDictionaryLoad.isNameRecognition) {
 					// 亚洲人名识别
 //					EasternAsianNameHelper.recognition(graph.terms);
 
@@ -59,10 +59,10 @@ public class ToAnalysis extends Analysis {
 //					new ForeignPersonRecognition(graph.terms).recognition();
 //					TranscriptionNameHelper.recognition(graph.terms);
 //					graph.walkPathByScore();
-				}
+//				}
 
 				// 用户自定义词典的识别
-				userDefineRecognition(graph, forests);
+//				userDefineRecognition(graph, forests);
 
 				return getResult();
 			}

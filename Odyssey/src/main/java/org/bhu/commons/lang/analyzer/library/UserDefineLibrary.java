@@ -36,16 +36,16 @@ public class UserDefineLibrary {
 
 	public static Forest ambiguityForest = null;
 
-	static {
-		initUserLibrary();
-		initAmbiguityLibrary();
-		try {
-			ambiguityForest = Library.makeForest(StaticDictionaryLoad.ambiguityLibrary);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	static {
+//		initUserLibrary();
+//		initAmbiguityLibrary();
+//		try {
+//			ambiguityForest = Library.makeForest(StaticDictionaryLoad.ambiguityLibrary);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * 关键词增加

@@ -10,10 +10,8 @@ public class ToAnalysisTest {
 		long length = 0L;
 		long start = System.currentTimeMillis();
 		TokenizeUtils tokenizer = new TokenizeUtils();
-		tokenizer.initUsrDic();
 		
-		
-		String line = "罗纳尔多法律的光辉带到村村寨寨俄罗斯罗纳尔多讨论邓小平理论安倍晋三阻碍俄罗斯向叙利亚出口武器。俄罗斯习近平张明的工资是1.5亿,王楠只有19岁，西门庆是美国人。";
+		String line = "南京市长江大桥";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);
@@ -25,7 +23,6 @@ public class ToAnalysisTest {
 	public void singleSenTester2() {
 
 		TokenizeUtils tokenizer = new TokenizeUtils();
-		tokenizer.initUsrDic();
 		
 		long length = 0L;
 		long start = System.currentTimeMillis();
@@ -106,7 +103,7 @@ public class ToAnalysisTest {
 				"三个月的常用词汇七百"
 		};
 		TokenizeUtils tokenizer = new TokenizeUtils();
-		tokenizer.initUsrDic();
+
 		System.out.println(tokenizer.getWordNatureLine("5月16号出版的13日《人民日报》"));
 		long length = 0L;
 		long start = System.currentTimeMillis();

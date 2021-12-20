@@ -77,7 +77,7 @@ public class StaticDictionaryLoad {
 			Properties props = new Properties();
 			props.load(new FileInputStream("conf/library.properties"));
 			userLibrary = "resources";
-			ambiguityLibrary = String.format("%s/ambiguity.dat",userLibrary);
+//			ambiguityLibrary = String.format("%s/ambiguity.dat",userLibrary);
 			if (props.containsKey("isSkipUserDefine"))
 				isSkipUserDefine = Boolean.valueOf(props.getProperty("isSkipUserDefine"));
 			if (props.containsKey("isRealName"))
@@ -103,7 +103,7 @@ public class StaticDictionaryLoad {
 	private static InputStream getZipFileStream(String name) {
 //		String path = StaticDictionaryLoad.class.getResource(String.format("%s%s", RESOURCE,name)).getPath();
 		String path = String.format("%s%s", RESOURCE,name);
-		System.out.println(path);
+//		System.out.println(path);
 		InputStream is = null;
 			try {
 				// 获得zip信息

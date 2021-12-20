@@ -34,7 +34,9 @@ public class LexiconUtils {
 	static int natureidx = 0;
 
 	public LexiconUtils() {
+		long start = System.currentTimeMillis();
 		init();
+		StaticDictionaryLoad.LIBRARYLOG.info("init core matrix ok use time :" + (System.currentTimeMillis() - start));
 	}
 	
 	public LexiconUtils(int i) {
@@ -52,6 +54,7 @@ public class LexiconUtils {
 	}
 
 	private static void init() {
+		
 		natureIndexMaker();
 		getCharMap();
 		getWordMatrix();

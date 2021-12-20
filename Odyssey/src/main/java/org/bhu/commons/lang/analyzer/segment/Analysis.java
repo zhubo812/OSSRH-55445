@@ -15,13 +15,11 @@ import org.bhu.commons.lang.analyzer.bean.Lexicon;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNature;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
-import org.bhu.commons.lang.analyzer.bean.Uniword;
 import org.bhu.commons.lang.analyzer.dictionary.LexiconUtils;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.bhu.commons.lang.analyzer.enamex.NQHelper;
 import org.bhu.commons.lang.analyzer.enamex.NZHelper;
 import org.bhu.commons.lang.analyzer.enamex.NumberHelper;
-import org.bhu.commons.lang.analyzer.enamex.PersonNameHelper;
 import org.bhu.commons.lang.analyzer.enamex.TimeHelper;
 import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
@@ -167,6 +165,7 @@ public abstract class Analysis {
 		List<Integer> nextlist = new ArrayList<Integer>();
 		for (int i = 0; i < chars.length - 1; i++) {
 			//添加单字词及词性
+			sb = new StringBuilder();
 			int letteridx =letters.status(chars[i]);
 			if(letteridx>-1) {
 				int s = i;

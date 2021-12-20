@@ -52,10 +52,17 @@ public class Uniword {
 		UniwordNature uniwordNature= hm.get(idx);
 		List<NatureInfo> list = uniwordNature.getNatureList();
 		TermNature[] all = new TermNature[list.size()];
+		int maxFreq = -1;
+		int maxIndx = 0;
 		for (int i = 0; i < list.size(); i++) {
+			if (maxFreq < list.get(i).getFreq()) {
+				maxFreq = list.get(i).getFreq();
+				maxIndx = i;
+			}
 			all[i] = new TermNature(natureMapFlec.get(list.get(i).getNatureidx()), list.get(i).getFreq());
 		}
 		TermNatures termNatures = new TermNatures(all);
+		termNatures.nature = all[maxIndx].nature;
 		uniwordNature.setTermNatures(termNatures);
 		hm.put(idx, uniwordNature);
 	}

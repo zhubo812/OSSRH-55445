@@ -37,7 +37,7 @@ public class DATDictionary {
 	 * 核心词典
 	 */
 	private static final DoubleArrayTrie DAT = loadDAT();
-	
+//	private static final DoubleArrayTrie DAT = null;
 
 	/**
 	 * 数组长度
