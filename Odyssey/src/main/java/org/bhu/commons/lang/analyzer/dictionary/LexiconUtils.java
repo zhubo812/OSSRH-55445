@@ -134,8 +134,6 @@ public class LexiconUtils {
 //			List<NatureInfo> natures = new ArrayList<NatureInfo>();
 			for (String nature : natureArray) {
 				if(nature.equals("0")) {
-//					natures.add(new NatureInfo(0, 0));
-//					lexicon.addNature(new NatureInfo(0, -1));
 					lexicon.addNatureIdx(0);
 				}else {
 					String[] strs = nature.split("/");
@@ -191,9 +189,9 @@ public class LexiconUtils {
 					System.out.println(path);
 					System.out.println(line);
 				}
-//				if(line.equals("小籔良隆	nr	0")) {
-//					System.out.println();
-//				}
+				if(line.equals("巴沙尔	nr	0")) {
+					System.out.println();
+				}
 				word = items[0].trim();
 				nature = items[1].trim();
 				freq = Integer.parseInt(items[2].trim());
@@ -204,10 +202,10 @@ public class LexiconUtils {
 					continue;
 				}
 				charIndexMaker(word);
-				if(word.equals("罗纳尔多")) {
-					System.out.println(word);
-					System.out.println(charMap.get('法'));
-					System.out.println(charMap.get('律'));
+				if(word.equals("巴沙尔")) {
+					System.out.println(line);
+//					System.out.println(charMap.get('法'));
+//					System.out.println(charMap.get('律'));
 				}
 				
 //				System.out.println(line);
@@ -297,6 +295,13 @@ public class LexiconUtils {
 		for (int i = 0; i < ch.length - 1; i++) {
 			int f = charMap.get(ch[i]);
 			int s = charMap.get(ch[i + 1]);
+			
+//			if(i>0) {
+//				int from = charMap.get(ch[i-1]);
+//				ni.setFrom(from);
+////				ni.setFreq(charMap.get(ch[i-1]));
+//			}
+			
 			lex[i][f][s] = getItem(i, f, s);// 获取Lexicon对象
 
 			if (ch.length == 2) {
@@ -306,7 +311,7 @@ public class LexiconUtils {
 				if (i == ch.length - 2) {// 如果i为倒数第二个字符，添加对应的词性标记
 					lex[i][f][s].addNature(ni);
 				} else {
-					lex[i][f][s].addNature(new NatureInfo(0, 0));;// 初始值-1；0为词的字串；1-80为具体词性；
+					lex[i][f][s].addNature(new NatureInfo(0, 0));// 初始值-1；0为词的字串；1-80为具体词性；
 					lex[i][f][s].addNext(charMap.get(ch[i+2]));
 				}
 				

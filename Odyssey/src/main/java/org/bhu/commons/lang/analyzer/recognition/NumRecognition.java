@@ -17,7 +17,7 @@ public class NumRecognition {
 	private static final String DI = "第";
 	private static final String[] MilitaryUnits = {"班","排","连","营","团","旅","师","军"};
 	public static void recognition(Term[] terms) {
-		/*
+		
 		int length = terms.length - 1;
 		Term from = null;
 		Term to = null;
@@ -44,9 +44,9 @@ public class NumRecognition {
 
 			temp = terms[i];
 			// 将所有的数字合并
-			while ((temp = temp.to()).getNatures().numAttr.flag && !temp.getName().startsWith(DI)) {
-				terms[i].setName(terms[i].getName() + temp.getName());
-			}
+//			while ((temp = temp.to()).getNatures().numAttr.flag && !temp.getName().startsWith(DI)) {
+//				terms[i].setName(terms[i].getName() + temp.getName());
+//			}
 			//判断结尾是军队
 			if(CollectionUtil.EqualsOfAny(temp.getName(), MilitaryUnits)){
 				terms[i].setName(terms[i].getName() + temp.getName());
@@ -54,6 +54,7 @@ public class NumRecognition {
 				temp = temp.to();
 			}
 			// 如果是数字结尾
+			/*
 			if (StaticDictionaryLoad.isQuantifierRecognition && temp.getNatures().numAttr.numEndFreq > 0) {
 				tempName = temp.getName();
 				terms[i].setName(terms[i].getName() + tempName);
@@ -73,7 +74,7 @@ public class NumRecognition {
 				temp = temp.to();
 				terms[i].setNature(Nature.T);
 			}
-
+*/
 			// 如果不等,说明terms[i]发生了改变
 			if (terms[i].to() != temp) {
 				TermUtil.termLink(terms[i], temp);
@@ -83,7 +84,7 @@ public class NumRecognition {
 				}
 				i = temp.getOffe() - 1;
 			}
-		}*/
+		}
 
 	}
 

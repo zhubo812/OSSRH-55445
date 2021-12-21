@@ -55,6 +55,17 @@ public class Term implements Comparable<Term> {
 		}
 	}
 	
+	public Term(String name, int offe, TermNatures termNatures,boolean isNum) {
+		super();
+		this.name = name;
+		this.offe = offe;
+		this.termNatures = termNatures;
+		if (termNatures.nature != null) {
+			this.nature = termNatures.nature;
+		}
+		termNatures.numAttr.flag = isNum;
+	}
+	
 
 	public Term(String name, int offe, String natureStr, int natureFreq) {
 		super();

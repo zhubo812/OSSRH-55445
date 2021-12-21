@@ -11,7 +11,7 @@ public class ToAnalysisTest {
 		long start = System.currentTimeMillis();
 		TokenizeUtils tokenizer = new TokenizeUtils();
 		
-		String line = "南京市长江大桥";
+		String line = "丰沙尔巴沙尔总统";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);

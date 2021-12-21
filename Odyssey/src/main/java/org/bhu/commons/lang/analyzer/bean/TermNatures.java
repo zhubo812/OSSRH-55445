@@ -52,7 +52,7 @@ public class TermNatures {
 	/***
 	 * 数字属性
 	 */
-//	public NumNatureAttr numAttr = NumNatureAttr.NULL;
+	public NumNatureAttr numAttr = NumNatureAttr.NULL;
 
 	/**
 	 * 人名词性

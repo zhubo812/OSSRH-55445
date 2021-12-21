@@ -31,12 +31,13 @@ public class TermNature {
 	public static final TermNature NULL = new TermNature("x", 1);
 
 	public Nature nature;
-
+//	public List<Integer> fromList;
 	public int frequency;
 
 	public TermNature(String natureStr, int frequency) {
 		this.nature = NatureLibrary.getNature(natureStr);
 		this.frequency = frequency;
+//		this.fromList = new ArrayList<Integer>();
 	}
 
 	public static TermNature[] setNatureStrToArray(String natureStr) {

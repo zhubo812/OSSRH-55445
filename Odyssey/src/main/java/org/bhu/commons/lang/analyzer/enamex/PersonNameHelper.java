@@ -17,8 +17,8 @@ public class PersonNameHelper {
 
 
 	public static HashMap<Character, Integer> charMap = new HashMap<Character, Integer>();
-	public static int [][][] nameArray = loader();
-
+//	public static int [][][] nameArray = loader();
+	public static int [][][] nameArray = null;
 
 	
 	

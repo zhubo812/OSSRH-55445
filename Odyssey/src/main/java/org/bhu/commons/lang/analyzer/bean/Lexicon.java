@@ -9,6 +9,7 @@ public class Lexicon {
 	List<NatureInfo> natures;
 	List<Integer> numNatureList;
 	List<Integer> nextlist;
+	List<Integer> fromList;
 	StringBuilder sb;
 	String separator = ";";
 
@@ -20,6 +21,7 @@ public class Lexicon {
 		this.nextlist = new ArrayList<Integer>();
 		this.natures = new ArrayList<NatureInfo>();
 		this.numNatureList = new ArrayList<Integer>();
+		this.fromList = new ArrayList<Integer>();
 	}
 
 	public void addNext(int index) {
@@ -32,6 +34,7 @@ public class Lexicon {
 		if (!this.numNatureList.contains(index.getNatureidx())) {
 			this.natures.add(index);
 			this.numNatureList.add(index.getNatureidx());
+			this.fromList.add(index.getFrom());
 		}
 	}
 	
@@ -42,6 +45,14 @@ public class Lexicon {
 		}
 	}
 
+//	public TermNatures geTermNatures(int from) {
+//		for(int i =0; i< termNatures.termNatures.length;i++) {
+//			termNatures.termNatures[i].fromList.contains(from);
+//			termNatures.nature= termNatures.termNatures[i].nature;
+//		}
+//		return termNatures;
+//	}
+	
 	public TermNatures geTermNatures() {
 		return termNatures;
 	}
@@ -128,13 +139,11 @@ public class Lexicon {
 		int maxFreq = -1;
 		int maxIndx = 0;
 		for (int i = 0; i < natures.size(); i++) {
-			
 			if (maxFreq < natures.get(i).freq) {
 				maxFreq = natures.get(i).freq;
 				maxIndx = i;
 			}
 			all[i] = new TermNature(natureMapFlec.get(natures.get(i).getNatureidx()), natures.get(i).getFreq());
-
 		}
 //		System.out.println(this.natures.size());
 		termNatures = new TermNatures(all);

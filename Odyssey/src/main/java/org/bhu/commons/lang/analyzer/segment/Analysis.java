@@ -182,8 +182,10 @@ public abstract class Analysis {
 					while (++s < endOffe && letters.status(chars[s]) == 2) {
 						sb.append(chars[s]);
 					}
-					gp.addTerm(new Term(sb.toString(), i, TermNatures.M));
+					gp.addTerm(new Term(sb.toString(), i, TermNatures.M, true));
+					gp.hasNum = true;
 					sb = new StringBuilder();
+					
 					break;
 				case 3:
 					while (++s < endOffe && letters.status(chars[s]) == 3) {
@@ -220,7 +222,11 @@ public abstract class Analysis {
 			}
 			boolean keeper = true;
 			int k = 0;
+			int from = -1;
 			start = i;
+//			if(k>0) {
+//				from = charStatus(chars[i-1]);
+//			}
 			for (int j = i; j < chars.length - 1; j++) {
 				int m = j, n = m + 1;// m表示第一个字的位置，n表示第二个字符的位置
 
