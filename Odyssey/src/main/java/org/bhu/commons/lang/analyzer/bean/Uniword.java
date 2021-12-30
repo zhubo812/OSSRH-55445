@@ -17,9 +17,6 @@ public class Uniword {
 		hm = new HashMap<Integer, UniwordNature>();
 	}
 
-//	public void add(int idx, List<Integer> natures) {
-//		hm.put(idx, natures);
-//	}
 
 	public void add(int idx, NatureInfo nInfo) {
 		if (hm.containsKey(idx)) {

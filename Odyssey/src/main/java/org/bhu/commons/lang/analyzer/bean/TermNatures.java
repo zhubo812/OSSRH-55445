@@ -1,5 +1,10 @@
 package org.bhu.commons.lang.analyzer.bean;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.edu.bhu.corpus.utils.Predefine;
+
 /***
  * 
  * @ClassName: TermNatures
@@ -11,13 +16,13 @@ package org.bhu.commons.lang.analyzer.bean;
 public class TermNatures {
 
 	public static final TermNatures M = new TermNatures(TermNature.M);
-	
+
 	public static final TermNatures MQ = new TermNatures(TermNature.MQ);
 
 	public static final TermNatures NR = new TermNatures(TermNature.NR);
-	
+
 	public static final TermNatures NZ = new TermNatures(TermNature.NZ);
-	
+
 	public static final TermNatures NRY = new TermNatures(TermNature.NRY);
 
 	public static final TermNatures EN = new TermNatures(TermNature.EN);
@@ -26,11 +31,9 @@ public class TermNatures {
 
 	public static final TermNatures GK = new TermNatures(TermNature.GK);
 
-	public static final TermNatures END = new TermNatures(TermNature.END,
-			50610, -1);
+	public static final TermNatures END = new TermNatures(TermNature.END, 50610, -1);
 
-	public static final TermNatures BEGIN = new TermNatures(TermNature.BEGIN,
-			50610, 0);
+	public static final TermNatures BEGIN = new TermNatures(TermNature.BEGIN, 50610, 0);
 
 	public static final TermNatures NT = new TermNatures(TermNature.NT);
 
@@ -39,7 +42,7 @@ public class TermNatures {
 	public static final TermNatures T = new TermNatures(TermNature.T);
 
 	public static final TermNatures W = new TermNatures(TermNature.W);
-	
+
 	public static final TermNatures SN = new TermNatures(TermNature.SN);
 
 	public static final TermNatures NULL = new TermNatures(TermNature.NULL);;
@@ -78,8 +81,6 @@ public class TermNatures {
 	 * 词的id
 	 */
 	public int id = -2;
-	
-	
 
 	/**
 	 * 构造方法.一个词对应这种玩意
@@ -112,7 +113,7 @@ public class TermNatures {
 
 		serAttribute();
 	}
-	
+
 	public TermNatures(TermNature[] termNatures) {
 //		this.id = id;
 		this.termNatures = termNatures;
@@ -126,11 +127,27 @@ public class TermNatures {
 //			}
 //		}
 
-		if (termNatures != null && termNatures.length >0) {
-			this.nature =  termNatures[0].nature;
+		if (termNatures != null && termNatures.length > 0) {
+			this.nature = termNatures[0].nature;
 		}
 
 //		serAttribute();
+	}
+
+	public TermNatures(List<TermNature> termNatures) {
+		this.termNatures = termNatures.toArray(new TermNature[termNatures.size()]);
+		int maxFreq = -1;
+		TermNature termNature = null;
+		for (int i = 0; i < this.termNatures.length; i++) {
+			if (maxFreq < this.termNatures[i].frequency) {
+				maxFreq = this.termNatures[i].frequency;
+				termNature = this.termNatures[i];
+			}
+		}
+
+		if (termNatures != null && this.termNatures.length > 0) {
+			this.nature = termNature.nature;
+		}
 	}
 
 	public TermNatures(TermNature termNature) {
@@ -177,7 +194,7 @@ public class TermNatures {
 				}
 				timeNatureAttr.timeEndFreq = termNature.frequency;
 				break;
-			case 48://日本姓氏
+			case 48:// 日本姓氏
 				if (asianNameNatureAttr == null) {
 					asianNameNatureAttr = new PersonNatureAttr();
 				}
@@ -187,7 +204,7 @@ public class TermNatures {
 					asianNameNatureAttr = new PersonNatureAttr();
 				}
 //				 asianNameNatureAttr.allFreq = termNature.frequency;
-				 break;
+				break;
 			}
 		}
 //		if (numNatureAttr != null) {
@@ -208,7 +225,6 @@ public class TermNatures {
 //			this.personAttr = asianNameNatureAttr;
 //		}
 	}
-
 
 //	public void setPersonNatureAttr(PersonNatureAttr personAttr) {
 //		this.personAttr = personAttr;

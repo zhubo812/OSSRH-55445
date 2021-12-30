@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Lexicon;
@@ -16,20 +17,21 @@ import org.bhu.commons.lang.analyzer.util.FileReader;
 import org.bhu.commons.lang.analyzer.util.FileWriter;
 import org.edu.bhu.corpus.utils.Counter;
 import org.edu.bhu.corpus.utils.Predefine;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LexiconUtils {
 
 	private static HashMap<Character, Integer> charMap = new HashMap<Character, Integer>();
 	private static HashMap<String, Integer> natureMap = new HashMap<String, Integer>();
-	private static HashMap<Integer, String> natureMapFlec = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> natureMapFlec = new HashMap<Integer, String>();
 	public static final Uniword uniword = new Uniword();
 	private static final Lexicon[][][] lex = new Lexicon[][][] { new Lexicon[7790][7790], new Lexicon[7790][7790],
 			new Lexicon[7790][7790], new Lexicon[7790][7790], new Lexicon[7790][7790], new Lexicon[7790][7790] };
 
-	private static final String SP = ";";
-	private static final String INFOS_SP = ":";
-	private static final String NATURE_NEXT_SP = ",";
-	private static final String WORD_SP = ",";
+	private static final String SP = "\t";
+	private static final String INFOS_SP = ",";
+
 	int wordidx = 0;
 	static int natureidx = 0;
 
@@ -38,7 +40,7 @@ public class LexiconUtils {
 		init();
 		StaticDictionaryLoad.LIBRARYLOG.info("init core matrix ok use time :" + (System.currentTimeMillis() - start));
 	}
-	
+
 	public LexiconUtils(int i) {
 //		init();
 	}
@@ -54,7 +56,7 @@ public class LexiconUtils {
 	}
 
 	private static void init() {
-		
+
 		natureIndexMaker();
 		getCharMap();
 		getWordMatrix();
@@ -77,9 +79,9 @@ public class LexiconUtils {
 					i++;
 					continue;
 				}
-				Unit unit = getUnit(temp);
-				
-				lex[i][unit.getFirstword()][unit.getSecondword()] = unit.getLexicon();
+
+				getLexicon(i, temp);
+//				lex[i][unit.getFirstword()][unit.getSecondword()] = getLexicon(temp);
 
 			}
 		} catch (IOException e) {
@@ -89,7 +91,7 @@ public class LexiconUtils {
 
 		LIBRARYLOG.info("init person name matrix ok!");
 	}
-	
+
 	private static void getUniword() {
 		BufferedReader br = null;
 		br = StaticDictionaryLoad.getUniwordReader();
@@ -102,7 +104,7 @@ public class LexiconUtils {
 				String[] natures = items[1].split(";");
 				for (int i = 0; i < natures.length; i++) {
 					String[] strs = natures[i].split("/");
-					uniword.add(idx, new NatureInfo(Integer.parseInt(strs[0]), Integer.parseInt(strs[1])));//载入单字词词性
+					uniword.add(idx, new NatureInfo(Integer.parseInt(strs[0]), Integer.parseInt(strs[1])));// 载入单字词词性
 				}
 				uniword.loadTermNatures(idx, natureMapFlec);
 
@@ -113,67 +115,82 @@ public class LexiconUtils {
 		}
 
 	}
-	
 
-	private static Unit getUnit(String line) {
-		Unit unit = new Unit();
+	public static void getLexicon(int hi, String line) {
+//		Unit unit = new Unit();
 		Lexicon lexicon = new Lexicon();
-		String[] word_info = line.split(INFOS_SP);
-		String[] words = word_info[0].split(WORD_SP);
-//		if(word_info[0].equals("243,900")) {
-//			System.out.println();
-//		}
-		unit.setFirstword(Integer.parseInt(words[0]));
-		unit.setSecondword(Integer.parseInt(words[1]));
-		String[] items = word_info[1].split(NATURE_NEXT_SP);//items[0]为词性序列；items[1]为后有字符
-		String[] natureArray = items[0].split(SP);
 
-//		items.length==1表示只有词性无后字符；items.length==2表示既有词性也有后字符
-		
-		if (items.length == 2) {
-//			List<NatureInfo> natures = new ArrayList<NatureInfo>();
-			for (String nature : natureArray) {
-				if(nature.equals("0")) {
-					lexicon.addNatureIdx(0);
-				}else {
-					String[] strs = nature.split("/");
-					lexicon.addNature(new NatureInfo(Integer.parseInt(strs[0]),Integer.parseInt(strs[1])));//添加词性的频次
-				}
-			}
-//			lexicon.setNatures(natures);
-			lexicon.setTermNatures(natureMapFlec);
+		JSONObject jb = null;
+		String[] items = line.split(SP);
+		String[] words = items[0].split(" ");
+//		System.out.println( line);
+		int f = Integer.parseInt(words[0]);
+		int s = Integer.parseInt(words[1]);
+//		unit.setFirstword();
+//		unit.setSecondword(Integer.parseInt(words[1]));
 
-			List<Integer> nextlist = new ArrayList<Integer>();
-			if (items[1].length() > 0) {
-				String[] nexteArray = items[1].split(SP);
-
-				for (String next : nexteArray) {
-					nextlist.add(Integer.parseInt(next));
-				}
-				lexicon.setNextlist(nextlist);
-			}
-			unit.setLexicon(lexicon);
-		}else {
-			List<NatureInfo> natures = new ArrayList<NatureInfo>();
-			for (String nature : natureArray) {
-				if(nature.equals("0")) {
-//					natures.add(new NatureInfo(0, 0));
-//					lexicon.addNature(new NatureInfo(0, -1));
-					lexicon.addNatureIdx(0);
-				}else {
-					String[] strs = nature.split("/");
-					lexicon.addNature(new NatureInfo(Integer.parseInt(strs[0]),Integer.parseInt(strs[1])));//添加词性的频次
-				}
-			}
-//			lexicon.setNatures(natures);
-			lexicon.setTermNatures(natureMapFlec);
-			unit.setLexicon(lexicon);
+		String[] natureArray = items[1].split(INFOS_SP);//
+		String[] nextArray = null;
+		if(items[2].trim().length()>0) {
+			nextArray = items[2].split(INFOS_SP);
 		}
-		return unit;
+		String wordfreq = items[3];
+		String fromNatureFreq = items[4];
+		
+
+
+		// 双字词
+		// 1载入词性集合；2载入后字集合；3载入当前词词词性；4载入前字校对词性及前字集合。
+		for (int i = 0; i < natureArray.length; i++) {// 1
+			lexicon.addNatureIdx(Integer.parseInt(natureArray[i]));
+		}
+		if(nextArray!= null) {
+		for (int i = 0; i < nextArray.length; i++) {// 2
+			lexicon.addNext(Integer.parseInt(nextArray[i]));
+		}
+		}
+		if (wordfreq.trim().length() > 0) {// 3
+			jb = new JSONObject(wordfreq);
+			Iterator it = jb.keys();
+			while (it.hasNext()) {
+				String key = (String) it.next();
+				int value = jb.getInt(key);
+				int natureIdx = Integer.parseInt(key);
+				lexicon.addNatureFreq(natureIdx, value, natureMapFlec.get(natureIdx));
+			}
+		}
+		if (fromNatureFreq.trim().length() > 0) {// 4
+			try {
+				jb = new JSONObject(fromNatureFreq);
+				Iterator it = jb.keys();
+				while (it.hasNext()) {
+					String key = (String) it.next();
+//					String value = jb.getString(key.toString());
+					int natureIdx = Integer.parseInt(key);
+
+					JSONObject js = jb.getJSONObject(key);
+					Iterator itr = js.keys();
+					while (itr.hasNext()) {
+						String k = (String) itr.next();
+						int fromCharIdx = Integer.parseInt(k);
+						int freq = js.getInt(k);
+						lexicon.addNature(natureIdx, fromCharIdx, freq);
+					}
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+//				System.err.println(fromNatureFreq);
+			}
+		}
+		lex[hi][f][s] = lexicon;
 	}
 
 	public void builder() {
-		String[] paths = {"E:/data/ncore.ini"};
+		String[] paths = { "E:/data/ncore.ini" };
 //		String[] paths = {"E:/data/mini.txt"};
 //		String[] paths = { "E:/data/test.txt" };
 		FileReader reader = null;
@@ -185,33 +202,33 @@ public class LexiconUtils {
 			String line;
 			for (; (line = reader.readLine()) != null;) {
 				String[] items = line.split("\t");
-				if(items.length !=3) {
+				if (items.length != 3) {
 					System.out.println(path);
 					System.out.println(line);
 				}
-				if(line.equals("巴沙尔	nr	0")) {
+				if (line.equals("巴沙尔	nr	0")) {
 					System.out.println();
 				}
 				word = items[0].trim();
 				nature = items[1].trim();
 				freq = Integer.parseInt(items[2].trim());
-				
+
 				int len = word.length();
 				if (len > 7 || nature.equals("w")) {
 					System.out.println(word);
 					continue;
 				}
 				charIndexMaker(word);
-				if(word.equals("巴沙尔")) {
+				if (word.equals("巴沙尔")) {
 					System.out.println(line);
 //					System.out.println(charMap.get('法'));
 //					System.out.println(charMap.get('律'));
 				}
-				
+
 //				System.out.println(line);
 				int natureidx = getNatureIdx(nature);
-				NatureInfo ni = new NatureInfo(natureidx,freq);
-				loader(word, ni);
+				NatureInfo ni = new NatureInfo(natureidx, freq);
+//				loader(word, ni);
 			}
 		}
 		FileWriter cwriter = new FileWriter("E:/data/char.txt", "utf-8");
@@ -234,19 +251,98 @@ public class LexiconUtils {
 			writer.writeLine("--");
 		}
 		writer.close();
-		
+
 		FileWriter uWriter = new FileWriter("E:/data/uniword.txt", "utf-8");
-		
-		for(int idx : uniword.keySet()) {
+
+		for (int idx : uniword.keySet()) {
 			List<NatureInfo> natures = uniword.get(idx).getNatureList();
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < natures.size(); i++) {
 				sb.append(natures.get(i).getNatureidx()).append("/").append(natures.get(i).getFreq()).append(";");
 			}
-			uWriter.writeLine(idx+":"+ sb.toString());
+			uWriter.writeLine(idx + ":" + sb.toString());
 		}
 		uWriter.close();
-		
+
+		LIBRARYLOG.info("init word matrix ok!");
+	}
+
+	public void builder(String[] paths) {
+//		String[] paths = {"E:/data/ncore.ini"};s
+//		String[] paths = {"E:/data/mini.txt"};
+//		String[] paths = { "E:/data/test.txt" };
+		FileReader reader = null;
+		natureIndexMaker();
+		String word, nature;
+		int freq = 0;
+		for (String path : paths) {
+			reader = new FileReader(path, "utf-8");
+			String line;
+			for (; (line = reader.readLine()) != null;) {
+				String[] items = line.split("\t");
+				if (items.length != 3) {
+					System.out.println(path);
+					System.out.println(line);
+				}
+
+				word = items[0].trim();
+				nature = items[1].trim();
+				freq = Integer.parseInt(items[2].trim());
+
+				int len = word.length();
+				if (len > 7 || nature.equals("w")) {
+					System.out.println(word);
+					continue;
+				}
+				charIndexMaker(word);
+//				if (word.equals("特优生")) {
+//					System.out.println(line);
+//
+//				}
+
+//				System.out.println(line);
+				int natureidx = getNatureIdx(nature);
+//				NatureInfo ni = new NatureInfo(natureidx,freq);
+				parser(word, natureidx, freq);
+			}
+		}
+		// 写出字符集合
+		FileWriter cwriter = new FileWriter("E:/data/char.txt", "utf-8");
+		for (char key : charMap.keySet()) {
+//			System.out.println(key+"\t"+charMap.get(key));
+			cwriter.writeLine(key + "\t" + charMap.get(key));
+		}
+		cwriter.close();
+
+		// 写出词表矩阵
+		FileWriter writer = new FileWriter("E:/data/wordmatrix.txt", "utf-8");
+		for (int i = 0; i < lex.length; i++) {
+			for (int j = 0; j < lex[i].length; j++) {
+				for (int k = 0; k < lex[i][j].length; k++) {
+					if (lex[i][j][k] == null) {
+						continue;
+					}
+					String words = j + " " + k;
+//					System.out.println(words);
+					writer.writeLine(words + "\t" + lex[i][j][k].getInfos());
+				}
+			}
+			writer.writeLine("--");
+		}
+		writer.close();
+
+		FileWriter uWriter = new FileWriter("E:/data/uniword.txt", "utf-8");
+
+		for (int idx : uniword.keySet()) {
+			List<NatureInfo> natures = uniword.get(idx).getNatureList();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < natures.size(); i++) {
+				sb.append(natures.get(i).getNatureidx()).append("/").append(natures.get(i).getFreq()).append(";");
+			}
+			uWriter.writeLine(idx + ":" + sb.toString());
+		}
+		uWriter.close();
+
 		LIBRARYLOG.info("init word matrix ok!");
 	}
 
@@ -263,7 +359,7 @@ public class LexiconUtils {
 			for (; (line = reader.readLine()) != null;) {
 				String[] items = line.split("\t");
 				word = items[0].trim();
-				
+
 				int len = word.length();
 				if (len > max) {
 					max = len;
@@ -283,42 +379,36 @@ public class LexiconUtils {
 		return counter.size();
 	}
 
-	private void loader(String word, NatureInfo ni ) {
+	private void parser(String word, int natureidx, int freq) {
+		
 		char[] ch = word.toCharArray();
 		
-		if(ch.length==1) {//单字词词表加载
-			int idx = charMap.get(ch[0]);
-			uniword.add(idx, ni);
-			return;
+		if(word.length() ==1) {
+			uniwordBuilder(ch[0], natureidx,freq);
 		}
-//		System.out.println(word);
+
 		for (int i = 0; i < ch.length - 1; i++) {
 			int f = charMap.get(ch[i]);
 			int s = charMap.get(ch[i + 1]);
-			
-//			if(i>0) {
-//				int from = charMap.get(ch[i-1]);
-//				ni.setFrom(from);
-////				ni.setFreq(charMap.get(ch[i-1]));
-//			}
-			
+
 			lex[i][f][s] = getItem(i, f, s);// 获取Lexicon对象
-
 			if (ch.length == 2) {
-				lex[i][f][s].addNature(ni);
-			} else {
-
-				if (i == ch.length - 2) {// 如果i为倒数第二个字符，添加对应的词性标记
-					lex[i][f][s].addNature(ni);
-				} else {
-					lex[i][f][s].addNature(new NatureInfo(0, 0));// 初始值-1；0为词的字串；1-80为具体词性；
-					lex[i][f][s].addNext(charMap.get(ch[i+2]));
-				}
-				
+				lex[i][f][s].addNatureFreq(natureidx, freq, natureMapFlec.get(natureidx));
+				return;
 			}
+			if (i == ch.length - 2) {// 如果i为倒数第二个字符，添加对应的词性标记
+				if (i > 0) {
+					int fromIdx = charMap.get(ch[i - 1]);
+					lex[i][f][s].addNature(natureidx, fromIdx, freq);
+				}
+			} else {
+				lex[i][f][s].addMidTag();// 词性标记插入0表示当前字符后仍有字符
+				lex[i][f][s].addNext(charMap.get(ch[i + 2]));
+			}
+
 		}
+
 	}
-	
 
 	private Lexicon getItem(int i, int f, int s) {
 		Lexicon temp = lex[i][f][s];
@@ -340,6 +430,14 @@ public class LexiconUtils {
 				wordidx++;
 			}
 		}
+	}
+	
+	private void uniwordBuilder(char c, int natureIdx, int freq) {
+		//单字词词表加载
+			int idx = charMap.get(c);
+			NatureInfo ni = new NatureInfo(natureIdx,freq);
+			uniword.add(idx, ni);
+
 	}
 
 	private int getNatureIdx(String nature) {
@@ -379,7 +477,7 @@ public class LexiconUtils {
 		return natureMapFlec.get(idx);
 	}
 
-	public static int getStatus(char c) {
+	public int getStatus(char c) {
 		if (charMap.containsKey(c)) {
 			return charMap.get(c);
 		}

@@ -71,7 +71,7 @@ public class ToAnalysisTest {
 					"常用词汇alfa狗"
 			};
 			TokenizeUtils tokenizer = new TokenizeUtils();
-			tokenizer.initUsrDic();
+
 			System.out.println(tokenizer.getWordNatureLine("维生素的b6啊a1啊啊"));
 
 			long length = 0L;

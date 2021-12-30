@@ -122,7 +122,7 @@ public abstract class Analysis {
 
 		List<Entity> nerlist = getNER(temp);
 
-		//用户词典优先切分
+		// 用户词典优先切分
 		if (this.ambiguityForest != null) {
 			GetWord gw = new GetWord(this.ambiguityForest, gp.chars);
 			String[] params = null;
@@ -137,7 +137,7 @@ public abstract class Analysis {
 					startOffe += params[i].length();
 				}
 			}
-		}//用户词典切分完毕
+		} // 用户词典切分完毕
 		if (startOffe < gp.chars.length - 1) {
 			analysis2(gp, startOffe, gp.chars.length, nerlist);
 		}
@@ -160,14 +160,14 @@ public abstract class Analysis {
 //				indexList.removeAll( CollectionUtil.getIndexList(tx.getStartIndx(), tx.getEndIndex()));
 			}
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		List<Integer> nextlist = new ArrayList<Integer>();
 		for (int i = 0; i < chars.length - 1; i++) {
-			//添加单字词及词性
+			// 添加单字词及词性
 			sb = new StringBuilder();
-			int letteridx =letters.status(chars[i]);
-			if(letteridx>-1) {
+			int letteridx = letters.status(chars[i]);
+			if (letteridx > -1) {
 				int s = i;
 				sb.append(chars[i]);
 				switch (letteridx) {
@@ -185,7 +185,7 @@ public abstract class Analysis {
 					gp.addTerm(new Term(sb.toString(), i, TermNatures.M, true));
 					gp.hasNum = true;
 					sb = new StringBuilder();
-					
+
 					break;
 				case 3:
 					while (++s < endOffe && letters.status(chars[s]) == 3) {
@@ -209,41 +209,41 @@ public abstract class Analysis {
 					sb = new StringBuilder();
 					break;
 				}
-				
+
 			}
-			
-			
-			
+
 			sb.append(chars[i]);
-			if(lu.uniword.containsKey(lu.getStatus(chars[i]))) {
+			// 查询单字词
+
+			if (lu.uniword.containsKey(lu.getStatus(chars[i]))) {
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, lu.uniword.get(lu.getStatus(chars[i])).getTermNatures()));
-			}else {
+			} else {
 				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
 			}
 			boolean keeper = true;
 			int k = 0;
 			int from = -1;
 			start = i;
-//			if(k>0) {
-//				from = charStatus(chars[i-1]);
-//			}
+			
 			for (int j = i; j < chars.length - 1; j++) {
 				int m = j, n = m + 1;// m表示第一个字的位置，n表示第二个字符的位置
-
+				if (k > 0) {
+					from = charStatus(chars[m - 1]);
+				}
 				Lexicon lex = infos(k, chars[m], chars[n]);
-				if(lex == null) {
+				if (lex == null) {
 					sb = new StringBuilder();
 					break;
 				}
 				nextlist = lex.getNextlist();
-				
+
 				if (lex != null && keeper) {
-					
+
 					switch (lex.getTermStatus()) {
 					case 0:// 无词性，有后接内容
 						sb.append(chars[n]);
 						k++;
-						if(n< chars.length - 1&& !nextlist.contains(charStatus(chars[n+1]))) {
+						if (n < chars.length - 1 && !nextlist.contains(charStatus(chars[n + 1]))) {
 							keeper = false;
 						}
 						break;
@@ -251,51 +251,57 @@ public abstract class Analysis {
 						// 有词性，也有后接内容
 						sb.append(chars[n]);
 						str = sb.toString();
-						gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
+						if (sb.length() == 2) {
+							gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
+						} else {
+							gp.addTerm(new Term(str, start, lex.geTermNatures(from, lu.natureMapFlec)));// 词性转换
+						}
 						k++;
-						if(n< chars.length - 1&& !nextlist.contains(charStatus(chars[n+1]))) {
+						if (n < chars.length - 1 && !nextlist.contains(charStatus(chars[n + 1]))) {
 							keeper = false;
 						}
 //						System.out.println();
 						break;
 					case 2:// 有一(多)个词性，无后接内容
-						
+
 						sb.append(chars[n]);
 						str = sb.toString();
 //						System.out.println(str);
-						gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
+						if (sb.length() == 2) {
+							gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
+						} else {
+							gp.addTerm(new Term(str, start, lex.geTermNatures(from, lu.natureMapFlec)));// 词性转换
+						}
 						keeper = false;
-						str= "";
+						str = "";
 						break;
 					}
 
-				}else {
-					sb = new StringBuilder();//存储一单字词
+				} else {
+					sb = new StringBuilder();// 存储一单字词
 					break;
 				}
 			}
-
-
 
 		}
 
 	}
 
 	private Lexicon infos(int k, char x, char y) {
-		int f = LexiconUtils.getStatus(x);
-		int s = LexiconUtils.getStatus(y);
+		int f = lu.getStatus(x);
+		int s = lu.getStatus(y);
 //		System.out.println(k);
 //		System.out.println(String.valueOf(x)+ f);
 //		System.out.println(String.valueOf(y)+s);
-		if (f > -1 && s>-1) {
+		if (f > -1 && s > -1) {
 			return lu.find(k, f, s);
 		}
 
 		return null;
 	}
-	
+
 	private int charStatus(char c) {
-		return LexiconUtils.getStatus(c);
+		return lu.getStatus(c);
 	}
 
 	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {

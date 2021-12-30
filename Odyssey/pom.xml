@@ -140,6 +140,14 @@
 	</properties>
 	<description>A Chinese Segmentation for NLP</description>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20211205</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -147,6 +155,6 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.github.zhubo812/Baturu -->
-		
+
 	</dependencies>
 </project>
