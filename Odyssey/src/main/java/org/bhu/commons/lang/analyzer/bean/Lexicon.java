@@ -70,11 +70,11 @@ public class Lexicon {
 		}
 	}
 
-	public void addNatureFreq(int natureIdx, int freq,String nature) {
+	public void addNatureFreq(int natureIdx, int freq,HashMap<Integer, String> natureMapFlec) {
 		addNatureList(natureIdx);
 		if (!wordFreqMap.containsKey(natureIdx)) {
 			wordFreqMap.put(natureIdx, freq);
-			setNatureStrToArray(nature);
+			setNatureStrToArray(natureMapFlec);
 		}
 		
 	}
@@ -239,11 +239,12 @@ public String getInfos() {
 //		setNatureStrToArray(natureMapFlec);
 //	}
 //
-	private TermNatures setNatureStrToArray(String nature) {
+	private TermNatures setNatureStrToArray(HashMap<Integer, String> natureMapFlec) {
 
 		if(this.wordFreqMap.size()==0) {
 			return null;
 		}
+
 		TermNature[] all = new TermNature[this.wordFreqMap.size()];
 		int maxFreq = -1;
 		int i = 0;
@@ -253,7 +254,7 @@ public String getInfos() {
 				maxFreq =  wordFreqMap.get(natureID);
 				maxIndx= i;
 			}
-			all[i] = new TermNature(nature, wordFreqMap.get(natureID));
+			all[i] = new TermNature(natureMapFlec.get(natureID), wordFreqMap.get(natureID));
 			i++;
 		}
 		this.termNatures = new TermNatures(all);

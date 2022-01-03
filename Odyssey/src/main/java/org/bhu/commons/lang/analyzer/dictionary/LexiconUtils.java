@@ -156,7 +156,7 @@ public class LexiconUtils {
 				String key = (String) it.next();
 				int value = jb.getInt(key);
 				int natureIdx = Integer.parseInt(key);
-				lexicon.addNatureFreq(natureIdx, value, natureMapFlec.get(natureIdx));
+				lexicon.addNatureFreq(natureIdx, value, natureMapFlec);
 			}
 		}
 		if (fromNatureFreq.trim().length() > 0) {// 4
@@ -284,6 +284,8 @@ public class LexiconUtils {
 					System.out.println(path);
 					System.out.println(line);
 				}
+				
+				
 
 				word = items[0].trim();
 				nature = items[1].trim();
@@ -295,10 +297,10 @@ public class LexiconUtils {
 					continue;
 				}
 				charIndexMaker(word);
-//				if (word.equals("特优生")) {
-//					System.out.println(line);
-//
-//				}
+				if (word.startsWith("包括")) {
+					System.out.println(line);
+
+				}
 
 //				System.out.println(line);
 				int natureidx = getNatureIdx(nature);
@@ -393,7 +395,7 @@ public class LexiconUtils {
 
 			lex[i][f][s] = getItem(i, f, s);// 获取Lexicon对象
 			if (ch.length == 2) {
-				lex[i][f][s].addNatureFreq(natureidx, freq, natureMapFlec.get(natureidx));
+				lex[i][f][s].addNatureFreq(natureidx, freq, natureMapFlec);//词性ID，频次，词性标记字串
 				return;
 			}
 			if (i == ch.length - 2) {// 如果i为倒数第二个字符，添加对应的词性标记
