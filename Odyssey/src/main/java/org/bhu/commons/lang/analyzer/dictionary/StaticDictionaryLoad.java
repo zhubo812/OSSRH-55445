@@ -171,6 +171,9 @@ public class StaticDictionaryLoad {
 	public static BufferedReader getUniwordReader() {
 		return DicReader.getZipFileBufferedReader(getZipFileStream("uniword.zip"));
 	}
+	public static BufferedReader getCharReader() {
+		return DicReader.getZipFileBufferedReader(getZipFileStream("char.zip"));
+	}
 
 	/**
 	 * 数字词典
@@ -293,6 +296,54 @@ public class StaticDictionaryLoad {
 		
 	}
 	
+	
+	/**
+	 * 词与词之间的关联表数据
+	 * 
+	 * @return
+	 */
+	public static HashMap<String, HashMap<String, Integer>> initBigram2() {
+		HashMap<String, HashMap<String, Integer>> wsdMap = new HashMap<String, HashMap<String,Integer>>();
+		BufferedReader reader = null;
+		try {
+			reader = DicReader.getReader(getStream("wsd.dct"));
+			String temp = null;
+			String[] strs = null;
+			int freq = 0;
+			while ((temp = reader.readLine()) != null) {
+				if (StringUtil.isBlank(temp)) {
+					continue;
+				}
+				strs = temp.split("\t");
+				String word = strs[0];
+				String[] array = strs[1].split(" ");
+				for(String item : array){
+					String[] tmp = item.split("=");
+					freq = Integer.parseInt(tmp[1]);
+					String toWord = tmp[0];
+					
+					if(!wsdMap.containsKey(word)) {
+						HashMap<String, Integer> map = new HashMap<String, Integer>();
+						map.put(toWord, freq);
+						wsdMap.put(word, map);
+					}else {
+						HashMap<String, Integer> map = wsdMap.get(word);
+						map.put(toWord, freq);
+						wsdMap.put(word, map);
+					}
+				}
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			IOUtil.close(reader);
+		}
+		return wsdMap;
+	}
 
 	/**
 	 * 得到默认的模型

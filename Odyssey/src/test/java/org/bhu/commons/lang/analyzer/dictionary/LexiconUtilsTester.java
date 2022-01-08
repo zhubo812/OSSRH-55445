@@ -17,7 +17,7 @@ public class LexiconUtilsTester {
 	public void builderTester() {
 		LexiconUtils lu = new LexiconUtils(1);
 //		String[] paths = { "E:/data/minicore.ini" };
-		String[] paths = { "E:/data/ncore.ini" };
+		String[] paths = { "E:/data/core.ini" };
 		lu.builder(paths);
 
 	}

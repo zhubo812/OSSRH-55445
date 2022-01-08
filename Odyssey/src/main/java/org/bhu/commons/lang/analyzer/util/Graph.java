@@ -6,7 +6,7 @@ import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
 import org.bhu.commons.lang.analyzer.bean.Nature;
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
-import org.bhu.commons.lang.analyzer.library.DATDictionary;
+import org.bhu.commons.lang.analyzer.bean.Uniword;
 import org.bhu.commons.lang.analyzer.segment.Analysis.Merger;
 
 /**
@@ -320,7 +320,8 @@ public class Graph {
 			}
 		} else {
 			char c = chars[to];
-			TermNatures tn = DATDictionary.getItem(c).termNatures;
+//			TermNatures tn = DATDictionary.getItem(c).termNatures;
+			TermNatures tn = Uniword.geTermNatures(c);
 			if (tn == null || tn == TermNatures.NULL||tn.nature.natureStr.equals(Nature.NR.natureStr)) {
 				tn = TermNatures.NULL;
 			}

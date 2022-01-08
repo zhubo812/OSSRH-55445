@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.bhu.commons.lang.analyzer.dictionary.LexiconUtils;
+
 public class Uniword {
 
-	HashMap<Integer, UniwordNature> hm = null;
+	static HashMap<Integer, UniwordNature> hm = null;
 	List<NatureInfo> natures;
 	private TermNatures termNatures = null ;
 	
@@ -65,6 +67,18 @@ public class Uniword {
 	}
 
 
+	public static TermNatures geTermNatures(char c) {
+		if(!LexiconUtils.charMap.containsKey(c)) {
+			System.out.println(c);
+			return new TermNatures(TermNature.NULL);
+		}
+		int indx = LexiconUtils.charMap.get(c);
+		if(!hm.containsKey(indx)) {
+			System.out.println(c);
+			return new TermNatures(TermNature.NULL);
+		}
+		return hm.get(indx).getTermNatures();
+	}
 	public class UniwordNature {
 		List<NatureInfo> natureList;
 		TermNatures termNatures;

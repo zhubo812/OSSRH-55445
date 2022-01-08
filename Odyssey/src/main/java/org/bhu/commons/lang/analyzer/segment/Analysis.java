@@ -1,14 +1,11 @@
 package org.bhu.commons.lang.analyzer.segment;
 
-import static org.bhu.commons.lang.analyzer.library.DATDictionary.status;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bhu.commons.lang.analyzer.bean.AnalyzerItem;
 import org.bhu.commons.lang.analyzer.bean.Entity;
 import org.bhu.commons.lang.analyzer.bean.Letters;
 import org.bhu.commons.lang.analyzer.bean.Lexicon;
@@ -21,7 +18,6 @@ import org.bhu.commons.lang.analyzer.enamex.NQHelper;
 import org.bhu.commons.lang.analyzer.enamex.NZHelper;
 import org.bhu.commons.lang.analyzer.enamex.NumberHelper;
 import org.bhu.commons.lang.analyzer.enamex.TimeHelper;
-import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
 import org.bhu.commons.lang.analyzer.util.AnalyzerReader;
@@ -303,7 +299,7 @@ public abstract class Analysis {
 	private int charStatus(char c) {
 		return lu.getStatus(c);
 	}
-
+/*
 	private void analysis(Graph gp, int startOffe, int endOffe, List<Entity> nerList) {
 		int start = 0;
 		int end = 0;
@@ -427,7 +423,7 @@ public abstract class Analysis {
 		}
 
 	}
-
+*/
 	private List<Entity> getNER(String temp) {
 		List<Entity> list = new ArrayList<Entity>();
 		list.addAll(timeHelper.getTimex(temp));

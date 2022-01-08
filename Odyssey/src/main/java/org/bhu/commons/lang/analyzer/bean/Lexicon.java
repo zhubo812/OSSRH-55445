@@ -11,11 +11,13 @@ public class Lexicon {
 //	List<NatureInfo> natures;
 	HashMap<Integer, HashMap<Integer, Integer>> natureMap;// HashMap<词性ID,HashMap<前字ID,词频>>
 	HashMap<Integer, Integer> wordFreqMap;
+//	HashMap<Integer, Integer> wsdMap;
 	List<Integer> numNatureList;
 	List<Integer> nextlist;
 //	List<Integer> fromList;
 	StringBuilder sb;
 	String separator = ",";
+	int id;
 
 	private TermNatures termNatures = null;
 
@@ -28,8 +30,25 @@ public class Lexicon {
 //		this.fromList = new ArrayList<Integer>();
 		this.natureMap = new HashMap<Integer, HashMap<Integer, Integer>>();
 		this.wordFreqMap = new HashMap<Integer, Integer>();
+//		this.wsdMap = new HashMap<Integer, Integer>();
 	}
 
+	public void addNature(int[] natureIdxs, int fromCharIdx, int[] freqs) {
+		addNatureList(natureIdxs);
+		for(int i =0; i< natureIdxs.length;i++) {
+		if (natureMap.containsKey(natureIdxs[i])) {
+			HashMap<Integer, Integer> fromMap = natureMap.get(natureIdxs[i]);
+			if (!fromMap.containsKey(fromCharIdx)) {
+				fromMap.put(fromCharIdx, freqs[i]);
+			}
+		} else {
+			HashMap<Integer, Integer> fromMap = new HashMap<Integer, Integer>();
+			fromMap.put(fromCharIdx, freqs[i]);
+			natureMap.put(natureIdxs[i], fromMap);
+		}
+		}
+	}
+	
 	public void addNature(int natureIdx, int fromCharIdx, int freq) {
 		addNatureList(natureIdx);
 		if (natureMap.containsKey(natureIdx)) {
@@ -42,8 +61,8 @@ public class Lexicon {
 			fromMap.put(fromCharIdx, freq);
 			natureMap.put(natureIdx, fromMap);
 		}
+		
 	}
-	
 
 	
 	public TermNatures geTermNatures() {
@@ -70,20 +89,37 @@ public class Lexicon {
 		}
 	}
 
-	public void addNatureFreq(int natureIdx, int freq,HashMap<Integer, String> natureMapFlec) {
-		addNatureList(natureIdx);
-		if (!wordFreqMap.containsKey(natureIdx)) {
-			wordFreqMap.put(natureIdx, freq);
-			setNatureStrToArray(natureMapFlec);
+	public void addNatureFreq(int[] natureIdxs, int[] freqs,HashMap<Integer, String> natureMapFlec) {
+		addNatureList(natureIdxs);
+		for(int i=0;i<natureIdxs.length;i++) {
+			if (!wordFreqMap.containsKey(natureIdxs[i])) {
+				wordFreqMap.put(natureIdxs[i], freqs[i]);
+				setNatureStrToArray(natureMapFlec);
+			}
 		}
 		
 	}
+	
+	public void addNatureFreq(int natureIdx, int freq,HashMap<Integer, String> natureMapFlec) {
+		addNatureList(natureIdx);
 
-	public void addNatureList(int natureIdx) {
-		if (!this.numNatureList.contains(natureIdx)) {
-			this.numNatureList.add(natureIdx);
+			if (!wordFreqMap.containsKey(natureIdx)) {
+				wordFreqMap.put(natureIdx, freq);
+				setNatureStrToArray(natureMapFlec);
+			}
+		
+		
+	}
+
+	public void addNatureList(int... natureIdxs) {
+		for(int natureIdx : natureIdxs) {
+			if (!this.numNatureList.contains(natureIdx)) {
+				this.numNatureList.add(natureIdx);
+			}
 		}
 	}
+	
+	
 
 	public void addNext(int index) {
 		if (!this.nextlist.contains(index)) {
@@ -91,7 +127,15 @@ public class Lexicon {
 		}
 	}
 
-	
+//	public void addWSD(String wsdstr) {
+//		JSONObject jb = new JSONObject(wsdstr);
+//		Iterator itr = jb.keys();
+//		while (itr.hasNext()) {
+//			String id = (String) itr.next();
+//			int freq = jb.getInt(id);
+//			this.wsdMap.put(Integer.parseInt(id), freq);
+//		}
+//	}
 
 public String getInfos() {
 	StringBuilder sb = new StringBuilder();
@@ -99,7 +143,9 @@ public String getInfos() {
 	sb.append(getNextSet()).append("\t");
 	sb.append(getBiWordInfo()).append("\t");
 	sb.append(getMultiWordInfos());
-	
+//	if(!this.wsdMap.isEmpty()) {
+//		sb.append("\t").append(getWSD());
+//	}
 	return sb.toString();
 }
 
@@ -203,6 +249,14 @@ public String getInfos() {
 		}
 		return sb.toString();
 	}
+	
+//	private String getWSD() {
+//		if(!wsdMap.isEmpty()) {
+//			JSONObject jb = new JSONObject(wsdMap);
+//			return jb.toString();
+//		}
+//		return null;
+//	}
 
 	public List<Integer> getNextlist() {
 		return nextlist;
@@ -260,6 +314,14 @@ public String getInfos() {
 		this.termNatures = new TermNatures(all);
 		termNatures.nature = all[maxIndx].nature;
 		return termNatures;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

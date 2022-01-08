@@ -26,13 +26,16 @@ public class MathUtil {
 	public static double compuScore(Term from, Term to) {
 		double frequency = from.getNatures().allFreq + 1;
 
+//		if(from.getName().equals("常用")) {
+//			System.out.println(from.getName());
+//		}
 		if (frequency < 0) {
 			double score = from.score() + MAX_FREQUENCE;
 			from.score(score);
 			return score;
 		}
 
-		int nTwoWordsFreq = NgramLibrary.getTwoWordFreq(from, to);
+		int nTwoWordsFreq = NgramLibrary.getTwoWordFreq2(from, to);
 		double value = -Math.log(dSmoothingPara * frequency / (MAX_FREQUENCE + 80000) + (1 - dSmoothingPara) * ((1 - dTemp) * nTwoWordsFreq / frequency + dTemp));
 
 		if (value < 0) {

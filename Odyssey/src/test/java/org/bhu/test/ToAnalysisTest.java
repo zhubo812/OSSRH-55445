@@ -11,7 +11,7 @@ public class ToAnalysisTest {
 		long start = System.currentTimeMillis();
 		TokenizeUtils tokenizer = new TokenizeUtils();
 		
-		String line = "三个月的常用词汇七百";
+		String line = "出行有效避免堵车、看病挂号足不出户、免费获得优惠折扣券……有了无线城市“市民主页”，市民只需要拿出手机登录ｓｚｉｃｉｔｙ．ｃｏｍ即可。";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);

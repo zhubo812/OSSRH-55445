@@ -1,5 +1,7 @@
 package org.bhu.commons.lang.analyzer.library;
 
+import java.util.HashMap;
+
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 
@@ -10,10 +12,11 @@ import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
  * 
  */
 public class NgramLibrary {
+	static HashMap<String, HashMap<String, Integer>> wsdMap = new HashMap<String, HashMap<String,Integer>>();
 	static {
 		try {
 			long start = System.currentTimeMillis();
-			StaticDictionaryLoad.initBigram();
+			wsdMap = StaticDictionaryLoad.initBigram2();
 //			StaticDictionaryLoad.initBigramByFastReader();
 			StaticDictionaryLoad.LIBRARYLOG.info("init ngram ok use time :" + (System.currentTimeMillis() - start));
 		} catch (Exception e) {
@@ -40,6 +43,20 @@ public class NgramLibrary {
 		} else {
 			return freq;
 		}
+		
+	}
+	
+	public static int getTwoWordFreq2(Term from, Term to) {
+		
+		int freq = 0;
+		if (!wsdMap.containsKey(from.getName())) {
+			return 0;
+		}else {
+			if(wsdMap.get(from.getName()).containsKey(to.getName())) {
+				freq = wsdMap.get(from.getName()).get(to.getName());
+			}
+		}
+		return freq;
 	}
 
 }
