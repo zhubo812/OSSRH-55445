@@ -11,7 +11,7 @@ public class ToAnalysisTest {
 		long start = System.currentTimeMillis();
 		TokenizeUtils tokenizer = new TokenizeUtils();
 		
-		String line = "包括";
+		String line = "三个月的常用词汇七百";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);
