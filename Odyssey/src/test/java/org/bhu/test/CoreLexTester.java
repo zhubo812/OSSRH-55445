@@ -1,6 +1,6 @@
 package org.bhu.test;
 
-import org.bhu.nlp.lexicon.CoreLex;
+import org.edu.bhu.corpus.utils.CoreLex;
 import org.junit.Test;
 
 public class CoreLexTester {
@@ -8,7 +8,6 @@ public class CoreLexTester {
 	@Test
 	public void coreLexBuilderTester() {
 		CoreLex cl = new CoreLex();
-		
 		cl.coreLexBuilder();
 	}
 	
