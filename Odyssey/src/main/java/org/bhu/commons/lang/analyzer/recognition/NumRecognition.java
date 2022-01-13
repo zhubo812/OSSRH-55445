@@ -13,20 +13,21 @@ public class NumRecognition {
 	 * 
 	 * @param terms
 	 */
-	private static final String YEAR = "年";
-	private static final String DI = "第";
-	private static final String[] MilitaryUnits = {"班","排","连","营","团","旅","师","军"};
+
+	
+	
+	private static final String[] MilitaryUnits = {"班","排","连","营","团","旅","师","军","步兵师","炮兵师"};//转nt
 	public static void recognition(Term[] terms) {
 		
 		int length = terms.length - 1;
 		Term from = null;
 		Term to = null;
 		Term temp = null;
-		String tempName = null;
 		for (int i = 0; i < length; i++) {
 			if (terms[i] == null) {
 				continue;
-			} else if (".".equals(terms[i].getName()) || "．".equals(terms[i].getName())) {
+			} 
+			else if (".".equals(terms[i].getName()) || "．".equals(terms[i].getName())) {
 				// 如果是.前后都为数字进行特殊处理
 				to = terms[i].to();
 				from = terms[i].from();
@@ -42,16 +43,20 @@ public class NumRecognition {
 				continue;
 			}
 
-			temp = terms[i];
+			//terms[i]为数字
 			// 将所有的数字合并
+			to = terms[i].to();
+			temp = to;
+//			from = terms[i].from();
 //			while ((temp = temp.to()).getNatures().numAttr.flag && !temp.getName().startsWith(DI)) {
 //				terms[i].setName(terms[i].getName() + temp.getName());
 //			}
 			//判断结尾是军队
-			if(CollectionUtil.EqualsOfAny(temp.getName(), MilitaryUnits)){
-				terms[i].setName(terms[i].getName() + temp.getName());
+			if(CollectionUtil.EqualsOfAny(to.getName(), MilitaryUnits)){
+				terms[i].setName(terms[i].getName() + to.getName());
 				terms[i].setNature(Nature.NT);
-				temp = temp.to();
+				terms[to.getOffe()]= null;
+				terms[i].setTo(temp.to());
 			}
 			// 如果是数字结尾
 			/*

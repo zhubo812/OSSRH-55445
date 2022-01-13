@@ -107,7 +107,7 @@ public class LexiconUtils {
 			e.printStackTrace();
 		}
 
-		LIBRARYLOG.info("init person name matrix ok!");
+//		LIBRARYLOG.info("init word matrix ok!");
 	}
 
 	private static void getUniword() {

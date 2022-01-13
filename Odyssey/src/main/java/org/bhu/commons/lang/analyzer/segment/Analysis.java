@@ -152,7 +152,13 @@ public abstract class Analysis {
 		if (nerList != null && nerList.size() > 0) {
 
 			for (Entity tx : nerList) {
-				gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures()));
+				
+				if(tx.isNum()) {
+					gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures(),true));
+					gp.hasNum = tx.isNum();
+				}else {
+					gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures()));
+				}
 //				indexList.removeAll( CollectionUtil.getIndexList(tx.getStartIndx(), tx.getEndIndex()));
 			}
 		}

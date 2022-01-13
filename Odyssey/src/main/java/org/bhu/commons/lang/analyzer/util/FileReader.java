@@ -51,7 +51,7 @@ public class FileReader {
 		this.path = path;
 		try {
 //			this.encoding = getCode(path);
-			this.encoding = codeString(path);
+			this.encoding = codeString2(path);
 		} catch ( Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -235,6 +235,46 @@ public class FileReader {
 	    return code;  
 	}  
 	
+	public static String codeString2(String fileName) throws IOException {
+
+		InputStream inputStream = new FileInputStream(fileName);
+
+		byte[] head = new byte[3];
+
+		inputStream.read(head);
+
+
+
+		String code = "GBK";//或GB2312，即ANSI
+
+		if (head[0] == -1 && head[1] == -2 ) //0xFFFE
+
+		code = "UTF-16";
+
+		else if (head[0] == -2 && head[1] == -1 ) //0xFEFF
+
+		code = "Unicode";//包含两种编码格式：UCS2-Big-Endian和UCS2-Little-Endian
+
+		else if(head[0]==-27 && head[1]==-101 && head[2] ==-98)
+
+		code = "UTF-8"; //UTF-8(不含BOM)
+
+		else if(head[0]==-17 && head[1]==-69 && head[2] ==-65)
+
+		code = "UTF-8"; //UTF-8-BOM
+
+
+
+		inputStream.close();
+
+
+
+		//System.out.println(code);
+
+		return code;
+
+		}
+	
 	public void close() {
 		try {
 			this.reader.close();
@@ -243,5 +283,15 @@ public class FileReader {
 			e.printStackTrace();
 		}
 	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+	
+	
 	
 }

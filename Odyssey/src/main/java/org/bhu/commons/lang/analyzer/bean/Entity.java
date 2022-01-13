@@ -5,6 +5,8 @@ public class Entity {
 	String expression;
 	int startIndx;
 	int endIndex;
+	boolean isNum;
+	
 	TermNatures termNatures;
 	public TermNatures getTermNatures() {
 		return termNatures;
@@ -30,11 +32,20 @@ public class Entity {
 	public void setEndIndex(int endIndex) {
 		this.endIndex = endIndex;
 	}
+	
+	
+	public boolean isNum() {
+		return isNum;
+	}
+	public void setNum(boolean isNum) {
+		this.isNum = isNum;
+	}
 	public Entity(String expression, int startIndx, int endIndex) {
 		super();
 		this.expression = expression;
 		this.startIndx = startIndx;
 		this.endIndex = endIndex;
+		this.isNum = false;
 	}
 	
 	public Entity(String expression, int startIndx, int endIndex, TermNatures termNatures) {
@@ -43,6 +54,15 @@ public class Entity {
 		this.startIndx = startIndx;
 		this.endIndex = endIndex;
 		this.termNatures = termNatures;
+		this.isNum = false;
+	}
+	public Entity(String expression, int startIndx, int endIndex, TermNatures termNatures,boolean isNum) {
+		super();
+		this.expression = expression;
+		this.startIndx = startIndx;
+		this.endIndex = endIndex;
+		this.termNatures = termNatures;
+		this.isNum = isNum;
 	}
 	public Entity() {
 		super();

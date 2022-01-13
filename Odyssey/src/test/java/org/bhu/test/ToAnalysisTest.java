@@ -11,7 +11,7 @@ public class ToAnalysisTest {
 		long start = System.currentTimeMillis();
 		TokenizeUtils tokenizer = new TokenizeUtils();
 		
-		String line = "出行有效避免堵车、看病挂号足不出户、免费获得优惠折扣券……有了无线城市“市民主页”，市民只需要拿出手机登录ｓｚｉｃｉｔｙ．ｃｏｍ即可。";
+		String line = "二十五步兵师第十个358团两千万了第二十五步兵师。二十五炮兵师";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);

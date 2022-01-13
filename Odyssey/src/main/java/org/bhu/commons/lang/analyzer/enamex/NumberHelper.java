@@ -12,9 +12,10 @@ public class NumberHelper {
 	
 	char[] numFirstChar = Predefine.numberFirstChar.toCharArray();
 	char[] numChar = Predefine.numberChar.toCharArray();
+	private static final char[] NumUnits = {'百','千','万','佰','仟','亿'};
 	List<Character> firstCharList;
 	List<Character> numCharList;
-	
+	List<Character> numCharUnitList;
 	public NumberHelper() {
 		init();
 	}
@@ -23,6 +24,7 @@ public class NumberHelper {
 	public void init(){
 		firstCharList = new ArrayList<Character>();
 		numCharList = new ArrayList<Character>();
+		numCharUnitList= new ArrayList<Character>();
 		for(char c : numFirstChar) {
 			firstCharList.add(c);
 			numCharList.add(c);
@@ -30,6 +32,10 @@ public class NumberHelper {
 		
 		for(char c : numChar) {
 			numCharList.add(c);
+		}
+		
+		for(char c: NumUnits) {
+			numCharUnitList.add(c);
 		}
 	}
 	
@@ -51,7 +57,37 @@ public class NumberHelper {
 					} while (numCharList.contains(ch[i]));
 					if(end > start) {
 						String substr = src.substring(start, end+1);
-						entitylist.add(new Entity(substr, start, end, TermNatures.M));
+						entitylist.add(new Entity(substr, start, end, TermNatures.M ,true));
+						i--;
+					}
+				}
+				else if(ch[i]== Predefine.DI) {
+					start =i;
+					do {
+						end = i++;
+						if (i >= ch.length) {
+							break;
+						}
+						
+					} while (numCharUnitList.contains(ch[i])||firstCharList.contains(ch[i]));
+					if(end > start) {
+						String substr = src.substring(start, end+1);
+						entitylist.add(new Entity(substr, start, end, TermNatures.M,true));
+						i--;
+					}
+				}
+				else if(ch[i]== Predefine.LIANG) {
+					start =i;
+					do {
+						end = i++;
+						if (i >= ch.length) {
+							break;
+						}
+						
+					} while (numCharUnitList.contains(ch[i]));
+					if(end > start) {
+						String substr = src.substring(start, end+1);
+						entitylist.add(new Entity(substr, start, end, TermNatures.M,true));
 						i--;
 					}
 				}

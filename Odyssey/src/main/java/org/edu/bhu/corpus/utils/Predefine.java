@@ -11,6 +11,8 @@ public class Predefine {
 	
 	public static String numberFirstChar="一二三四五六七八九十零1234567890";
 	public static String numberChar = "百千万佰仟亿多点又分之";
+	public static final char DI = '第';
+	public static final char LIANG = '两';
 	
 	public static String chineseNameChar = "艾爱安敖傲奥巴白百柏拜班邦包薄宝保鲍暴北贝本"
 	  		+ "毕碧边卞别宾伯博卜布步才采彩蔡仓苍藏操曹岑曾茶查柴昌常畅超晁巢"
