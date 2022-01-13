@@ -77,8 +77,9 @@ public class LexiconUtils {
 
 		natureIndexMaker();
 		getCharMap();
-		getWordMatrix();
 		getUniword();
+		getWordMatrix();
+		
 	}
 
 	private static void getWordMatrix() {
@@ -119,6 +120,9 @@ public class LexiconUtils {
 //				System.out.println(i);
 				String[] items = temp.split(":");
 				int idx = Integer.parseInt(items[0]);
+//				if(idx==371) {
+//					System.out.println();
+//				}
 				String[] natures = items[1].split(";");
 				for (int i = 0; i < natures.length; i++) {
 					String[] strs = natures[i].split("/");
@@ -494,21 +498,19 @@ public class LexiconUtils {
 	}
 
 	private int getNatureIdx(String nature) {
-		return this.natureMap.get(nature);
+		return LexiconUtils.natureMap.get(nature);
 	}
 	
 	private int[] getNatureIdxs(String[] natures) {
 		int[] natureIdxs = new int[natures.length];
 		for(int i =0;i<natures.length;i++) {
-			natureIdxs[i] = this.natureMap.get(natures[i]);
+			natureIdxs[i] = LexiconUtils.natureMap.get(natures[i]);
 		}
 		return natureIdxs;
 	}
 
 	private static void natureIndexMaker() {
-		String[] natureplus = { "qqy", "qqm", "mq", "qq", "aqq", "aaq", "vv", "vvq", "vvo", "vyv", "vlv", "vbv", "vmv",
-				"vlyv", "ia", "in", "id", "iv", "la", "ln", "ld", "ldm", "lt", "lv", "ly", "lga", "lgd", "lgv", "lgn",
-				"snr", "aa", "jns", "jn", "bg", "zg", "zz", "ad", "ad", "ala", "dd", "jv" };
+		
 		String[] natures = Predefine.natures;
 		for (String nature : natures) {
 
@@ -520,7 +522,7 @@ public class LexiconUtils {
 
 			}
 		}
-		for (String n : natureplus) {
+		for (String n : Predefine.natruesPLUS) {
 			natureMapFlec.put(natureidx, n);
 			natureMap.put(n, natureidx++);
 		}

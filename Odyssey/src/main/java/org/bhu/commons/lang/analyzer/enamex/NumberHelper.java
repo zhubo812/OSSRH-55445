@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.edu.bhu.corpus.utils.Predefine;
 
 public class NumberHelper {
@@ -43,7 +42,7 @@ public class NumberHelper {
 		List<Entity> entitylist = new ArrayList<Entity>();
 		char[] ch = src.toCharArray();
 		
-		int start, end = 0;
+		int start=-1, end = 0;
 		
 		for (int i = 0; i < ch.length - 1; i++) {
 				if(firstCharList.contains(ch[i])) {
@@ -57,7 +56,7 @@ public class NumberHelper {
 					} while (numCharList.contains(ch[i]));
 					if(end > start) {
 						String substr = src.substring(start, end+1);
-						entitylist.add(new Entity(substr, start, end, TermNatures.M ,true));
+						entitylist.add(new Entity(substr, start, end, Predefine.M ,true));
 						i--;
 					}
 				}
@@ -72,7 +71,7 @@ public class NumberHelper {
 					} while (numCharUnitList.contains(ch[i])||firstCharList.contains(ch[i]));
 					if(end > start) {
 						String substr = src.substring(start, end+1);
-						entitylist.add(new Entity(substr, start, end, TermNatures.M,true));
+						entitylist.add(new Entity(substr, start, end, Predefine.M,true));
 						i--;
 					}
 				}
@@ -87,7 +86,7 @@ public class NumberHelper {
 					} while (numCharUnitList.contains(ch[i]));
 					if(end > start) {
 						String substr = src.substring(start, end+1);
-						entitylist.add(new Entity(substr, start, end, TermNatures.M,true));
+						entitylist.add(new Entity(substr, start, end, Predefine.M,true));
 						i--;
 					}
 				}

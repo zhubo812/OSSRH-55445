@@ -3,6 +3,7 @@ package org.bhu.commons.lang.analyzer.bean;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.util.MathUtil;
+import org.edu.bhu.corpus.utils.Predefine;
 
 public class Term implements Comparable<Term> {
 	// 当前词
@@ -12,7 +13,7 @@ public class Term implements Comparable<Term> {
 	// 当前词的起始位置
 	private int offe;
 	// 词性列表
-	private TermNatures termNatures = TermNatures.NULL;
+	private TermNatures termNatures = Predefine.NULL;
 	// 词性列表
 	private AnalyzerItem item = AnalyzerItem.NULL;
 	// 同一行内数据
@@ -25,10 +26,16 @@ public class Term implements Comparable<Term> {
 	private Term from;
 	// 到达位置
 	private Term to;
+	//数词标志
+	private boolean isNum;
+//	//姓氏标志
+//	private boolean isSNR;
 	// 本身这个term的词性.需要在词性识别之后才会有值,默认是空
 	private Nature nature = Nature.NULL;
 
 	private List<Term> subTerm = null;
+	
+
 	
 //	public Term()
 
@@ -55,7 +62,7 @@ public class Term implements Comparable<Term> {
 		}
 	}
 	
-	public Term(String name, int offe, TermNatures termNatures,boolean isNum) {
+	public Term(String name, int offe, TermNatures termNatures, boolean isNum) {
 		super();
 		this.name = name;
 		this.offe = offe;
@@ -63,9 +70,9 @@ public class Term implements Comparable<Term> {
 		if (termNatures.nature != null) {
 			this.nature = termNatures.nature;
 		}
-		termNatures.numAttr.flag = isNum;
+		this.isNum = isNum;
 	}
-	
+
 
 	public Term(String name, int offe, String natureStr, int natureFreq) {
 		super();
@@ -98,6 +105,16 @@ public class Term implements Comparable<Term> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	
+	
+	public boolean isNum() {
+		return isNum;
+	}
+
+	public void setNum(boolean isNum) {
+		this.isNum = isNum;
 	}
 
 	/**
@@ -284,5 +301,15 @@ public class Term implements Comparable<Term> {
 	public AnalyzerItem item() {
 		return this.item;
 	}
+
+//	public boolean isSNR() {
+//		return isSNR;
+//	}
+//
+//	public void setSNR(boolean isSNR) {
+//		this.isSNR = isSNR;
+//	}
+//	
+	
 
 }

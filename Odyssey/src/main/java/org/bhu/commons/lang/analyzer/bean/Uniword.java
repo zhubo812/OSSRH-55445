@@ -21,6 +21,7 @@ public class Uniword {
 
 
 	public void add(int idx, NatureInfo nInfo) {
+		
 		if (hm.containsKey(idx)) {
 			UniwordNature uniwordNature= hm.get(idx);
 			uniwordNature.getNatureList().add(nInfo);
@@ -48,6 +49,12 @@ public class Uniword {
 
 
 	public void loadTermNatures(int idx,HashMap<Integer, String> natureMapFlec) {
+//		if(idx==371) {
+//			System.out.println();
+//		}
+		boolean snrFlag = false;
+		boolean qFlag = false;
+		boolean mFlag = false;
 		UniwordNature uniwordNature= hm.get(idx);
 		List<NatureInfo> list = uniwordNature.getNatureList();
 		TermNature[] all = new TermNature[list.size()];
@@ -58,11 +65,23 @@ public class Uniword {
 				maxFreq = list.get(i).getFreq();
 				maxIndx = i;
 			}
+			if(list.get(i).natureidx==68) {
+				snrFlag = true;
+			}else if(list.get(i).natureidx==8) {
+				qFlag = true;
+			}
+			else if(list.get(i).natureidx==7) {
+				mFlag = true;
+			}
 			all[i] = new TermNature(natureMapFlec.get(list.get(i).getNatureidx()), list.get(i).getFreq());
 		}
 		TermNatures termNatures = new TermNatures(all);
 		termNatures.nature = all[maxIndx].nature;
+		termNatures.setSNR(snrFlag);
+		termNatures.setQ(qFlag);
+		termNatures.setM(mFlag);
 		uniwordNature.setTermNatures(termNatures);
+
 		hm.put(idx, uniwordNature);
 	}
 
@@ -82,6 +101,7 @@ public class Uniword {
 	public class UniwordNature {
 		List<NatureInfo> natureList;
 		TermNatures termNatures;
+		
 		
 		
 		public List<NatureInfo> getNatureList() {

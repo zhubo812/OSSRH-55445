@@ -87,7 +87,7 @@ public class ForeignPersonRecognition {
 					if(end > start) {
 
 						String substr = line.substring(start, end+1);
-						entitylist.add(new Entity(substr, start, end, TermNatures.NR));
+						entitylist.add(new Entity(substr, start, end, Predefine.NR));
 						i--;
 					}
 				}

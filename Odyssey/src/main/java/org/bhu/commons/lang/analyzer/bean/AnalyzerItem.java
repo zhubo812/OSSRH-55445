@@ -3,6 +3,7 @@ package org.bhu.commons.lang.analyzer.bean;
 import java.util.Map;
 
 import org.bhu.commons.lang.dat.Item;
+import org.edu.bhu.corpus.utils.Predefine;
 
 
 
@@ -20,10 +21,10 @@ public class AnalyzerItem extends Item {
 		NULL.base = 0;
 
 		BEGIN.index = 0;
-		BEGIN.termNatures = TermNatures.BEGIN;
+		BEGIN.termNatures = Predefine.BEGIN;
 
 		END.index = -1;
-		END.termNatures = TermNatures.END;
+		END.termNatures = Predefine.END;
 	}
 
 	public String param;

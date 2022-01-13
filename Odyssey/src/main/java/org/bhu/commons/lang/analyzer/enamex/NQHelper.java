@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
+import org.edu.bhu.corpus.utils.Predefine;
 
 public class NQHelper extends EntityHelper{
 	private Pattern patterns = null;
@@ -19,6 +19,6 @@ public class NQHelper extends EntityHelper{
 
 	
 	public List<Entity> getNumQ(String src){
-		return getEntity(src,patterns, TermNatures.MQ);
+		return getEntity(src,patterns, Predefine.MQ);
 	}
 }

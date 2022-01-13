@@ -8,6 +8,7 @@ import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.bean.Uniword;
 import org.bhu.commons.lang.analyzer.segment.Analysis.Merger;
+import org.edu.bhu.corpus.utils.Predefine;
 
 /**
  * 最短路径
@@ -27,9 +28,12 @@ public class Graph {
 	public boolean hasPerson;
 	// 是否有数字
 	public boolean hasNum;
+	// 是否有姓氏
+	public boolean hasSNR;
 	// 是否有时间表达式
 	public boolean hasTime;
-	
+	//是否有量词
+	public boolean hasQ;
 
 	// 是否需有歧异
 
@@ -322,8 +326,8 @@ public class Graph {
 			char c = chars[to];
 //			TermNatures tn = DATDictionary.getItem(c).termNatures;
 			TermNatures tn = Uniword.geTermNatures(c);
-			if (tn == null || tn == TermNatures.NULL||tn.nature.natureStr.equals(Nature.NR.natureStr)) {
-				tn = TermNatures.NULL;
+			if (tn == null || tn == Predefine.NULL||tn.nature.natureStr.equals(Nature.NR.natureStr)) {
+				tn = Predefine.NULL;
 			}
 			terms[to] = new Term(String.valueOf(c), to, tn);
 			terms[to].setPathScore(fromTerm);

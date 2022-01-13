@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
+import org.edu.bhu.corpus.utils.Predefine;
 
 public class TimeHelper extends EntityHelper{
 	private Pattern patterns = null;
@@ -28,7 +28,7 @@ public class TimeHelper extends EntityHelper{
 	}
 
 	public List<Entity> getTimex(String src){
-		return getEntity(src, patterns, TermNatures.T);
+		return getEntity(src, patterns, Predefine.T);
 	}
 
 }

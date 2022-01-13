@@ -15,37 +15,7 @@ import org.edu.bhu.corpus.utils.Predefine;
  */
 public class TermNatures {
 
-	public static final TermNatures M = new TermNatures(TermNature.M);
-
-	public static final TermNatures MQ = new TermNatures(TermNature.MQ);
-
-	public static final TermNatures NR = new TermNatures(TermNature.NR);
-
-	public static final TermNatures NZ = new TermNatures(TermNature.NZ);
-
-	public static final TermNatures NRY = new TermNatures(TermNature.NRY);
-
-	public static final TermNatures EN = new TermNatures(TermNature.EN);
-
-	public static final TermNatures RU = new TermNatures(TermNature.RU);
-
-	public static final TermNatures GK = new TermNatures(TermNature.GK);
-
-	public static final TermNatures END = new TermNatures(TermNature.END, 50610, -1);
-
-	public static final TermNatures BEGIN = new TermNatures(TermNature.BEGIN, 50610, 0);
-
-	public static final TermNatures NT = new TermNatures(TermNature.NT);
-
-	public static final TermNatures NW = new TermNatures(TermNature.NW);
-
-	public static final TermNatures T = new TermNatures(TermNature.T);
-
-	public static final TermNatures W = new TermNatures(TermNature.W);
-
-	public static final TermNatures SN = new TermNatures(TermNature.SN);
-
-	public static final TermNatures NULL = new TermNatures(TermNature.NULL);;
+	
 
 	/***
 	 * 关于这个term的所有词性
@@ -55,13 +25,16 @@ public class TermNatures {
 	/***
 	 * 数字属性
 	 */
-	public NumNatureAttr numAttr = NumNatureAttr.NULL;
+//	public NumNatureAttr numAttr = NumNatureAttr.NULL;
 
 	/**
 	 * 人名词性
 	 */
 //	public PersonNatureAttr personAttr = PersonNatureAttr.NULL;
+	private boolean isSNR = false;
 
+	private boolean isNum = false;
+	private boolean isQ = false;
 	/**
 	 * 时间词性
 	 */
@@ -117,15 +90,7 @@ public class TermNatures {
 	public TermNatures(TermNature[] termNatures) {
 //		this.id = id;
 		this.termNatures = termNatures;
-		// find maxNature
-//		int maxFreq = -1;
-		TermNature termNature = null;
-//		for (int i = 0; i < termNatures.length; i++) {
-//			if (maxFreq < termNatures[i].frequency) {
-//				maxFreq = termNatures[i].frequency;
-//				termNature = termNatures[i];
-//			}
-//		}
+//		TermNature termNature = null;
 
 		if (termNatures != null && termNatures.length > 0) {
 			this.nature = termNatures[0].nature;
@@ -163,6 +128,30 @@ public class TermNatures {
 		termNature.frequency = allFreq;
 		this.termNatures[0] = termNature;
 		this.allFreq = allFreq;
+	}
+
+	public boolean containSNR() {
+		return isSNR;
+	}
+
+	public void setSNR(boolean isSNR) {
+		this.isSNR = isSNR;
+	}
+	
+	public boolean containQ() {
+		return isQ;
+	}
+
+	public void setQ(boolean isQ) {
+		this.isQ = isQ;
+	}
+	
+	public boolean containM() {
+		return isNum;
+	}
+
+	public void setM(boolean isNum) {
+		this.isNum = isNum;
 	}
 
 	private void serAttribute() {

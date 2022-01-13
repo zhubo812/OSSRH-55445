@@ -11,7 +11,7 @@ public class ToAnalysisTest {
 		long start = System.currentTimeMillis();
 		TokenizeUtils tokenizer = new TokenizeUtils();
 		
-		String line = "二十五步兵师第十个358团两千万了第二十五步兵师。二十五炮兵师";
+		String line = "一只白天鹅游过来了赵扬部长从他家里要来了小张的QQ号码，用“国防绿花”的网名加了小张好友，并与之聊了起来。";
 		System.out.println(tokenizer.getWordNatureLine(line));
 
 		long elapsed = (System.currentTimeMillis() - start);

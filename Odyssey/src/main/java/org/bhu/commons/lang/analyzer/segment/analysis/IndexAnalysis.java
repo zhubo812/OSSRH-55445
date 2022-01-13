@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Term;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.bhu.commons.lang.analyzer.recognition.NumRecognition;
 import org.bhu.commons.lang.analyzer.recognition.UserDefineRecognition;
@@ -14,6 +13,7 @@ import org.bhu.commons.lang.analyzer.segment.impl.GetWordsImpl;
 import org.bhu.commons.lang.analyzer.util.AnalyzerReader;
 import org.bhu.commons.lang.analyzer.util.Graph;
 import org.bhu.commons.lang.trie.domain.Forest;
+import org.edu.bhu.corpus.utils.Predefine;
 
 /**
  * 用于检索的分词方式
@@ -84,7 +84,7 @@ public class IndexAnalysis extends Analysis {
 						GetWordsImpl gwi = new GetWordsImpl(term.getName());
 						while ((temp = gwi.allWords()) != null) {
 							if (temp.length() < term.getName().length() && temp.length()>1) {
-								last.add(new Term(temp, gwi.offe + term.getOffe(), TermNatures.NULL));
+								last.add(new Term(temp, gwi.offe + term.getOffe(), Predefine.NULL));
 							}
 						}
 					}

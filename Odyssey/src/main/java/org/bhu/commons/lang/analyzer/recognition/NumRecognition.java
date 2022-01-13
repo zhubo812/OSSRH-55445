@@ -2,7 +2,6 @@ package org.bhu.commons.lang.analyzer.recognition;
 
 import org.bhu.commons.lang.analyzer.bean.Nature;
 import org.bhu.commons.lang.analyzer.bean.Term;
-import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.bhu.commons.lang.analyzer.util.CollectionUtil;
 import org.bhu.commons.lang.analyzer.util.TermUtil;
 
@@ -31,7 +30,7 @@ public class NumRecognition {
 				// 如果是.前后都为数字进行特殊处理
 				to = terms[i].to();
 				from = terms[i].from();
-				if (from.getNatures().numAttr.flag && to.getNatures().numAttr.flag) {
+				if (from.isNum() && to.isNum()) {
 					from.setName(from.getName() + "." + to.getName());
 					TermUtil.termLink(from, to.to());
 					terms[to.getOffe()] = null;
@@ -39,7 +38,7 @@ public class NumRecognition {
 					i = from.getOffe() - 1;
 				}
 				continue;
-			} else if (!terms[i].getNatures().numAttr.flag) {
+			} else if (!terms[i].isNum()) {
 				continue;
 			}
 
@@ -51,13 +50,25 @@ public class NumRecognition {
 //			while ((temp = temp.to()).getNatures().numAttr.flag && !temp.getName().startsWith(DI)) {
 //				terms[i].setName(terms[i].getName() + temp.getName());
 //			}
+			
+			if(to.isNum()) {
+				terms[i].setName(terms[i].getName() + to.getName());
+				terms[i].setNature(Nature.M);
+				terms[to.getOffe()]= null;
+				terms[i].setTo(temp.to());
+			}
+			
+			else if(to.getNatures().containQ()) {
+				terms[to.getOffe()].setNature(Nature.Q);
+			}
 			//判断结尾是军队
-			if(CollectionUtil.EqualsOfAny(to.getName(), MilitaryUnits)){
+			else if(CollectionUtil.EqualsOfAny(to.getName(), MilitaryUnits)){
 				terms[i].setName(terms[i].getName() + to.getName());
 				terms[i].setNature(Nature.NT);
 				terms[to.getOffe()]= null;
 				terms[i].setTo(temp.to());
 			}
+			
 			// 如果是数字结尾
 			/*
 			if (StaticDictionaryLoad.isQuantifierRecognition && temp.getNatures().numAttr.numEndFreq > 0) {

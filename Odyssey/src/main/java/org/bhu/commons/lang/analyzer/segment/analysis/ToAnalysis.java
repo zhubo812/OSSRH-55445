@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
+import org.bhu.commons.lang.analyzer.enamex.PersonName;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.recognition.NumRecognition;
 import org.bhu.commons.lang.analyzer.recognition.UserDefineRecognition;
@@ -50,8 +51,11 @@ public class ToAnalysis extends Analysis {
 				
 				//识别时间
 
-				// 姓名识别
-//				if (graph.hasPerson && StaticDictionaryLoad.isNameRecognition) {
+				// 修正姓氏标记
+				if (graph.hasSNR) {
+					
+					
+					PersonName.recognition(graph.terms);
 					// 亚洲人名识别
 //					EasternAsianNameHelper.recognition(graph.terms);
 
@@ -59,7 +63,7 @@ public class ToAnalysis extends Analysis {
 //					new ForeignPersonRecognition(graph.terms).recognition();
 //					TranscriptionNameHelper.recognition(graph.terms);
 //					graph.walkPathByScore();
-//				}
+				}
 
 				// 用户自定义词典的识别
 //				userDefineRecognition(graph, forests);

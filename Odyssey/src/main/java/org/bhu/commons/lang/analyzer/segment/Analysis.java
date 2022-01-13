@@ -26,6 +26,7 @@ import org.bhu.commons.lang.analyzer.util.StringUtil;
 import org.bhu.commons.lang.analyzer.util.WordAlert;
 import org.bhu.commons.lang.trie.domain.Forest;
 import org.bhu.commons.lang.trie.domain.GetWord;
+import org.edu.bhu.corpus.utils.Predefine;
 
 /**
  * 基本分词+人名识别
@@ -154,7 +155,7 @@ public abstract class Analysis {
 			for (Entity tx : nerList) {
 				
 				if(tx.isNum()) {
-					gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures(),true));
+					gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures(), true));
 					gp.hasNum = tx.isNum();
 				}else {
 					gp.addTerm(new Term(tx.getExpression(), tx.getStartIndx(), tx.getTermNatures()));
@@ -177,14 +178,14 @@ public abstract class Analysis {
 					while (++s < endOffe && letters.status(chars[s]) == 1) {
 						sb.append(chars[s]);
 					}
-					gp.addTerm(new Term(sb.toString(), i, TermNatures.EN));
+					gp.addTerm(new Term(sb.toString(), i, Predefine.EN));
 					sb = new StringBuilder();
 					break;
 				case 2:
 					while (++s < endOffe && letters.status(chars[s]) == 2) {
 						sb.append(chars[s]);
 					}
-					gp.addTerm(new Term(sb.toString(), i, TermNatures.M, true));
+					gp.addTerm(new Term(sb.toString(), i, Predefine.M, true));
 					gp.hasNum = true;
 					sb = new StringBuilder();
 
@@ -193,21 +194,21 @@ public abstract class Analysis {
 					while (++s < endOffe && letters.status(chars[s]) == 3) {
 						sb.append(chars[s]);
 					}
-					gp.addTerm(new Term(sb.toString(), i, TermNatures.RU));
+					gp.addTerm(new Term(sb.toString(), i, Predefine.RU));
 					sb = new StringBuilder();
 					break;
 				case 4:
 					while (++s < endOffe && letters.status(chars[s]) == 4) {
 						sb.append(chars[s]);
 					}
-					gp.addTerm(new Term(sb.toString(), i, TermNatures.GK));
+					gp.addTerm(new Term(sb.toString(), i, Predefine.GK));
 					sb = new StringBuilder();
 					break;
 				case 5:
 					while (++s < endOffe && letters.status(chars[s]) == 5) {
 						sb.append(chars[s]);
 					}
-					gp.addTerm(new Term(sb.toString(), i, TermNatures.SN));
+					gp.addTerm(new Term(sb.toString(), i, Predefine.SN));
 					sb = new StringBuilder();
 					break;
 				}
@@ -217,10 +218,17 @@ public abstract class Analysis {
 			sb.append(chars[i]);
 			// 查询单字词
 
-			if (lu.uniword.containsKey(lu.getStatus(chars[i]))) {
-				gp.addTerm(new Term(String.valueOf(chars[i]), i, lu.uniword.get(lu.getStatus(chars[i])).getTermNatures()));
+			if (LexiconUtils.uniword.containsKey(lu.getStatus(chars[i]))) {
+				gp.addTerm(new Term(String.valueOf(chars[i]), i, LexiconUtils.uniword.get(lu.getStatus(chars[i])).getTermNatures()));
+				if(gp.terms[i].getNatures().containSNR()) {
+					gp.hasSNR= true;
+				}
+				else if(gp.terms[i].getNatures().containM()) {
+					gp.terms[i].setNum(true);
+					gp.hasNum = true;
+				}
 			} else {
-				gp.addTerm(new Term(String.valueOf(chars[i]), i, TermNatures.NULL));
+				gp.addTerm(new Term(String.valueOf(chars[i]), i, Predefine.NULL));
 			}
 			boolean keeper = true;
 			int k = 0;
@@ -255,8 +263,11 @@ public abstract class Analysis {
 						str = sb.toString();
 						if (sb.length() == 2) {
 							gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
+							if(gp.terms[start].getNatures().containSNR()) {
+								gp.hasSNR= true;
+							}
 						} else {
-							gp.addTerm(new Term(str, start, lex.geTermNatures(from, lu.natureMapFlec)));// 词性转换
+							gp.addTerm(new Term(str, start, lex.geTermNatures(from, LexiconUtils.natureMapFlec)));// 词性转换
 						}
 						k++;
 						if (n < chars.length - 1 && !nextlist.contains(charStatus(chars[n + 1]))) {
@@ -272,7 +283,7 @@ public abstract class Analysis {
 						if (sb.length() == 2) {
 							gp.addTerm(new Term(str, start, lex.geTermNatures()));// 词性转换
 						} else {
-							gp.addTerm(new Term(str, start, lex.geTermNatures(from, lu.natureMapFlec)));// 词性转换
+							gp.addTerm(new Term(str, start, lex.geTermNatures(from, LexiconUtils.natureMapFlec)));// 词性转换
 						}
 						keeper = false;
 						str = "";

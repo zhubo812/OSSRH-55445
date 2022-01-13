@@ -9,6 +9,7 @@ import org.bhu.commons.lang.analyzer.bean.Term;
 import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.enamex.CompanyAttrLibrary;
 import org.bhu.commons.lang.analyzer.library.NatureLibrary;
+import org.edu.bhu.corpus.utils.Predefine;
 
 
 /**
@@ -70,7 +71,7 @@ public class TermUtil {
 			sb.append(term.getName());
 			terms[term.getOffe()] = null;
 		}
-		Term term = new Term(sb.toString(), offe, TermNatures.NR);
+		Term term = new Term(sb.toString(), offe, Predefine.NR);
 		insertTermNum(terms, term);
 	}
 

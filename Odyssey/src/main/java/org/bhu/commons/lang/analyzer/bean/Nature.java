@@ -22,6 +22,10 @@ public class Nature {
 
 	public static final Nature NRF = NatureLibrary.getNature("nrf");
 	
+	public static final Nature SNR = NatureLibrary.getNature("snr");
+	
+	public static final Nature Q = NatureLibrary.getNature("q");
+	
 	public static final Nature NRY = NatureLibrary.getNature("nry");
 
 	public static final Nature NR = NatureLibrary.getNature("nr");

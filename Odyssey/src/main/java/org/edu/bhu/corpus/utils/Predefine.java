@@ -1,5 +1,8 @@
 package org.edu.bhu.corpus.utils;
 
+import org.bhu.commons.lang.analyzer.bean.TermNature;
+import org.bhu.commons.lang.analyzer.bean.TermNatures;
+
 public class Predefine {
 
 //	379个基础词性标记+"begin"+"end"两个位置标记共计39个标记
@@ -9,10 +12,54 @@ public class Predefine {
 		"d", "j", "l", "b", "i", "ng", "z", "tg", "y", "nx", 
 		"ag", "o", "dg", "h", "rg", "e", "mg", "yg","end"};
 	
+	public static String[] natruesPLUS = { "qqy", "qqm", "mq", "qq", "aqq", "aaq", "vv", "vvq", "vvo", "vyv", "vlv", "vbv", "vmv",
+			"vlyv", "ia", "in", "id", "iv", "la", "ln", "ld", "ldm", "lt", "lv", "ly", "lga", "lgd", "lgv", "lgn",
+			"snr", "aa", "jns", "jn", "bg", "zg", "zz", "ad", "ad", "ala", "dd", "jv" };
+	
+	public static final TermNatures M = new TermNatures(TermNature.M);
+
+	public static final TermNatures MQ = new TermNatures(TermNature.MQ);
+
+	public static final TermNatures NR = new TermNatures(TermNature.NR);
+
+	public static final TermNatures NZ = new TermNatures(TermNature.NZ);
+
+	public static final TermNatures NRY = new TermNatures(TermNature.NRY);
+
+	public static final TermNatures EN = new TermNatures(TermNature.EN);
+
+	public static final TermNatures RU = new TermNatures(TermNature.RU);
+
+	public static final TermNatures GK = new TermNatures(TermNature.GK);
+
+	public static final TermNatures END = new TermNatures(TermNature.END, 50610, -1);
+
+	public static final TermNatures BEGIN = new TermNatures(TermNature.BEGIN, 50610, 0);
+
+	public static final TermNatures NT = new TermNatures(TermNature.NT);
+
+	public static final TermNatures NW = new TermNatures(TermNature.NW);
+
+	public static final TermNatures T = new TermNatures(TermNature.T);
+
+	public static final TermNatures W = new TermNatures(TermNature.W);
+	
+	public static final TermNatures SNR = new TermNatures(TermNature.SNR);
+
+	public static final TermNatures SN = new TermNatures(TermNature.SN);
+
+	public static final TermNatures NULL = new TermNatures(TermNature.NULL);
+	
 	public static String numberFirstChar="一二三四五六七八九十零1234567890";
 	public static String numberChar = "百千万佰仟亿多点又分之";
 	public static final char DI = '第';
 	public static final char LIANG = '两';
+	
+	public static final String[] MilitaryUnits = {"班","排","连","营","团","旅","师","军","步兵师","炮兵师"};//转nt
+	public static final String[] PersonBackUnits = {"先生","小姐","女士","老师","教授","主任","经理","董事长","部长"};//转nt
+	public static final String[] PersonFrontUnits = {"小","老","大"};//转nt
+	
+	
 	
 	public static String chineseNameChar = "艾爱安敖傲奥巴白百柏拜班邦包薄宝保鲍暴北贝本"
 	  		+ "毕碧边卞别宾伯博卜布步才采彩蔡仓苍藏操曹岑曾茶查柴昌常畅超晁巢"

@@ -11,6 +11,7 @@ import org.bhu.commons.lang.analyzer.library.DATDictionary;
 import org.bhu.commons.lang.analyzer.library.UserDefineLibrary;
 import org.bhu.commons.lang.analyzer.util.MathUtil;
 import org.bhu.commons.lang.analyzer.util.WordAlert;
+import org.edu.bhu.corpus.utils.Predefine;
 
 /**
  * 词性标注工具类
@@ -65,16 +66,16 @@ public class NatureRecognition {
 			// 获得词性 ， 先从系统辞典。在从用户自定义辞典
 			AnalyzerItem ansjItem = DATDictionary.getItem(word);
 			TermNatures tn = null;
-			if (ansjItem.termNatures != TermNatures.NULL) {
+			if (ansjItem.termNatures != Predefine.NULL) {
 				tn = ansjItem.termNatures;
 			} else if ((params = UserDefineLibrary.getParams(word)) != null) {
 				tn = new TermNatures(new TermNature(params[0], 1));
 			}else if(WordAlert.isEnglish(word)){
-				tn = TermNatures.EN ;
+				tn = Predefine.EN ;
 			}else if(WordAlert.isNumber(word)){
-				tn = TermNatures.M ;
+				tn = Predefine.M ;
 			}else{
-				tn = TermNatures.NULL ;
+				tn = Predefine.NULL ;
 			}
 			
 			terms.add(new Term(word, offe + tempOffe, tn));

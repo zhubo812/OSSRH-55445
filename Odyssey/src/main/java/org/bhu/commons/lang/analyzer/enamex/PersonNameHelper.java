@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bhu.commons.lang.analyzer.bean.Entity;
-import org.bhu.commons.lang.analyzer.bean.TermNatures;
 import org.bhu.commons.lang.analyzer.dictionary.StaticDictionaryLoad;
 import org.edu.bhu.corpus.utils.Predefine;
 
@@ -39,7 +38,7 @@ public class PersonNameHelper {
 			if(!charMap.containsKey(ch[i])||!charMap.containsKey(ch[i+1])) {
 				if(start>-1 && end>start) {
 					substr = src.substring(start, end+1);
-					entitylist.add(new Entity(substr, start, end, TermNatures.NR));
+					entitylist.add(new Entity(substr, start, end, Predefine.NR));
 					start =-1;
 					end =-1;
 				}
@@ -66,7 +65,7 @@ public class PersonNameHelper {
 						System.err.println(ch[start]);
 						System.err.println(end+1);
 					}
-					entitylist.add(new Entity(substr, start, end, TermNatures.NR));
+					entitylist.add(new Entity(substr, start, end, Predefine.NR));
 					start =-1;
 					end =-1;
 					j=0;
@@ -84,7 +83,7 @@ public class PersonNameHelper {
 			else if(value ==2) {
 				end = i+1;
 				substr = src.substring(start, end+1);
-				entitylist.add(new Entity(substr, start, end, TermNatures.NR));
+				entitylist.add(new Entity(substr, start, end, Predefine.NR));
 				start =-1;
 				end =-1;
 				j=0;

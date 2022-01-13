@@ -28,11 +28,13 @@ public class TermNature {
 	public static final TermNature W = new TermNature("w", 1);
 	public static final TermNature T = new TermNature("t", 1);
 	public static final TermNature MQ = new TermNature("mq", 1);
+	public static final TermNature SNR = new TermNature("snr", 1);
 	public static final TermNature NULL = new TermNature("x", 1);
 
 	public Nature nature;
 //	public List<Integer> fromList;
 	public int frequency;
+	
 
 	public TermNature(String natureStr, int frequency) {
 		this.nature = NatureLibrary.getNature(natureStr);
