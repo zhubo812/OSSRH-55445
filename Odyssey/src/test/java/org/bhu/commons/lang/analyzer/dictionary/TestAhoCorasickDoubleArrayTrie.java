@@ -1,28 +1,9 @@
 package org.bhu.commons.lang.analyzer.dictionary;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import org.bhu.commons.collection.AhoCorasick.AhoCorasickDoubleArrayTrie;
-import org.bhu.commons.lang.algoritm.ahocorasick.trie.Trie;
-import org.junit.Test;
-
-import junit.framework.TestCase;
-
 /**
  * @author Jackie
  */
-public class TestAhoCorasickDoubleArrayTrie extends TestCase
+public class TestAhoCorasickDoubleArrayTrie //extends TestCase
 {
 //    private AhoCorasickDoubleArrayTrie<String> buildASimpleAhoCorasickDoubleArrayTrie()
 //    {
