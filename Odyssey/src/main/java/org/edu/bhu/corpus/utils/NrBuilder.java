@@ -16,7 +16,7 @@ public class NrBuilder {
 		int maxLen = 0;
 		int index = 0;
 		while ((line = reader.readLine()) != null) {
-			String sline = line.strip();
+			String sline = line.trim();
 			int len = sline.length();
 			if (len > maxLen) {
 				maxLen = len;
@@ -81,7 +81,7 @@ public class NrBuilder {
 			for(int j =0; j< matrix[i].length;j++) {
 				sb.append(matrix[i][j]).append(" ");
 			}
-			writer.writeLine(sb.toString().strip());
+			writer.writeLine(sb.toString().trim());
 		}
 		writer.close();
 		
