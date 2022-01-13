@@ -7,14 +7,14 @@ public class CoreLexTester {
 
 	@Test
 	public void coreLexBuilderTester() {
-		CoreLex cl = new CoreLex();
-		cl.coreLexBuilder();
+//		CoreLex cl = new CoreLex();
+//		cl.coreLexBuilder();
 	}
 	
 	@Test
 	public void coreLexBuilderTester2() {
-		CoreLex cl = new CoreLex();
-		
-		cl.coreLexBuilder2();
+//		CoreLex cl = new CoreLex();
+//		
+//		cl.coreLexBuilder2();
 	}
 }

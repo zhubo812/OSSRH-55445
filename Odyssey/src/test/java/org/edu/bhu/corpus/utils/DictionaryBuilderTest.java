@@ -9,7 +9,7 @@ import org.bhu.commons.lang.analyzer.util.StringUtil;
 import org.junit.Test;
 
 public class DictionaryBuilderTest {
-
+/*
 	@Test
 	public void corpus2DictionaryErrorFinderTester() {
 		DictionaryBuilder db = new DictionaryBuilder();
@@ -103,5 +103,5 @@ public class DictionaryBuilderTest {
 			}
 		}
 	}
-
+*/
 }

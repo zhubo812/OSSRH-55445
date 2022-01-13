@@ -10,8 +10,8 @@ public class PersonNameBuilderTester {
 
 	@Test
 	public void builderTester() {
-		PersonNameBuilder pb = new PersonNameBuilder();
-		pb.builder();
+//		PersonNameBuilder pb = new PersonNameBuilder();
+//		pb.builder();
 		
 		
 			
